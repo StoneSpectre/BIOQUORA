@@ -1,13 +1,13 @@
 # MEDINEX — AI-Powered Clinical Intelligence Platform
 
-## 🚀 Overview
+Overview
 Medinex is an AI-driven platform designed to transform how medical knowledge is structured, accessed, and applied in real-world clinical settings.
 
 The current healthcare ecosystem suffers from fragmented knowledge, outdated static resources, and lack of standardized clinical reasoning. Medinex addresses this by converting medical information into a dynamic, structured, and intelligent system.
 
 ---
 
-## ❗ Problem Statement
+Problem Statement
 
 Modern healthcare faces critical inefficiencies:
 
@@ -19,7 +19,7 @@ Modern healthcare faces critical inefficiencies:
 
 ---
 
-## 💡 Solution
+Solution
 
 Medinex builds a **Clinical Intelligence Layer** that:
 
@@ -30,7 +30,7 @@ Medinex builds a **Clinical Intelligence Layer** that:
 
 ---
 
-## 🧠 Core Architecture
+Core Architecture
 
 ### 1. Knowledge Ingestion Layer
 - Medical textbooks  
@@ -53,7 +53,7 @@ Medinex builds a **Clinical Intelligence Layer** that:
 
 ---
 
-## ⚙️ Tech Stack (Planned / In Progress)
+Tech Stack (Planned / In Progress)
 
 - **Languages:** Python  
 - **Data Processing:** Pandas, NumPy  
@@ -64,17 +64,17 @@ Medinex builds a **Clinical Intelligence Layer** that:
 
 ---
 
-## 📊 Key Features
+Key Features
 
-- 📚 Unified medical knowledge repository  
-- 🧩 Knowledge graph-based clinical reasoning  
-- ⚡ Real-time decision support system  
-- 🤝 Collaborative clinical knowledge platform  
-- 🌍 Scalable architecture for global healthcare integration  
+- Unified medical knowledge repository  
+- Knowledge graph-based clinical reasoning  
+- Real-time decision support system  
+- Collaborative clinical knowledge platform  
+- Scalable architecture for global healthcare integration  
 
 ---
 
-## 🏗️ Current Progress
+Current Progress
 
 - Concept and system architecture defined  
 - Core problem validation completed  
@@ -83,7 +83,7 @@ Medinex builds a **Clinical Intelligence Layer** that:
 
 ---
 
-## 🔮 Future Roadmap
+Future Roadmap
 
 ### Phase 1
 - Build initial dataset and ingestion pipeline  
@@ -102,19 +102,19 @@ Medinex builds a **Clinical Intelligence Layer** that:
 
 ---
 
-## 🎯 Vision
+Vision
 
 To build a **global clinical intelligence infrastructure** that enhances medical decision-making, standardizes knowledge, and bridges the gap between theory and real-world healthcare practice.
 
 ---
 
-## 📌 Why Medinex?
+Why Medinex?
 
 Unlike platforms focused on healthcare delivery or booking systems, Medinex operates at the **intelligence layer**, improving how medical knowledge is structured, shared, and applied.
 
 ---
 
-## 👨‍💻 Author
+Author
 
 **Prince Kumar**  
 Data Science & Quantitative Economics Student  
@@ -127,6 +127,6 @@ Data Science & Quantitative Economics Student
 
 ---
 
-## ⚠️ Note
+Note
 
 This project is currently in the **development and research phase**, with ongoing work on architecture, data pipelines, and prototype systems.
