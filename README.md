@@ -137,3 +137,9 @@ This project is currently in the **development and research phase**, with ongoin
 ## Phase 0: Backend Architecture & Data Layer
 
 The Python data pipeline and Clinical Infrastructure (MIMIC-IV) are located in the `backend/` directory. Please refer to [backend/README.md](./backend/README.md) for detailed instructions on running the literature extraction and clinical data pipelines.
+
+
+### Phase 0 Analytics Stack
+- **Biomedical NLP**: spaCy NER & relation extraction.
+- **Knowledge Graph**: NetworkX graph mirroring Neo4j schema.
+- **Graph Analytics**: Network analysis for drug repurposing and knowledge gaps.
