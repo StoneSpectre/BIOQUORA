@@ -43,8 +43,8 @@ class VectorSearchEngine:
         )
         
         # BM25
-        tokenized = [t.lower().split() for t in self.texts]
-        self.bm25 = BM25Okapi(tokenized) if tokenized else None
+        tokenized = [t.lower().split() for t in self.texts if t and t.strip()]
+        self.bm25 = BM25Okapi(tokenized) if tokenized and any(len(doc) > 0 for doc in tokenized) else None
 
     def build_indices(self):
         if not self.texts:

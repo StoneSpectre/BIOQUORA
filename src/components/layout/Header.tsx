@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Heart, Droplet, Shield, Brain, Menu, X, Settings, Network, Activity, Layers } from "lucide-react";
+import { Heart, Droplet, Shield, Brain, Menu, X, Settings, Network, Activity, Layers, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
@@ -13,6 +13,7 @@ const navItems = [
   { path: "/system-thinking", label: "System Thinking", icon: Brain, color: "text-systems" },
   { path: "/knowledge-graph", label: "Knowledge Graph", icon: Network, color: "text-blue-500" },
   { path: "/analytics", label: "Analytics", icon: Activity, color: "text-indigo-500" },
+  { path: "/assistant", label: "Assistant", icon: Sparkles, color: "text-fuchsia-400" },
 ];
 
 export function Header() {

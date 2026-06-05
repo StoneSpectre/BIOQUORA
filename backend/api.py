@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional, Any
 
@@ -6,11 +7,23 @@ from typing import List, Optional, Any
 from vector_search import VectorSearchEngine
 from rag_engine import RAGEngine
 from graph_rag import GraphRAGEngine
+import os
+
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 app = FastAPI(
     title="MEDINEX Biomedical Intelligence API",
     version="0.1.0",
     description="Phase 7-10 — FAISS Vector Search + RAG + GraphRAG API",
+)
+
+# Allow frontend applications to access this API
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:8080", "http://localhost:5173", "http://127.0.0.1:8080"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Initialize engines lazily to avoid heavy loading on fast restart
