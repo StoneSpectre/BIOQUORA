@@ -93,8 +93,7 @@ export function Header() {
             </Link>
           )}
           <Link to="/roadmap" className="hidden sm:block">
-            <Button variant="ghost" size="sm" className="gap-2">
-              <Layers className="h-4 w-4 text-emerald-500" />
+            <Button variant="ghost" size="sm">
               Phase Tracker
             </Button>
           </Link>
@@ -181,8 +180,7 @@ export function Header() {
                 </Link>
               )}
               <Link to="/roadmap" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start gap-3">
-                  <Layers className="h-5 w-5 text-emerald-500" />
+                <Button variant="ghost" className="w-full justify-start">
                   Phase Tracker
                 </Button>
               </Link>
