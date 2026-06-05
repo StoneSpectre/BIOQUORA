@@ -16,6 +16,7 @@ import TermsOfService from "./pages/TermsOfService";
 import Roadmap from "./pages/Roadmap";
 import { KnowledgeGraph } from "./pages/KnowledgeGraph";
 import { Analytics } from "./pages/Analytics";
+import MedinexDashboard from "./pages/MedinexPhase";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -40,6 +41,7 @@ const App = () => (
             <Route path="/roadmap" element={<Roadmap />} />
             <Route path="/knowledge-graph" element={<KnowledgeGraph />} />
             <Route path="/analytics" element={<Analytics />} />
+            <Route path="/phases" element={<MedinexDashboard />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
