@@ -55,7 +55,7 @@ class PredictiveEngine:
         if sys_bp > 140: risk_score += 0.4
         if cholesterol > 240: risk_score += 0.3
         
-        risk_score += random.uniform(0.0, 0.1) # add slight variance
+        # Ensure it stays within bounds without adding random noise
         risk_score = min(0.99, max(0.01, risk_score))
         
         return {
@@ -85,7 +85,7 @@ class PredictiveEngine:
         if creatinine > 1.2: risk_score += 0.3
         if diabetes: risk_score += 0.15
         
-        risk_score += random.uniform(0.0, 0.05)
+        # Ensure it stays within bounds without adding random noise
         risk_score = min(0.99, max(0.01, risk_score))
         
         return {
