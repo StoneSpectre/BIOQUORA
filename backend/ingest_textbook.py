@@ -2,7 +2,7 @@ import os
 import fitz  # PyMuPDF
 from llama_index.core import VectorStoreIndex, Document, Settings, StorageContext
 from llama_index.core.node_parser import SentenceSplitter
-from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+from llama_index.embeddings.gemini import GeminiEmbedding
 
 # Config
 PDF_PATHS = [
@@ -42,8 +42,8 @@ def extract_text_from_pdf(pdf_path, source_name, max_pages=None):
 def main():
     # 1. Setup embedding model to match rag_engine.py
     print("Loading Biomedical Embedding Model...")
-    Settings.embed_model = HuggingFaceEmbedding(
-        model_name="microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract"
+    Settings.embed_model = GeminiEmbedding(
+        model_name="models/text-embedding-004", api_key=os.getenv("GEMINI_API_KEY")
     )
     Settings.llm = None  # We don't need LLM just for ingestion
     

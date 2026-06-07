@@ -1,6 +1,6 @@
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, Settings, Document
 from llama_index.core.node_parser import SentenceSplitter
-from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+from llama_index.embeddings.gemini import GeminiEmbedding
 from llama_index.llms.openai import OpenAI
 from llama_index.core.retrievers import VectorIndexRetriever
 from llama_index.core.query_engine import RetrieverQueryEngine
@@ -14,8 +14,8 @@ load_dotenv()
 class RAGEngine:
     def __init__(self, use_llm=False):
         # Configure biomedical embedding + LLM
-        Settings.embed_model = HuggingFaceEmbedding(
-            model_name="microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract"
+        Settings.embed_model = GeminiEmbedding(
+            model_name="models/text-embedding-004", api_key=os.getenv("GEMINI_API_KEY")
         )
         
         # We only init OpenAI if the API key is present and use_llm is true
