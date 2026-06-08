@@ -1,145 +1,125 @@
-# MEDINEX — AI-Powered Clinical Intelligence Platform
+# Medinex — Phase 1 Steps 1–6
 
-Overview
-Medinex is an AI-driven platform designed to transform how medical knowledge is structured, accessed, and applied in real-world clinical settings.
+## File map
 
-The current healthcare ecosystem suffers from fragmented knowledge, outdated static resources, and lack of standardized clinical reasoning. Medinex addresses this by converting medical information into a dynamic, structured, and intelligent system.
-
----
-
-## Problem Statement
-
-Modern healthcare faces critical inefficiencies:
-
-- Medical knowledge is **fragmented across textbooks, research papers, and clinical guidelines**
-- Clinical reasoning is **not standardized or reusable**
-- Systems operate in **data silos (hospitals, education, research disconnected)**
-- Static learning resources fail to support **real-time decision-making**
-- Increasing **cognitive overload** for medical professionals
+| File | Step | Purpose |
+|------|------|---------|
+| `setup_neo4j.sh`           | 2 | Install Neo4j on Ubuntu |
+| `cypher_basics.cypher`     | 2–6 | Cypher reference — CRUD, traversal, APOC, GDS, full-text |
+| `schema.py`                | 3 | Node + edge property schemas (all 8 types) |
+| `db.py`                    | 3–6 | Neo4j driver wrapper — CRUD, bulk writes, health check |
+| `seed.py`                  | 3–4 | Ingest from Hetionet, OpenTargets, PubMed, S2, KEGG |
+| `verify.py`                | 3–6 | Graph sanity checks — nodes, edges, orphans, quality |
+| `api.py`                   | 5 | FastAPI Disease Explorer query layer |
+| `citation_intelligence.py` | 6 | PageRank, landmark papers, competing theories |
+| `.env.example`             | — | Config template |
+| `requirements.txt`         | — | Python dependencies |
 
 ---
 
-## Solution
+## Step 2 — Neo4j setup
 
-Medinex builds a **Clinical Intelligence Layer** that:
+```bash
+chmod +x setup_neo4j.sh && ./setup_neo4j.sh
+sudo systemctl status neo4j
+# Open http://localhost:7474  Login: neo4j / neo4j → change to medinex123
+```
 
-- Aggregates medical knowledge into a unified digital repository  
-- Converts static data into a **Knowledge Graph representing clinical logic**  
-- Enables **AI-assisted clinical decision support**  
-- Facilitates **collaborative knowledge sharing across institutions**  
-
----
-
-## Core Architecture
-
-### 1. Knowledge Ingestion Layer
-- Medical textbooks  
-- Research papers  
-- Clinical guidelines  
-
-### 2. Knowledge Structuring
-- Transformation into **graph-based representations**  
-- Mapping relationships between symptoms, diagnoses, treatments  
-
-### 3. AI Reasoning Layer
-- Clinical logic modeling  
-- Decision pathway generation  
-- Evidence-based recommendations  
-
-### 4. Application Layer
-- Real-time clinical support tools  
-- Medical education simulations  
-- Institutional knowledge sharing  
+Optional plugins (needed for Steps 5–6):
+- **APOC**: Neo4j Desktop → Plugins → APOC → Install
+- **GDS** (Graph Data Science): Neo4j Desktop → Plugins → GDS → Install
 
 ---
 
-## Tech Stack (Planned / In Progress)
+## Step 3 — Seed the knowledge graph
 
-- **Languages:** Python  
-- **Data Processing:** Pandas, NumPy  
-- **Machine Learning:** Scikit-learn (planned), NLP models (future)  
-- **Graph Systems:** NetworkX / Neo4j (planned)  
-- **Backend:** Python-based APIs  
-- **Version Control:** Git & GitHub  
+```bash
+pip install -r requirements.txt
+cp .env.example .env           # set NEO4J_PASSWORD
+# Edit seed.py — set PUBMED_EMAIL to your email
+python seed.py
+python verify.py
+```
 
----
-
-## Key Features
-
-- Unified medical knowledge repository  
-- Knowledge graph-based clinical reasoning  
-- Real-time decision support system  
-- Collaborative clinical knowledge platform  
-- Scalable architecture for global healthcare integration  
+Expected after Step 3:
+- ~137 Disease nodes, ~9,000 Gene, ~1,500 Drug, ~400 Symptom, ~12,000+ edges
 
 ---
 
-## Current Progress
+## Step 4 — Add Paper + Researcher nodes
 
-- Concept and system architecture defined  
-- Core problem validation completed  
-- Initial repository and project structure created  
-- Designing data pipelines and knowledge representation  
+`seed.py` now runs Step 4 automatically in the same pass:
+- Full PubMed metadata (title, abstract, year, authors)
+- Researcher nodes with AUTHORED_BY edges
+- Semantic Scholar h_index enrichment
+- KEGG Pathway nodes + INVOLVED_IN edges
 
----
+```bash
+# Step 4 runs as part of seed.py — no separate script needed
+python seed.py
+python verify.py
+```
 
-## Future Roadmap
-
-### Phase 1
-- Build initial dataset and ingestion pipeline  
-- Prototype knowledge graph  
-
-### Phase 2
-- Develop basic AI reasoning modules  
-- Create simple clinical decision workflows  
-
-### Phase 3
-- Build user interface for interaction  
-- Pilot testing with academic use cases  
-
-### Phase 4
-- Scale to institutional and hospital-level deployment  
+Set `S2_API_KEY` in `.env` to raise Semantic Scholar rate limits.
 
 ---
 
-## Vision
+## Step 5 — Disease Explorer API
 
-To build a **global clinical intelligence infrastructure** that enhances medical decision-making, standardizes knowledge, and bridges the gap between theory and real-world healthcare practice.
+```bash
+uvicorn api:app --reload --port 8000
+# Docs: http://localhost:8000/docs
+```
 
----
+Key endpoints:
 
-## Why Medinex?
-
-Unlike platforms focused on healthcare delivery or booking systems, Medinex operates at the **intelligence layer**, improving how medical knowledge is structured, shared, and applied.
-
----
-
-## Author
-
-**Prince Kumar**  
-Data Science & Quantitative Economics Student  
-
-- GitHub: https://github.com/StoneSpectre  
-- LinkedIn: www.linkedin.com/in/prince-kumar-3283a9250
-
-**Suryansh Pratap Deo**  
-Data Science & Quantitative Economics Student
+| Endpoint | What it does |
+|----------|-------------|
+| `GET /health` | Connection check + node counts |
+| `GET /search?q=parkinson` | Full-text search |
+| `GET /disease/MESH:D010300` | Full neighbourhood: symptoms, genes, drugs, papers, pathways |
+| `GET /connect?from_id=X&to_id=Y` | Shortest path between any two nodes |
+| `GET /researchers/top` | Top researchers by h_index |
+| `GET /citations/12345678` | Citation graph for a paper |
+| `GET /pathways/MESH:D010300` | Pathways linked via genes |
+| `GET /related/MESH:D010300` | Diseases sharing genes |
+| `GET /timeline/MESH:D010300` | Papers per year chart data |
 
 ---
 
-## Note
+## Step 6 — Citation Intelligence
 
-This project is currently in the **development and research phase**, with ongoing work on architecture, data pipelines, and prototype systems.
+```bash
+python citation_intelligence.py
+```
 
+Requires Neo4j GDS plugin for PageRank. Falls back to in-degree ranking if not installed.
+
+Features:
+- `run_pagerank()` — writes PageRank score to every Paper node
+- `detect_landmark_papers()` — top influential papers
+- `find_competing_theories()` — gene-level mechanistic debates per disease
+- `find_citation_path()` — how knowledge flowed from paper A → paper B
+- `research_evolution()` — papers per year per disease
+- `researcher_influence()` — h_index + graph centrality
+- `collaboration_network()` — co-authorship pairs
 
 ---
 
-## Phase 0: Backend Architecture & Data Layer
+## What you have at the end of Step 6
 
-The Python data pipeline and Clinical Infrastructure (MIMIC-IV) are located in the `backend/` directory. Please refer to [backend/README.md](./backend/README.md) for detailed instructions on running the literature extraction and clinical data pipelines.
+| Layer | What's built |
+|-------|-------------|
+| **Graph** | ~137 Disease, ~9K Gene, ~1.5K Drug, ~400 Symptom, ~N Pathway, ~M Paper, ~K Researcher |
+| **Edges** | HAS_SYMPTOM, ASSOCIATED_WITH_GENE, TREATS, MENTIONS_DISEASE, AUTHORED_BY, CITES, INVOLVED_IN |
+| **Search** | Full-text indexes on Disease, Gene, Drug, Paper |
+| **API** | 9 REST endpoints powering the Disease Explorer |
+| **Citation layer** | PageRank, landmark detection, competing theories, researcher influence |
 
+---
 
-### Phase 0 Analytics Stack
-- **Biomedical NLP**: spaCy NER & relation extraction.
-- **Knowledge Graph**: NetworkX graph mirroring Neo4j schema.
-- **Graph Analytics**: Network analysis for drug repurposing and knowledge gaps.
+## Next: Step 7 — Graph-enhanced Study Assistant
+
+Replace flat RAG with Graph RAG:
+- A query for "Parkinson's" now returns graph context: pathway + gene + drug chain
+- Richer, grounded answers instead of flat document retrieval

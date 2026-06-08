@@ -12,6 +12,9 @@ const NODE_COLORS: Record<string, string> = {
   Paper: '#c84eff',
   Chemical: '#ff8c4e',
   MeSHTerm: '#4effd0',
+  Researcher: '#4e62ff',
+  Pathway: '#ffd04e',
+  Symptom: '#ff4eac',
 };
 
 export function KnowledgeGraph() {
@@ -93,7 +96,7 @@ export function KnowledgeGraph() {
             <ForceGraph2D
               ref={fgRef}
               graphData={graphData}
-              nodeLabel="id"
+              nodeLabel="label"
               nodeColor={node => NODE_COLORS[node.type] || '#999'}
               nodeRelSize={4}
               linkColor={() => 'rgba(200, 200, 200, 0.4)'}
