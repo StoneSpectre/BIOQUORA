@@ -904,6 +904,7 @@ export default function ExplorerV2() {
   const [selectedNode, setSelectedNode]   = useState(null);
   const [diseaseData, setDiseaseData]     = useState(null);
   const [loading, setLoading]             = useState(false);
+  const [stats, setStats]                 = useState(MOCK_STATS);
   
   const cssVars = `
     .explorer-v2-container {
