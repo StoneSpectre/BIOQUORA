@@ -1721,8 +1721,8 @@ export default function MedinexDashboard() {
 
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: "60px" }}>
-          <div style={{ fontSize: "11px", letterSpacing: "6px", color: "#00d4ff", textTransform: "uppercase", marginBottom: "16px", opacity: 0.8 }}>
-            PHASE 0 · BIOMEDICAL INTELLIGENCE
+          <div style={{ fontSize: "11px", letterSpacing: "6px", color: activePhaseTab === 0 ? "#00d4ff" : activePhaseTab === 1 ? "#a78bfa" : activePhaseTab === 2 ? "#34d399" : "#fbbf24", textTransform: "uppercase", marginBottom: "16px", opacity: 0.8 }}>
+            {activePhaseTab === 0 ? "PHASE 0 · BIOMEDICAL INTELLIGENCE" : activePhaseTab === 1 ? "PHASE 1 · MULTI-OMICS & GENOMICS" : activePhaseTab === 2 ? "PHASE 2 · IMAGING & DRUG DISCOVERY" : "PHASE 3 · REGULATORY & DEPLOYMENT"}
           </div>
           <h1 style={{
             fontSize: "clamp(36px, 6vw, 72px)",
