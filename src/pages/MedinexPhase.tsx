@@ -1653,7 +1653,7 @@ function TaskPanel({ stepId, stepColor, completedTasks, toggleTask }) {
 // ─── MAIN COMPONENT ───────────────────────────────────────────────────────────
 
 export default function MedinexDashboard() {
-  const defaultSteps = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+  const defaultSteps = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
   const defaultTasks = new Set([
     "7-1", "7-2", "7-3", "7-4", "7-5", "7-6", "7-7", "7-8", "7-9", "7-10",
     "8-1", "8-2", "8-3", "8-4", "8-5", "8-6", "8-7", "8-8", "8-9", "8-10",
