@@ -6,7 +6,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Heart, Droplet, Shield, Brain, Menu, X, Settings, Network, Activity, Layers, Sparkles, ChevronDown, BookOpen } from "lucide-react";
+import { Heart, Droplet, Shield, Brain, Menu, X, Settings, Network, Activity, Layers, Sparkles, ChevronDown, BookOpen, Compass } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
@@ -23,7 +23,7 @@ const featureItems = [
   { path: "/knowledge-graph", label: "Knowledge Graph", icon: Network, color: "text-blue-500" },
   { path: "/analytics", label: "Analytics", icon: Activity, color: "text-indigo-500" },
   { path: "/assistant", label: "Assistant", icon: Sparkles, color: "text-fuchsia-400" },
-  { path: "/explorer", label: "Explorer", icon: Network, color: "text-teal-500" },
+  { path: "/explorer", label: "Explorer", icon: Compass, color: "text-teal-500" },
 ];
 
 const mainItems = [
