@@ -1312,31 +1312,83 @@ const steps = [
   },
   {
     id: 11,
-    title: "Phase 1: Clinical AI Integration",
-    subtitle: "MIMIC-IV & Patient Timelines",
+    phase: 1,
+    title: "Bioinformatics Pipeline",
+    subtitle: "Multi-Omics & Genomics",
     color: "#a78bfa",
-    icon: "🏥",
-    description: "Integrating clinical trial data, electronic health records (MIMIC-IV), and patient timeline analysis.",
+    icon: "🧬",
+    description: "Build robust bioinformatics pipelines for analysing large-scale multi-omics data.",
     resources: [],
-    learn: ["FHIR Standards", "Clinical Trial Parsing", "Patient Outcome Prediction"],
-    deliverable: "Clinical integration capabilities",
-    flow: null,
-    codeKey: 11,
+    learn: ["Sequence Analysis", "Variant Calling", "Transcriptomics"],
+    deliverable: "Automated Bioinformatics Pipeline",
+    flow: ["Raw Data", "Pipeline", "Annotated Variants"],
   },
   {
     id: 12,
-    title: "Phase 2: Research Workspace",
-    subtitle: "Personalized Drug Discovery Engine",
-    color: "#34d399",
+    phase: 1,
+    title: "Genomics",
+    subtitle: "Variant Analysis",
+    color: "#a78bfa",
     icon: "🔬",
-    description: "Implement the interactive Workspace data model: Projects, Collections, and Literature tracking with SQLite and FastAPI.",
+    description: "Analyse genomic variants and their implications in diseases.",
     resources: [],
-    learn: ["FastAPI CRUD", "SQLite Database", "React UI Layout", "Drag-and-Drop Management"],
-    deliverable: "Personalized Research Workspace",
-    flow: ["Projects", "Collections", "Saved Papers", "Notes"],
-    isFinal: true,
-    codeKey: 12,
+    learn: ["GWAS", "Variant Effect Prediction", "Population Genetics"],
+    deliverable: "Genomic Variant Database",
+    flow: null,
   },
+  {
+    id: 13,
+    phase: 1,
+    title: "Proteomics",
+    subtitle: "Protein Structures",
+    color: "#a78bfa",
+    icon: "🧪",
+    description: "Integrate protein structure and interaction data into the knowledge graph.",
+    resources: [],
+    learn: ["AlphaFold", "Protein-Protein Interactions", "Mass Spectrometry"],
+    deliverable: "Proteomics Data Layer",
+    flow: null,
+  },
+  {
+    id: 14,
+    phase: 2,
+    title: "MONAI Framework",
+    subtitle: "Medical Imaging",
+    color: "#34d399",
+    icon: "🖼️",
+    description: "Implement MONAI for deep learning in medical imaging.",
+    resources: [],
+    learn: ["Medical Image Segmentation", "Classification", "MONAI"],
+    deliverable: "Imaging AI Models",
+    flow: ["Images", "MONAI", "Predictions"],
+  },
+  {
+    id: 15,
+    phase: 2,
+    title: "SimpleITK",
+    subtitle: "Image Processing",
+    color: "#34d399",
+    icon: "⚙️",
+    description: "Use SimpleITK for robust medical image processing and registration.",
+    resources: [],
+    learn: ["Image Registration", "Filtering", "Segmentation"],
+    deliverable: "Image Processing Pipeline",
+    flow: null,
+  },
+  {
+    id: 16,
+    phase: 2,
+    title: "DeepChem",
+    subtitle: "Drug Discovery",
+    color: "#34d399",
+    icon: "💊",
+    description: "Leverage DeepChem for virtual screening and drug discovery.",
+    resources: [],
+    learn: ["Molecular Fingerprints", "GNNs", "Virtual Screening"],
+    deliverable: "Drug Discovery Engine",
+    flow: ["Molecules", "DeepChem", "Hit Compounds"],
+  }
+
 ];
 
 // ─── BADGE STYLES ─────────────────────────────────────────────────────────────
@@ -1612,6 +1664,7 @@ export default function MedinexDashboard() {
   const [completedSteps, setCompletedSteps] = useState(defaultSteps);
   const [completedTasks, setCompletedTasks] = useState(defaultTasks);
   const [activeTab, setActiveTabState]      = useState("tasks"); // "tasks" | "code"
+  const [activePhaseTab, setActivePhaseTab] = useState(0);
 
   const toggleComplete = (id, e) => {
     e.stopPropagation();
@@ -1759,7 +1812,8 @@ export default function MedinexDashboard() {
 
         {/* Steps grid */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: "20px", marginBottom: "48px" }}>
-          {steps.map((s, i) => {
+          {steps.filter(s => (s.phase || 0) === activePhaseTab).map((s, idx) => {
+            const i = steps.findIndex(st => st.id === s.id);
             const isComplete  = completedSteps.has(s.id);
             const isActive    = activeStep === i;
             const hasTasks    = !!stepTasks[s.id];
