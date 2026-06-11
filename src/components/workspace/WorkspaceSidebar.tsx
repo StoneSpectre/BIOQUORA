@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { workspaceApi } from "@/lib/api/workspace";
-import { Folder, FolderOpen, FileText, Library, Tag, Plus, PlusCircle, BrainCircuit, Map } from "lucide-react";
+import { Folder, FolderOpen, FileText, Library, Tag, Plus, PlusCircle, BrainCircuit, Map, Users, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";

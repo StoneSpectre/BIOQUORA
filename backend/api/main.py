@@ -42,6 +42,7 @@ app.include_router(notes.router,         prefix="/api/v1/notes",          tags=[
 app.include_router(literature.router,    prefix="/api/v1/literature",     tags=["Literature Tracker"])
 app.include_router(literature_review.router, prefix="/api/v1/workspace/projects", tags=["AI Literature Review"])
 app.include_router(research_maps.router, prefix="/api/v1/workspace/projects", tags=["Research Maps"])
+app.include_router(collaboration.router, prefix="/api/v1/workspace/projects", tags=["Collaboration"])
 
 
 @app.get("/health")

@@ -58,6 +58,9 @@ export function PapersTable({ projectId }: PapersTableProps) {
                   Status
                 </th>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  Assignee
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                   Graph Link
                 </th>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
@@ -100,6 +103,14 @@ export function PapersTable({ projectId }: PapersTableProps) {
                       ) : (
                         <span className="text-xs text-muted-foreground italic">—</span>
                       )}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <select className="bg-transparent border border-border/50 text-xs rounded px-2 py-1 outline-none focus:border-primary">
+                        <option value="unassigned">Unassigned</option>
+                        <option value="dr_chen">Dr. Sarah Chen</option>
+                        <option value="j_wilson">James Wilson</option>
+                        <option value="you">You</option>
+                      </select>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">

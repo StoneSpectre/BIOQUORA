@@ -5,9 +5,10 @@ import { PapersTable } from "@/components/workspace/PapersTable";
 import { NoteEditor } from "@/components/workspace/NoteEditor";
 import { ReviewDraftUI } from "@/components/workspace/ReviewDraftUI";
 import { TopicMapVis } from "@/components/workspace/TopicMapVis";
+import { ActivityFeed } from "@/components/workspace/ActivityFeed";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { workspaceApi } from "@/lib/api/workspace";
-import { Layers, Plus, ExternalLink, Activity, Network } from "lucide-react";
+import { Layers, Plus, ExternalLink, Activity, Network, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function Workspace() {
@@ -115,6 +116,20 @@ export default function Workspace() {
                 <span className="text-teal-400">{stats?.graph_linked || 0}</span>
               </div>
             </div>
+
+            <div className="ml-auto flex items-center gap-3">
+              <div className="flex -space-x-2 mr-2">
+                <div className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-500/50 flex items-center justify-center text-[10px] text-emerald-500 font-bold z-20">SC</div>
+                <div className="w-6 h-6 rounded-full bg-blue-500/20 border border-blue-500/50 flex items-center justify-center text-[10px] text-blue-500 font-bold z-10">JW</div>
+              </div>
+              <Button size="sm" variant="outline" className="h-8 gap-2 border-primary/20 hover:bg-primary/10" onClick={() => {
+                const email = prompt("Enter teammate's email to invite:");
+                if (email) alert(`Invitation sent to ${email}!`);
+              }}>
+                <UserPlus className="h-3.5 w-3.5" />
+                Invite
+              </Button>
+            </div>
           </div>
 
           <div className="flex-1 overflow-hidden p-6">
@@ -122,6 +137,7 @@ export default function Workspace() {
             {activeView === "notes" && <NoteEditor projectId={activeProjectId} />}
             {activeView === "ai_review" && <ReviewDraftUI projectId={activeProjectId} />}
             {activeView === "research_map" && <TopicMapVis projectId={activeProjectId} />}
+            {activeView === "activity" && <ActivityFeed projectId={activeProjectId} />}
           </div>
         </WorkspaceLayout>
       ) : null}
