@@ -22,6 +22,7 @@ import ExplorerSelector from "./pages/ExplorerSelector";
 import ExplorerV1 from "./pages/ExplorerV1";
 import ExplorerV2 from "./pages/ExplorerV2";
 import NotFound from "./pages/NotFound";
+import DiagnosticDashboard from "./pages/DiagnosticDashboard";
 
 import Workspace from "./pages/Workspace";
 
@@ -49,6 +50,7 @@ const App = () => (
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/assistant" element={<Assistant />} />
             <Route path="/explorer" element={<ExplorerSelector />} />
+            <Route path="/diagnostic" element={<DiagnosticDashboard />} />
             <Route path="/workspace" element={<Workspace />} />
             <Route path="/explorer-v1" element={<ExplorerV1 />} />
             <Route path="/explorer-v2" element={<ExplorerV2 />} />

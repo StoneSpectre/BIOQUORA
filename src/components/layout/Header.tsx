@@ -24,6 +24,7 @@ const featureItems = [
   { path: "/analytics", label: "Analytics", icon: Activity, color: "text-indigo-500" },
   { path: "/assistant", label: "Assistant", icon: Sparkles, color: "text-fuchsia-400" },
   { path: "/explorer", label: "Explorer", icon: Compass, color: "text-teal-500" },
+  { path: "/diagnostic", label: "Diagnostics", icon: Activity, color: "text-emerald-500" },
 ];
 
 const mainItems = [

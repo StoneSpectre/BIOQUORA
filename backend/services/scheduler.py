@@ -15,7 +15,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from ..db import async_session_maker
+from api.core.database import async_session_maker
 from ..models import AnalyticsJobRun
 from ..api.research_events import run_nightly_aggregation
 
