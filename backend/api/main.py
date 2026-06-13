@@ -9,14 +9,23 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from api.core.config import settings
 from api.core.database import engine, Base
-from api.routers import projects, folders, collections, saved_papers, notes, literature, literature_review, research_maps
+from api.routers import projects, folders, collections, saved_papers, notes, literature, literature_review, research_maps, collaboration, research_events
+from websockets.manager import manager
+from services.scheduler import start_scheduler
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Create tables on startup (use Alembic in production)
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+    
+    # Start background tasks
+    start_scheduler()
+    
     yield
+    
+    # Shutdown logic
+    await manager.close()
 
 app = FastAPI(
     title="Medinex Workspace API",
@@ -43,6 +52,11 @@ app.include_router(literature.router,    prefix="/api/v1/literature",     tags=[
 app.include_router(literature_review.router, prefix="/api/v1/workspace/projects", tags=["AI Literature Review"])
 app.include_router(research_maps.router, prefix="/api/v1/workspace/projects", tags=["Research Maps"])
 app.include_router(collaboration.router, prefix="/api/v1/workspace/projects", tags=["Collaboration"])
+app.include_router(research_events.router, prefix="/api/v1/events", tags=["Research Analytics"])
+
+@app.websocket("/ws/projects/{project_id}")
+async def websocket_endpoint(websocket, project_id: str):
+    await manager.connect(websocket, project_id)
 
 
 @app.get("/health")

@@ -10,6 +10,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { workspaceApi } from "@/lib/api/workspace";
 import { Layers, Plus, ExternalLink, Activity, Network, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useProjectSocket } from "@/hooks/useProjectSocket";
 
 export default function Workspace() {
   const queryClient = useQueryClient();
@@ -40,6 +41,9 @@ export default function Workspace() {
       setActiveProjectId(projects[0].id);
     }
   }, [projects, activeProjectId]);
+
+  // Connect to the WebSocket when a project is active
+  useProjectSocket(activeProjectId);
 
   // Fetch literature stats for the active project
   const { data: stats } = useQuery({

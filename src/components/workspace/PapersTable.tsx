@@ -4,6 +4,7 @@ import { Network, ExternalLink, Clock, CheckCircle2, BookOpen, Quote, FileText, 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import { useTracker } from "@/hooks/useTracker";
 
 interface PapersTableProps {
   projectId: string;
@@ -18,6 +19,7 @@ const statusConfig = {
 
 export function PapersTable({ projectId }: PapersTableProps) {
   const queryClient = useQueryClient();
+  const { track } = useTracker();
   const { data: papers, isLoading } = useQuery({
     queryKey: ['papers', projectId],
     queryFn: () => workspaceApi.getPapers(projectId),
@@ -113,7 +115,11 @@ export function PapersTable({ projectId }: PapersTableProps) {
                       </select>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => {
+                        track('paper_view', { paperId: paper.id, pmid: paper.neo4j_node_id, metadata: { title: paper.title } });
+                        // Add navigation logic here when ready
+                        alert("Paper view tracked!");
+                      }}>
                         Read <ChevronRight className="ml-1 h-4 w-4" />
                       </Button>
                     </td>

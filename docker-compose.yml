@@ -9,6 +9,7 @@ services:
       - "8000:8000"
     environment:
       - POSTGRES_URL=postgresql://medinex_user:password@db:5432/medinex_db
+      - REDIS_URL=redis://redis:6379
       - OPENAI_API_KEY=${OPENAI_API_KEY}
     depends_on:
       db:
@@ -33,6 +34,13 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - medinex-net
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
     networks:
       - medinex-net
 

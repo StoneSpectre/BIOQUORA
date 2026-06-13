@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { BookmarkPlus } from "lucide-react";
+import { useTracker } from "@/hooks/useTracker";
 
 // ── Color tokens — maps node label → teal/amber/violet/slate family
 const NODE_COLOR = {
@@ -929,6 +930,7 @@ function GraphCanvas({ data, selectedNode, onNodeSelect }) {
 
 
 export default function ExplorerV2() {
+  const { track } = useTracker();
   const [selectedNode, setSelectedNode]   = useState(null);
   const [diseaseData, setDiseaseData]     = useState(null);
   const [loading, setLoading]             = useState(false);
@@ -961,6 +963,7 @@ export default function ExplorerV2() {
   `;
 
   const handleSearch = async (query) => {
+    track('search', { metadata: { query } });
     setLoading(true);
     setSelectedNode(null);
     try {

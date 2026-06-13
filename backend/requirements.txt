@@ -11,6 +11,11 @@ python-dotenv==1.0.1
 # ── API layer (Step 5) ────────────────────────────────────────
 fastapi==0.111.0
 uvicorn[standard]==0.29.0
+pytest-asyncio==0.23.5
+
+# WebSockets & Realtime
+redis[asyncio]
+apscheduler
 
 # ── XML parsing (PubMed efetch — stdlib, listed for clarity) ──
 # xml.etree.ElementTree  (stdlib — no install needed)
