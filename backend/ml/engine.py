@@ -106,7 +106,7 @@ def _make_shap_features(
 # ══════════════════════════════════════════════════════════════════════════════
 HEPATIC_FEATURES = [
     "age", "sex", "total_bilirubin", "direct_bilirubin",
-    "alkaline_phosphatase", "alt", "ast",
+    "alkaline_phosphatase", "alt", "ast", "platelets",
     "total_protein", "albumin", "albumin_globulin_ratio",
     "bmi", "alcohol_units_per_week",
 ]
@@ -138,6 +138,9 @@ def _generate_hepatic_data(n: int = 1200) -> pd.DataFrame:
         "ast":                    np.where(disease,
                                       rng.gamma(7, 18, n),
                                       rng.gamma(3, 7, n)).clip(5, 600),
+        "platelets":              np.where(disease,
+                                      rng.normal(120, 40, n),
+                                      rng.normal(250, 60, n)).clip(10, 800),
         "total_protein":          np.where(disease,
                                       rng.normal(6.2, 0.9, n),
                                       rng.normal(7.2, 0.6, n)).clip(2, 12),
@@ -200,7 +203,7 @@ def train_hepatic() -> Tuple[Pipeline, shap.Explainer, IsolationForest]:
 DIABETES_FEATURES = [
     "pregnancies", "glucose", "blood_pressure", "skin_thickness",
     "insulin", "bmi", "diabetes_pedigree", "age", "hba1c",
-    "family_history", "sex",
+    "family_history", "sex", "microalbuminuria", "metformin_use", "statin_use",
 ]
 
 def _generate_diabetes_data(n: int = 1500) -> pd.DataFrame:
@@ -229,6 +232,11 @@ def _generate_diabetes_data(n: int = 1500) -> pd.DataFrame:
                                  rng.normal(5.5, 0.6, n)).clip(3.5, 16),
         "family_history":    rng.binomial(1, 0.45 if True else 0.20, n).astype(float),
         "sex":               rng.binomial(1, 0.5, n).astype(float),
+        "microalbuminuria":  np.where(disease,
+                                 rng.exponential(150, n),
+                                 rng.exponential(10, n)).clip(0, 2000),
+        "metformin_use":     np.where(disease, rng.binomial(1, 0.6, n), rng.binomial(1, 0.05, n)).astype(float),
+        "statin_use":        np.where(disease, rng.binomial(1, 0.5, n), rng.binomial(1, 0.1, n)).astype(float),
         "label":             disease,
     })
     return df
@@ -275,6 +283,7 @@ def train_diabetes() -> Tuple[Pipeline, shap.Explainer, IsolationForest]:
 # ══════════════════════════════════════════════════════════════════════════════
 THYROID_FEATURES = [
     "age", "sex", "tsh", "t3", "t4",
+    "anti_tpo", "trab", "levothyroxine_use",
     "on_thyroxine", "on_antithyroid_meds", "sick", "pregnant",
     "thyroid_surgery", "goitre", "tumor", "hypopituitary", "psych",
 ]
@@ -304,6 +313,9 @@ def _generate_thyroid_data(n: int = 2000) -> pd.DataFrame:
         "tsh":                 tsh_vals,
         "t3":                  t3_vals,
         "t4":                  t4_vals,
+        "anti_tpo":            np.where(label == 1, rng.exponential(300, n), rng.exponential(15, n)).clip(0, 5000),
+        "trab":                np.where(label == 2, rng.exponential(25, n), rng.exponential(1.5, n)).clip(0, 100),
+        "levothyroxine_use":   np.where(label == 1, rng.binomial(1, 0.6, n), rng.binomial(1, 0.02, n)).astype(float),
         "on_thyroxine":        np.where(label == 1, rng.binomial(1, 0.5, n),
                                    rng.binomial(1, 0.05, n)).astype(float),
         "on_antithyroid_meds": np.where(label == 2, rng.binomial(1, 0.3, n),
@@ -360,6 +372,7 @@ def train_thyroid() -> Tuple[Pipeline, shap.Explainer, IsolationForest]:
 # ══════════════════════════════════════════════════════════════════════════════
 RESPIRATORY_FEATURES = [
     "age", "sex", "fev1", "fvc", "fev1_fvc_ratio", "spo2",
+    "pao2", "paco2", "hco3", "heart_rate", "respiratory_rate",
     "pack_years", "dyspnea_scale", "cough_frequency",
     "wheezing", "chest_tightness", "occupational_exposure",
 ]
@@ -382,6 +395,11 @@ def _generate_respiratory_data(n: int = 1500) -> pd.DataFrame:
         "spo2":                 np.where(disease,
                                     rng.normal(91, 4, n),
                                     rng.normal(97, 1.5, n)).clip(70, 100),
+        "pao2":                 np.where(disease, rng.normal(65, 10, n), rng.normal(95, 5, n)).clip(40, 110),
+        "paco2":                np.where(disease, rng.normal(55, 10, n), rng.normal(40, 4, n)).clip(25, 90),
+        "hco3":                 np.where(disease, rng.normal(32, 5, n), rng.normal(24, 2, n)).clip(15, 45),
+        "heart_rate":           rng.normal(85, 15, n).clip(45, 180),
+        "respiratory_rate":     np.where(disease, rng.normal(24, 4, n), rng.normal(14, 2, n)).clip(10, 45),
         "pack_years":           np.where(disease,
                                     rng.exponential(20, n),
                                     rng.exponential(5, n)).clip(0, 150),
@@ -436,6 +454,192 @@ def train_respiratory() -> Tuple[Pipeline, shap.Explainer, IsolationForest]:
     joblib.dump(anomaly,  MODEL_DIR / "respiratory_anomaly.pkl")
     joblib.dump(RESPIRATORY_FEATURES, MODEL_DIR / "respiratory_features.pkl")
     logger.info("Respiratory model saved.")
+    return model, explainer, anomaly
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# CARDIOVASCULAR MODEL
+# ══════════════════════════════════════════════════════════════════════════════
+CARDIOVASCULAR_FEATURES = [
+    "age", "sex", "troponin", "nt_probnp", "ldl", "hdl",
+    "triglycerides", "systolic_bp", "diastolic_bp", "heart_rate"
+]
+
+def _generate_cardiovascular_data(n: int = 1500) -> pd.DataFrame:
+    rng = np.random.default_rng(46)
+    disease = rng.binomial(1, 0.40, n)
+
+    df = pd.DataFrame({
+        "age":              rng.integers(30, 90, n).astype(float),
+        "sex":              rng.binomial(1, 0.60, n).astype(float),
+        "troponin":         np.where(disease, rng.exponential(0.5, n), rng.exponential(0.02, n)).clip(0, 10),
+        "nt_probnp":        np.where(disease, rng.exponential(1500, n), rng.exponential(100, n)).clip(0, 35000),
+        "ldl":              np.where(disease, rng.normal(160, 40, n), rng.normal(100, 25, n)).clip(40, 350),
+        "hdl":              np.where(disease, rng.normal(35, 10, n), rng.normal(55, 15, n)).clip(10, 100),
+        "triglycerides":    np.where(disease, rng.normal(250, 100, n), rng.normal(120, 40, n)).clip(40, 1000),
+        "systolic_bp":      np.where(disease, rng.normal(150, 20, n), rng.normal(120, 15, n)).clip(80, 220),
+        "diastolic_bp":     np.where(disease, rng.normal(95, 15, n), rng.normal(80, 10, n)).clip(50, 130),
+        "heart_rate":       rng.normal(80, 15, n).clip(45, 160),
+        "label":            disease,
+    })
+    return df
+
+def train_cardiovascular() -> Tuple[Pipeline, shap.Explainer, IsolationForest]:
+    logger.info("Training cardiovascular model …")
+    df = _generate_cardiovascular_data()
+    X, y = df[CARDIOVASCULAR_FEATURES], df["label"]
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    sm = SMOTE(random_state=42)
+    X_res, y_res = sm.fit_resample(X_train, y_train)
+
+    model = Pipeline([
+        ("scaler", StandardScaler()),
+        ("clf", XGBClassifier(
+            n_estimators=250, max_depth=5, learning_rate=0.04,
+            subsample=0.85, colsample_bytree=0.85,
+            use_label_encoder=False, eval_metric="logloss",
+            random_state=42, n_jobs=-1,
+        )),
+    ])
+    model.fit(X_res, y_res)
+
+    y_prob = model.predict_proba(X_test)[:, 1]
+    auc = roc_auc_score(y_test, y_prob)
+    logger.info(f"Cardiovascular model AUC-ROC: {auc:.3f}")
+
+    explainer = shap.TreeExplainer(model.named_steps["clf"])
+    anomaly = IsolationForest(contamination=0.05, random_state=42)
+    anomaly.fit(X_train)
+
+    joblib.dump(model,    MODEL_DIR / "cardiovascular_model.pkl")
+    joblib.dump(explainer, MODEL_DIR / "cardiovascular_explainer.pkl")
+    joblib.dump(anomaly,  MODEL_DIR / "cardiovascular_anomaly.pkl")
+    joblib.dump(CARDIOVASCULAR_FEATURES, MODEL_DIR / "cardiovascular_features.pkl")
+    logger.info("Cardiovascular model saved.")
+    return model, explainer, anomaly
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# RENAL MODEL
+# ══════════════════════════════════════════════════════════════════════════════
+RENAL_FEATURES = [
+    "age", "sex", "creatinine", "bun", "egfr",
+    "urine_protein", "sodium", "potassium"
+]
+
+def _generate_renal_data(n: int = 1500) -> pd.DataFrame:
+    rng = np.random.default_rng(47)
+    disease = rng.binomial(1, 0.35, n)
+
+    df = pd.DataFrame({
+        "age":           rng.integers(30, 90, n).astype(float),
+        "sex":           rng.binomial(1, 0.50, n).astype(float),
+        "creatinine":    np.where(disease, rng.normal(3.5, 2.0, n), rng.normal(0.9, 0.2, n)).clip(0.4, 15),
+        "bun":           np.where(disease, rng.normal(50, 20, n), rng.normal(15, 5, n)).clip(5, 150),
+        "egfr":          np.where(disease, rng.normal(45, 20, n), rng.normal(100, 15, n)).clip(5, 140),
+        "urine_protein": np.where(disease, rng.exponential(300, n), rng.exponential(10, n)).clip(0, 5000),
+        "sodium":        rng.normal(140, 5, n).clip(115, 160),
+        "potassium":     np.where(disease, rng.normal(5.5, 0.8, n), rng.normal(4.2, 0.4, n)).clip(2.5, 8.0),
+        "label":         disease,
+    })
+    return df
+
+def train_renal() -> Tuple[Pipeline, shap.Explainer, IsolationForest]:
+    logger.info("Training renal model …")
+    df = _generate_renal_data()
+    X, y = df[RENAL_FEATURES], df["label"]
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    sm = SMOTE(random_state=42)
+    X_res, y_res = sm.fit_resample(X_train, y_train)
+
+    model = Pipeline([
+        ("scaler", StandardScaler()),
+        ("clf", XGBClassifier(
+            n_estimators=250, max_depth=5, learning_rate=0.04,
+            subsample=0.85, colsample_bytree=0.85,
+            use_label_encoder=False, eval_metric="logloss",
+            random_state=42, n_jobs=-1,
+        )),
+    ])
+    model.fit(X_res, y_res)
+
+    y_prob = model.predict_proba(X_test)[:, 1]
+    auc = roc_auc_score(y_test, y_prob)
+    logger.info(f"Renal model AUC-ROC: {auc:.3f}")
+
+    explainer = shap.TreeExplainer(model.named_steps["clf"])
+    anomaly = IsolationForest(contamination=0.05, random_state=42)
+    anomaly.fit(X_train)
+
+    joblib.dump(model,    MODEL_DIR / "renal_model.pkl")
+    joblib.dump(explainer, MODEL_DIR / "renal_explainer.pkl")
+    joblib.dump(anomaly,  MODEL_DIR / "renal_anomaly.pkl")
+    joblib.dump(RENAL_FEATURES, MODEL_DIR / "renal_features.pkl")
+    logger.info("Renal model saved.")
+    return model, explainer, anomaly
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# IMMUNOLOGY MODEL
+# ══════════════════════════════════════════════════════════════════════════════
+IMMUNOLOGY_FEATURES = [
+    "age", "sex", "wbc_count", "crp", "esr",
+    "ana_titer", "cd4_count", "igg"
+]
+
+def _generate_immunology_data(n: int = 1500) -> pd.DataFrame:
+    rng = np.random.default_rng(48)
+    disease = rng.binomial(1, 0.30, n)
+
+    df = pd.DataFrame({
+        "age":         rng.integers(18, 80, n).astype(float),
+        "sex":         rng.binomial(1, 0.70, n).astype(float),  # Female predominant
+        "wbc_count":   np.where(disease, rng.normal(12, 5, n), rng.normal(7, 2, n)).clip(1, 100),
+        "crp":         np.where(disease, rng.exponential(30, n), rng.exponential(3, n)).clip(0.1, 300),
+        "esr":         np.where(disease, rng.normal(60, 30, n), rng.normal(15, 10, n)).clip(0, 150),
+        "ana_titer":   np.where(disease, rng.choice([0, 40, 80, 160, 320, 640], n, p=[0.1, 0.1, 0.2, 0.3, 0.2, 0.1]),
+                                         rng.choice([0, 40, 80], n, p=[0.8, 0.15, 0.05])).astype(float),
+        "cd4_count":   np.where(disease, rng.normal(400, 200, n), rng.normal(900, 300, n)).clip(50, 2000),
+        "igg":         np.where(disease, rng.normal(2000, 500, n), rng.normal(1200, 300, n)).clip(300, 4000),
+        "label":       disease,
+    })
+    return df
+
+def train_immunology() -> Tuple[Pipeline, shap.Explainer, IsolationForest]:
+    logger.info("Training immunology model …")
+    df = _generate_immunology_data()
+    X, y = df[IMMUNOLOGY_FEATURES], df["label"]
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    sm = SMOTE(random_state=42)
+    X_res, y_res = sm.fit_resample(X_train, y_train)
+
+    model = Pipeline([
+        ("scaler", StandardScaler()),
+        ("clf", XGBClassifier(
+            n_estimators=250, max_depth=5, learning_rate=0.04,
+            subsample=0.85, colsample_bytree=0.85,
+            use_label_encoder=False, eval_metric="logloss",
+            random_state=42, n_jobs=-1,
+        )),
+    ])
+    model.fit(X_res, y_res)
+
+    y_prob = model.predict_proba(X_test)[:, 1]
+    auc = roc_auc_score(y_test, y_prob)
+    logger.info(f"Immunology model AUC-ROC: {auc:.3f}")
+
+    explainer = shap.TreeExplainer(model.named_steps["clf"])
+    anomaly = IsolationForest(contamination=0.05, random_state=42)
+    anomaly.fit(X_train)
+
+    joblib.dump(model,    MODEL_DIR / "immunology_model.pkl")
+    joblib.dump(explainer, MODEL_DIR / "immunology_explainer.pkl")
+    joblib.dump(anomaly,  MODEL_DIR / "immunology_anomaly.pkl")
+    joblib.dump(IMMUNOLOGY_FEATURES, MODEL_DIR / "immunology_features.pkl")
+    logger.info("Immunology model saved.")
     return model, explainer, anomaly
 
 
@@ -523,8 +727,82 @@ class MedinexPredictor:
             diagnosis = "Hepatocellular Disease / Cirrhosis" if risk_score > 0.50 else "Healthy Hepatic Function"
         elif module == "respiratory":
             diagnosis = "Chronic Respiratory Disease (COPD/Asthma)" if risk_score > 0.50 else "Healthy Respiratory Function"
+        elif module == "cardiovascular":
+            diagnosis = "High Cardiovascular Risk" if risk_score > 0.50 else "Low Cardiovascular Risk"
+        elif module == "renal":
+            diagnosis = "Chronic Kidney Disease Risk" if risk_score > 0.50 else "Healthy Renal Function"
+        elif module == "immunology":
+            diagnosis = "Systemic Inflammatory / Autoimmune Activity" if risk_score > 0.50 else "Normal Immune Function"
         else:
             diagnosis = "Positive Finding" if risk_score > 0.50 else "Negative Finding"
+
+        # Engineered Clinical Indices
+        import math
+        clinical_indices = {}
+        if module == "hepatic":
+            age_val = data.get("age", 40)
+            ast_val = data.get("ast", 0)
+            alt_val = data.get("alt", 0)
+            plt_val = data.get("platelets", 0)
+            
+            try:
+                if plt_val > 0 and alt_val > 0:
+                    fib4 = (age_val * ast_val) / (plt_val * math.sqrt(alt_val))
+                    clinical_indices["FIB-4 Index"] = round(fib4, 2)
+            except (ZeroDivisionError, ValueError):
+                pass
+                
+            if alt_val > 0:
+                clinical_indices["AST/ALT Ratio"] = round(ast_val / alt_val, 2)
+                
+        elif module == "thyroid":
+            tsh_val = data.get("tsh", 0)
+            t4_val = data.get("t4", 0)
+            anti_tpo = data.get("anti_tpo", 0)
+            trab = data.get("trab", 0)
+            
+            if t4_val > 0:
+                clinical_indices["TSH / Free T4 Ratio"] = round(tsh_val / t4_val, 2)
+            if anti_tpo > 34:
+                clinical_indices["Hashimoto's Marker"] = "Elevated Anti-TPO"
+            if trab > 1.75:
+                clinical_indices["Graves' Marker"] = "Elevated TRAb"
+                
+        elif module == "diabetes":
+            clinical_indices["HbA1c Tracker"] = data.get("hba1c", 0)
+            clinical_indices["Fasting Glucose"] = data.get("glucose", 0)
+            micro = data.get("microalbuminuria", 0)
+            if micro > 30:
+                clinical_indices["Nephropathy Risk"] = f"{micro} mg/g (Elevated)"
+
+        elif module == "respiratory":
+            pao2 = data.get("pao2", 0)
+            paco2 = data.get("paco2", 0)
+            if paco2 > 0:
+                clinical_indices["PaO2 / PaCO2 Ratio"] = round(pao2 / paco2, 2)
+            if paco2 > 45:
+                clinical_indices["ABG Status"] = "Hypercapnia (High CO2)"
+            elif pao2 < 80:
+                clinical_indices["ABG Status"] = "Hypoxemia (Low O2)"
+                
+        elif module == "cardiovascular":
+            sys_bp = data.get("systolic_bp", 0)
+            dia_bp = data.get("diastolic_bp", 0)
+            if sys_bp > 0 and dia_bp > 0:
+                map_val = (sys_bp + 2*dia_bp) / 3
+                clinical_indices["Mean Arterial Pressure (MAP)"] = f"{round(map_val, 1)} mmHg"
+                
+        elif module == "renal":
+            urine = data.get("urine_protein", 0)
+            if urine > 150:
+                clinical_indices["Proteinuria Status"] = "Clinical Proteinuria"
+                
+        elif module == "immunology":
+            wbc = data.get("wbc_count", 0)
+            if wbc > 11:
+                clinical_indices["Leukocytosis"] = "Elevated WBC"
+            elif wbc > 0 and wbc < 4:
+                clinical_indices["Leukopenia"] = "Low WBC"
 
         return {
             "module": module,
@@ -532,6 +810,7 @@ class MedinexPredictor:
             "risk_level": level,
             "risk_percent": int(risk_score * 100),
             "diagnosis": diagnosis,
+            "clinical_indices": clinical_indices,
             "top_factors": top_factors,
             "summary": summary,
             "anomalies": anomalies,
@@ -549,4 +828,7 @@ if __name__ == "__main__":
     train_diabetes()
     train_thyroid()
     train_respiratory()
-    print("\n✅ All Phase-1 models trained and saved to", MODEL_DIR.resolve())
+    train_cardiovascular()
+    train_renal()
+    train_immunology()
+    print("\n✅ All Phase-1 and Phase-2 models trained and saved to", MODEL_DIR.resolve())

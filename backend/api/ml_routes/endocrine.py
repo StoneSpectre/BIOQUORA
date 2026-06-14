@@ -24,6 +24,9 @@ DIABETES_FIELDS = [
     {"key": "insulin",          "label": "2-Hour Serum Insulin",   "type": "number", "unit": "µU/mL",   "min": 0,  "max": 900,"step": 1,    "required": False, "normal": "2–25"},
     {"key": "skin_thickness",   "label": "Triceps Skin Fold",      "type": "number", "unit": "mm",      "min": 0,  "max": 100,"step": 0.5,  "required": False, "normal": "10–30 mm typical"},
     {"key": "family_history",   "label": "Family History of Diabetes","type":"select","options": [{"value": 0, "label": "No"}, {"value": 1, "label": "Yes"}], "required": True},
+    {"key": "microalbuminuria", "label": "Microalbuminuria",       "type": "number", "unit": "mg/g",    "min": 0,  "max": 3000,"step": 1,  "required": False, "normal": "< 30"},
+    {"key": "metformin_use",    "label": "On Metformin?",          "type": "select", "options": [{"value": 0, "label": "No"}, {"value": 1, "label": "Yes"}], "required": True},
+    {"key": "statin_use",       "label": "On Statins?",            "type": "select", "options": [{"value": 0, "label": "No"}, {"value": 1, "label": "Yes"}], "required": True},
 ]
 
 THYROID_FIELDS = [
@@ -32,6 +35,9 @@ THYROID_FIELDS = [
     {"key": "tsh",                 "label": "TSH",                   "type": "number", "unit": "mIU/L",  "min": 0, "max": 100,"step": 0.01,"required": True, "normal": "0.4–4.0"},
     {"key": "t3",                  "label": "Free T3",               "type": "number", "unit": "pg/mL",  "min": 0, "max": 15, "step": 0.1, "required": True, "normal": "2.0–4.4"},
     {"key": "t4",                  "label": "Free T4",               "type": "number", "unit": "ng/dL",  "min": 0, "max": 30, "step": 0.01,"required": True, "normal": "0.8–1.8"},
+    {"key": "anti_tpo",            "label": "Anti-TPO Antibodies",   "type": "number", "unit": "IU/mL",  "min": 0, "max": 10000,"step": 1,"required": False, "normal": "< 34"},
+    {"key": "trab",                "label": "TRAb Antibodies",       "type": "number", "unit": "IU/L",   "min": 0, "max": 100, "step": 0.1,"required": False, "normal": "< 1.75"},
+    {"key": "levothyroxine_use",   "label": "On Levothyroxine?",     "type": "select", "options": [{"value": 0, "label": "No"}, {"value": 1, "label": "Yes"}], "required": True},
     {"key": "on_thyroxine",        "label": "On Thyroxine?",         "type": "select", "options": [{"value": 0, "label": "No"}, {"value": 1, "label": "Yes"}], "required": True},
     {"key": "on_antithyroid_meds", "label": "On Antithyroid Medication?","type":"select","options": [{"value": 0, "label": "No"}, {"value": 1, "label": "Yes"}], "required": True},
     {"key": "thyroid_surgery",     "label": "Prior Thyroid Surgery?","type": "select", "options": [{"value": 0, "label": "No"}, {"value": 1, "label": "Yes"}], "required": True},

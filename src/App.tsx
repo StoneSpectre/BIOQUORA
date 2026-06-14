@@ -8,7 +8,13 @@ import Index from "./pages/Index";
 import Cardiovascular from "./pages/Cardiovascular";
 import Renal from "./pages/Renal";
 import Immunology from "./pages/Immunology";
+import Nervous from "./pages/Nervous";
+import Reproductive from "./pages/Reproductive";
+import LayoutSandbox from "./pages/LayoutSandbox";
 import SystemThinking from "./pages/SystemThinking";
+import Hepatic from "./pages/Hepatic";
+import Respiratory from "./pages/Respiratory";
+import Endocrine from "./pages/Endocrine";
 import About from "./pages/About";
 import Auth from "./pages/Auth";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -40,7 +46,13 @@ const App = () => (
             <Route path="/cardiovascular" element={<Cardiovascular />} />
             <Route path="/renal" element={<Renal />} />
             <Route path="/immunology" element={<Immunology />} />
+            <Route path="/nervous" element={<Nervous />} />
+            <Route path="/reproductive" element={<Reproductive />} />
+            <Route path="/layout-sandbox" element={<LayoutSandbox />} />
             <Route path="/system-thinking" element={<SystemThinking />} />
+            <Route path="/hepatic" element={<Hepatic />} />
+            <Route path="/respiratory" element={<Respiratory />} />
+            <Route path="/endocrine" element={<Endocrine />} />
             <Route path="/about" element={<About />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<AdminDashboard />} />

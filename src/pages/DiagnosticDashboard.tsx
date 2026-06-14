@@ -6,6 +6,9 @@ const MODULES = [
   { id: "respiratory", name: "Respiratory", color: "#3B82F6" },
   { id: "endocrine/diabetes", name: "Endocrine (Diabetes)", color: "#F59E0B" },
   { id: "endocrine/thyroid", name: "Endocrine (Thyroid)", color: "#D4A843" },
+  { id: "cardiovascular", name: "Cardiovascular", color: "#EF4444" },
+  { id: "renal", name: "Renal", color: "#8B5CF6" },
+  { id: "immunology", name: "Immunology", color: "#10B981" },
 ];
 
 export default function DiagnosticDashboard() {
@@ -168,6 +171,21 @@ export default function DiagnosticDashboard() {
                     </div>
                   )}
                 </div>
+
+                {/* Engineered Indices Panel */}
+                {result.clinical_indices && Object.keys(result.clinical_indices).length > 0 && (
+                  <div style={{ background: "rgba(59, 130, 246, 0.05)", border: "1px solid rgba(59, 130, 246, 0.2)", padding: "15px", borderRadius: "12px" }}>
+                    <div style={{ color: "#3B82F6", fontWeight: 600, marginBottom: "10px", fontSize: "0.9rem", textTransform: "uppercase" }}>Engineered Clinical Indices</div>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+                      {Object.entries(result.clinical_indices).map(([key, val]) => (
+                        <div key={key} style={{ display: "flex", justifyContent: "space-between", background: "#0D0F12", padding: "10px", borderRadius: "8px", border: "1px solid #252A35" }}>
+                          <span style={{ color: "#8A8FA8", fontSize: "0.85rem" }}>{key}</span>
+                          <span style={{ color: "#E8EAF0", fontFamily: "JetBrains Mono, monospace", fontWeight: 600, fontSize: "0.9rem" }}>{val as any}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* Anomalies */}
                 {result.anomalies?.length > 0 && (

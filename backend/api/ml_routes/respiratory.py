@@ -17,6 +17,11 @@ RESPIRATORY_FIELDS = [
     {"key": "fvc",                  "label": "FVC",                      "type": "number", "unit": "L",        "min": 0.5,"max": 10, "step": 0.01,"required": True, "normal": "> 80% predicted", "tooltip": "Forced Vital Capacity"},
     {"key": "fev1_fvc_ratio",       "label": "FEV1/FVC Ratio",           "type": "number", "unit": "",         "min": 0.1,"max": 1.0,"step": 0.01,"required": True, "normal": "> 0.70 = normal"},
     {"key": "spo2",                 "label": "Resting SpO2",             "type": "number", "unit": "%",        "min": 60, "max": 100,"step": 0.1, "required": True, "normal": "> 95%"},
+    {"key": "pao2",                 "label": "Arterial O2 (PaO2)",       "type": "number", "unit": "mmHg",     "min": 20, "max": 120,"step": 0.1, "required": True, "normal": "75–100"},
+    {"key": "paco2",                "label": "Arterial CO2 (PaCO2)",     "type": "number", "unit": "mmHg",     "min": 10, "max": 100,"step": 0.1, "required": True, "normal": "35–45"},
+    {"key": "hco3",                 "label": "Bicarbonate (HCO3)",       "type": "number", "unit": "mEq/L",    "min": 5,  "max": 50, "step": 0.1, "required": True, "normal": "22–28"},
+    {"key": "heart_rate",           "label": "Heart Rate",               "type": "number", "unit": "BPM",      "min": 30, "max": 250,"step": 1,   "required": True, "normal": "60–100"},
+    {"key": "respiratory_rate",     "label": "Respiratory Rate",         "type": "number", "unit": "breaths/m","min": 5,  "max": 60, "step": 1,   "required": True, "normal": "12–20"},
     {"key": "pack_years",           "label": "Smoking History",          "type": "number", "unit": "pack-years","min": 0, "max": 200,"step": 0.5, "required": True, "normal": "0 = non-smoker", "tooltip": "Packs per day × years smoked"},
     {"key": "dyspnea_scale",        "label": "MRC Dyspnea Scale",        "type": "select", "options": [
         {"value": 0, "label": "0 — None"},

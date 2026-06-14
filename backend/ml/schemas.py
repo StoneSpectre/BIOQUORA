@@ -37,6 +37,7 @@ class PredictionResponse(BaseModel):
     top_factors: List[SHAPFeature]
     summary: str               # plain-English one-liner for the doctor
     anomalies: List[str]       # list of flagged impossible/outlier values
+    clinical_indices: Dict[str, float] = Field(default_factory=dict)
     model_version: str = "1.0.0"
 
 
@@ -50,6 +51,7 @@ class HepaticInput(BaseModel):
     alkaline_phosphatase: float       = Field(..., ge=20, le=2000, description="Alkaline Phosphatase (IU/L)")
     alt: float                        = Field(..., ge=5,  le=3000, description="Alanine Aminotransferase (IU/L)")
     ast: float                        = Field(..., ge=5,  le=3000, description="Aspartate Aminotransferase (IU/L)")
+    platelets: float                  = Field(..., ge=10, le=2000, description="Platelets (10^9/L)")
     total_protein: float              = Field(..., ge=1,  le=12,   description="Total Protein (g/dL)")
     albumin: float                    = Field(..., ge=0.5,le=6.0,  description="Albumin (g/dL)")
     albumin_globulin_ratio: float     = Field(..., ge=0.1,le=5.0,  description="Albumin/Globulin Ratio")
@@ -78,6 +80,9 @@ class DiabetesInput(BaseModel):
     diabetes_pedigree: float  = Field(..., ge=0,  le=3.0, description="Diabetes Pedigree Function score")
     hba1c: float              = Field(..., ge=3,  le=20,  description="HbA1c (%)")
     family_history: int       = Field(0,   ge=0,  le=1,   description="Family history of diabetes (0/1)")
+    microalbuminuria: float   = Field(0,   ge=0,  le=3000,description="Microalbuminuria (mg/g creatinine)")
+    metformin_use: int        = Field(0,   ge=0,  le=1,   description="Currently on Metformin (0/1)")
+    statin_use: int           = Field(0,   ge=0,  le=1,   description="Currently on Statins (0/1)")
 
 
 class ThyroidInput(BaseModel):
@@ -86,6 +91,9 @@ class ThyroidInput(BaseModel):
     tsh: float                = Field(..., ge=0,  le=100, description="TSH (mIU/L)")
     t3: float                 = Field(..., ge=0,  le=15,  description="Free T3 (pg/mL)")
     t4: float                 = Field(..., ge=0,  le=30,  description="Free T4 (ng/dL)")
+    anti_tpo: float           = Field(0,   ge=0,  le=10000, description="Anti-TPO Antibodies (IU/mL)")
+    trab: float               = Field(0,   ge=0,  le=100, description="TSH Receptor Antibodies (IU/L)")
+    levothyroxine_use: int    = Field(0,   ge=0,  le=1,   description="Currently on Levothyroxine (0/1)")
     on_thyroxine: int         = Field(0,   ge=0,  le=1,   description="Currently on thyroxine (0/1)")
     on_antithyroid_meds: int  = Field(0,   ge=0,  le=1)
     sick: int                 = Field(0,   ge=0,  le=1,   description="Currently sick (0/1)")
@@ -106,6 +114,11 @@ class RespiratoryInput(BaseModel):
     fvc: float                = Field(..., ge=0.5,le=10,  description="FVC (L) — Forced Vital Capacity")
     fev1_fvc_ratio: float     = Field(..., ge=0.1,le=1.0, description="FEV1/FVC ratio (0–1)")
     spo2: float               = Field(..., ge=60, le=100, description="Resting SpO2 (%)")
+    pao2: float               = Field(..., ge=20, le=120, description="Arterial O2 - PaO2 (mmHg)")
+    paco2: float              = Field(..., ge=10, le=100, description="Arterial CO2 - PaCO2 (mmHg)")
+    hco3: float               = Field(..., ge=5,  le=50,  description="Bicarbonate - HCO3 (mEq/L)")
+    heart_rate: int           = Field(..., ge=30, le=250, description="Heart Rate (BPM)")
+    respiratory_rate: int     = Field(..., ge=5,  le=60,  description="Respiratory Rate (Breaths/min)")
     pack_years: float         = Field(0,   ge=0,  le=200, description="Smoking history (pack-years)")
     dyspnea_scale: int        = Field(..., ge=0,  le=4,   description="MRC Dyspnea Scale (0–4)")
     cough_frequency: int      = Field(..., ge=0,  le=3,   description="0=None, 1=Mild, 2=Moderate, 3=Severe")

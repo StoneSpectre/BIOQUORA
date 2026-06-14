@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from api.core.config import settings
 from api.core.database import engine, Base
 from api.routers import projects, folders, collections, saved_papers, notes, literature, literature_review, research_maps
-from api.ml_routes import hepatic, endocrine, respiratory, feedback
+from api.ml_routes import hepatic, diabetes, thyroid, respiratory, cardiovascular, renal, immunology, feedback
 # from websockets.manager import manager
 # from services.scheduler import start_scheduler
 
@@ -55,9 +55,13 @@ app.include_router(research_maps.router, prefix="/api/v1/workspace/projects", ta
 # app.include_router(research_events.router, prefix="/api/v1/events", tags=["Research Analytics"])
 
 # ---- Phase 3: ML Diagnostic Routers ----
-app.include_router(hepatic.router,     prefix="/api/v1/hepatic",     tags=["Hepatic ML"])
-app.include_router(endocrine.router,   prefix="/api/v1/endocrine",   tags=["Endocrine ML"])
-app.include_router(respiratory.router, prefix="/api/v1/respiratory", tags=["Respiratory ML"])
+app.include_router(hepatic.router, prefix="/api/v1/hepatic", tags=["ML - Hepatic"])
+app.include_router(diabetes.router, prefix="/api/v1/diabetes", tags=["ML - Diabetes"])
+app.include_router(thyroid.router, prefix="/api/v1/thyroid", tags=["ML - Thyroid"])
+app.include_router(respiratory.router, prefix="/api/v1/respiratory", tags=["ML - Respiratory"])
+app.include_router(cardiovascular.router, prefix="/api/v1/cardiovascular", tags=["ML - Cardiovascular"])
+app.include_router(renal.router, prefix="/api/v1/renal", tags=["ML - Renal"])
+app.include_router(immunology.router, prefix="/api/v1/immunology", tags=["ML - Immunology"])
 app.include_router(feedback.router,    prefix="/api/v1/feedback",    tags=["Feedback ML"])
 
 # @app.websocket("/ws/projects/{project_id}")

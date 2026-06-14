@@ -19,6 +19,7 @@ HEPATIC_FIELDS = [
     {"key": "alkaline_phosphatase",   "label": "Alkaline Phosphatase",   "type": "number", "unit": "IU/L",      "min": 20,  "max": 2000,"step": 1,   "required": True,  "normal": "44–147"},
     {"key": "alt",                    "label": "ALT",                    "type": "number", "unit": "IU/L",      "min": 5,   "max": 3000,"step": 1,   "required": True,  "normal": "7–56"},
     {"key": "ast",                    "label": "AST",                    "type": "number", "unit": "IU/L",      "min": 5,   "max": 3000,"step": 1,   "required": True,  "normal": "10–40"},
+    {"key": "platelets",              "label": "Platelets",              "type": "number", "unit": "10^9/L",    "min": 10,  "max": 2000,"step": 1,   "required": True,  "normal": "150–450"},
     {"key": "total_protein",          "label": "Total Protein",          "type": "number", "unit": "g/dL",      "min": 1,   "max": 12,  "step": 0.1, "required": True,  "normal": "6.0–8.3"},
     {"key": "albumin",                "label": "Albumin",                "type": "number", "unit": "g/dL",      "min": 0.5, "max": 6,   "step": 0.1, "required": True,  "normal": "3.5–5.0"},
     {"key": "albumin_globulin_ratio", "label": "Albumin/Globulin Ratio", "type": "number", "unit": "",          "min": 0.1, "max": 5,   "step": 0.01,"required": True,  "normal": "1.0–2.5"},
