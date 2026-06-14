@@ -10,7 +10,6 @@ import Renal from "./pages/Renal";
 import Immunology from "./pages/Immunology";
 import Nervous from "./pages/Nervous";
 import Reproductive from "./pages/Reproductive";
-import LayoutSandbox from "./pages/LayoutSandbox";
 import SystemThinking from "./pages/SystemThinking";
 import Hepatic from "./pages/Hepatic";
 import Respiratory from "./pages/Respiratory";
@@ -48,7 +47,6 @@ const App = () => (
             <Route path="/immunology" element={<Immunology />} />
             <Route path="/nervous" element={<Nervous />} />
             <Route path="/reproductive" element={<Reproductive />} />
-            <Route path="/layout-sandbox" element={<LayoutSandbox />} />
             <Route path="/system-thinking" element={<SystemThinking />} />
             <Route path="/hepatic" element={<Hepatic />} />
             <Route path="/respiratory" element={<Respiratory />} />
