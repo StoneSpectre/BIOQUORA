@@ -65,7 +65,7 @@ export function Footer() {
           </div>
         </div>
 
-        <Separator className="my-8" />
+        <Separator className="mt-4 mb-8" />
 
         {/* Disclaimer */}
         <div className="space-y-3 text-xs text-muted-foreground">
