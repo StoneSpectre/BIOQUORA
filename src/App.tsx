@@ -11,6 +11,8 @@ import Immunology from "./pages/Immunology";
 import Nervous from "./pages/Nervous";
 import Reproductive from "./pages/Reproductive";
 import SystemThinking from "./pages/SystemThinking";
+import Ophthalmology from "./pages/Ophthalmology";
+import ENT from "./pages/ENT";
 import Hepatic from "./pages/Hepatic";
 import Respiratory from "./pages/Respiratory";
 import Endocrine from "./pages/Endocrine";
@@ -48,6 +50,8 @@ const App = () => (
             <Route path="/nervous" element={<Nervous />} />
             <Route path="/reproductive" element={<Reproductive />} />
             <Route path="/system-thinking" element={<SystemThinking />} />
+            <Route path="/ophthalmology" element={<Ophthalmology />} />
+            <Route path="/ent" element={<ENT />} />
             <Route path="/hepatic" element={<Hepatic />} />
             <Route path="/respiratory" element={<Respiratory />} />
             <Route path="/endocrine" element={<Endocrine />} />

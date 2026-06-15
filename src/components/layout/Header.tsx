@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import EarlyAccessModal from "@/components/common/EarlyAccessModal";
 import medinexLogo from "@/assets/medinex-logo.png";
-import { Waves, Wind, ActivitySquare, Zap, Baby } from "lucide-react";
+import { Waves, Wind, ActivitySquare, Zap, Baby, Eye, Ear } from "lucide-react";
 
 const topicItems = [
   { path: "/cardiovascular", label: "Cardiovascular", icon: Heart, color: "text-cardio" },
@@ -24,6 +24,8 @@ const topicItems = [
   { path: "/hepatic", label: "Hepatic", icon: Waves, color: "text-orange-500" },
   { path: "/respiratory", label: "Respiratory", icon: Wind, color: "text-blue-500" },
   { path: "/endocrine", label: "Endocrine", icon: ActivitySquare, color: "text-yellow-500" },
+  { path: "/ophthalmology", label: "Ophthalmology", icon: Eye, color: "text-sky-500" },
+  { path: "/ent", label: "ENT", icon: Ear, color: "text-orange-500" },
 ];
 
 const featureItems = [
