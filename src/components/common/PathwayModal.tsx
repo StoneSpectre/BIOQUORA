@@ -43,8 +43,7 @@ export function PathwayModal({
           {triggerText}
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[90vh] p-0 overflow-hidden bg-background border-border/60">
-        <div className="flex flex-col h-full">
+      <DialogContent className="max-w-4xl p-0 overflow-hidden bg-background border-border/60">
           {/* Header */}
           <div className="px-6 py-5 border-b border-border/40 bg-muted/10 shrink-0">
             <div className="flex items-center justify-between mb-2">
@@ -61,7 +60,7 @@ export function PathwayModal({
           </div>
 
           {/* Scrollable Content Area */}
-          <div className="flex-1 overflow-y-auto p-6 bg-gradient-to-b from-background to-muted/5">
+          <div className="overflow-y-auto p-6 bg-gradient-to-b from-background to-muted/5 max-h-[70vh] md:max-h-[75vh]">
             <div className="space-y-10 pb-6">
               
               {/* Pathophysiology Mechanisms */}
@@ -113,7 +112,6 @@ export function PathwayModal({
 
             </div>
           </div>
-        </div>
       </DialogContent>
     </Dialog>
   );
