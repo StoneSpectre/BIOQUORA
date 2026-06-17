@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
+
 import { pathwaysData } from "@/data/pathwaysData";
 import { Activity, Pill, Stethoscope, Dna, ArrowRight } from "lucide-react";
 
@@ -61,7 +61,7 @@ export function PathwayModal({
           </div>
 
           {/* Scrollable Content Area */}
-          <ScrollArea className="flex-1 overflow-y-auto p-6 bg-gradient-to-b from-background to-muted/5">
+          <div className="flex-1 overflow-y-auto p-6 bg-gradient-to-b from-background to-muted/5">
             <div className="space-y-10 pb-6">
               
               {/* Pathophysiology Mechanisms */}
@@ -112,7 +112,7 @@ export function PathwayModal({
               </section>
 
             </div>
-          </ScrollArea>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
