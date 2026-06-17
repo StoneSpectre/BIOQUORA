@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { searchPubMed, type PubMedArticle } from "@/lib/pubmed";
 import { searchClinicalTrials, type ClinicalTrial } from "@/lib/clinicaltrials";
+import { PathwayModal } from "@/components/common/PathwayModal";
 
 const Reproductive = () => {
   const { markModuleVisited } = useProgressTracking();
@@ -90,7 +91,7 @@ const Reproductive = () => {
                   <p className="text-sm text-foreground/90 leading-relaxed">
                     Polycystic Ovary Syndrome is an endocrine disorder characterized by hyperandrogenism, ovulatory dysfunction, and polycystic ovaries.
                   </p>
-                  <Button className="w-full mt-auto" variant="outline">Explore Full Pathway</Button>
+                  <PathwayModal id="pcos" variant="outline" />
                 </CardContent>
               </Card>
 
@@ -105,7 +106,7 @@ const Reproductive = () => {
                   <p className="text-sm text-foreground/90 leading-relaxed">
                     A condition where tissue similar to the lining of the uterus grows outside the uterus, causing pain and potential infertility.
                   </p>
-                  <Button className="w-full mt-auto" variant="outline">Explore Full Pathway</Button>
+                  <PathwayModal id="endometriosis" variant="outline" />
                 </CardContent>
               </Card>
             </div>

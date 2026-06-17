@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { searchPubMed, type PubMedArticle } from "@/lib/pubmed";
 import { searchClinicalTrials, type ClinicalTrial } from "@/lib/clinicaltrials";
+import { PathwayModal } from "@/components/common/PathwayModal";
 
 const Endocrine = () => {
   const { markModuleVisited } = useProgressTracking();
@@ -90,7 +91,7 @@ const Endocrine = () => {
                   <p className="text-sm text-foreground/90 leading-relaxed">
                     A chronic condition that affects the way the body processes blood sugar (glucose), primarily characterized by insulin resistance.
                   </p>
-                  <Button className="w-full mt-auto" variant="outline">Explore Full Pathway</Button>
+                  <PathwayModal id="t2dm" variant="default" />
                 </CardContent>
               </Card>
 
@@ -105,7 +106,7 @@ const Endocrine = () => {
                   <p className="text-sm text-foreground/90 leading-relaxed">
                     An autoimmune disorder where antibodies (Anti-TPO) attack the thyroid gland, leading to hypothyroidism.
                   </p>
-                  <Button className="w-full mt-auto" variant="outline">Explore Full Pathway</Button>
+                  <PathwayModal id="hashimotos" variant="outline" />
                 </CardContent>
               </Card>
             </div>

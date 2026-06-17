@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { searchPubMed, type PubMedArticle } from "@/lib/pubmed";
 import { searchClinicalTrials, type ClinicalTrial } from "@/lib/clinicaltrials";
+import { PathwayModal } from "@/components/common/PathwayModal";
 
 const Hepatic = () => {
   const { markModuleVisited } = useProgressTracking();
@@ -90,7 +91,7 @@ const Hepatic = () => {
                   <p className="text-sm text-foreground/90 leading-relaxed">
                     Late stage of scarring (fibrosis) of the liver caused by many forms of liver diseases and conditions, such as hepatitis and chronic alcoholism.
                   </p>
-                  <Button className="w-full mt-auto" variant="outline">Explore Full Pathway</Button>
+                  <PathwayModal id="cirrhosis" variant="default" />
                 </CardContent>
               </Card>
             </div>

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { searchPubMed, type PubMedArticle } from "@/lib/pubmed";
 import { searchClinicalTrials, type ClinicalTrial } from "@/lib/clinicaltrials";
+import { PathwayModal } from "@/components/common/PathwayModal";
 
 const Nervous = () => {
   const { markModuleVisited } = useProgressTracking();
@@ -90,7 +91,7 @@ const Nervous = () => {
                   <p className="text-sm text-foreground/90 leading-relaxed">
                     A progressive neurodegenerative disorder characterized by amyloid plaques, neurofibrillary tangles, and cognitive decline.
                   </p>
-                  <Button className="w-full mt-auto" variant="outline">Explore Full Pathway</Button>
+                  <PathwayModal id="alzheimers" variant="outline" />
                 </CardContent>
               </Card>
 
@@ -105,7 +106,7 @@ const Nervous = () => {
                   <p className="text-sm text-foreground/90 leading-relaxed">
                     An immune-mediated demyelinating disease of the central nervous system that disrupts communication between the brain and the body.
                   </p>
-                  <Button className="w-full mt-auto" variant="outline">Explore Full Pathway</Button>
+                  <PathwayModal id="ms" variant="outline" />
                 </CardContent>
               </Card>
             </div>

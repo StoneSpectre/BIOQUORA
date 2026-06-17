@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { searchPubMed, type PubMedArticle } from "@/lib/pubmed";
 import { searchClinicalTrials, type ClinicalTrial } from "@/lib/clinicaltrials";
+import { PathwayModal } from "@/components/common/PathwayModal";
 
 const Respiratory = () => {
   const { markModuleVisited } = useProgressTracking();
@@ -90,7 +91,7 @@ const Respiratory = () => {
                   <p className="text-sm text-foreground/90 leading-relaxed">
                     Chronic Obstructive Pulmonary Disease is a chronic inflammatory lung disease that causes obstructed airflow from the lungs.
                   </p>
-                  <Button className="w-full mt-auto" variant="outline">Explore Full Pathway</Button>
+                  <PathwayModal id="copd" variant="outline" />
                 </CardContent>
               </Card>
             </div>

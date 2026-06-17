@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { searchPubMed, type PubMedArticle } from "@/lib/pubmed";
 import { searchClinicalTrials, type ClinicalTrial } from "@/lib/clinicaltrials";
+import { PathwayModal } from "@/components/common/PathwayModal";
 
 const Cardiovascular = () => {
   const { markModuleVisited } = useProgressTracking();
@@ -133,7 +134,7 @@ const Cardiovascular = () => {
                     </ul>
                   </div>
                   
-                  <Button className="w-full mt-auto" variant="default">Explore Full Pathway</Button>
+                  <PathwayModal id="heart-failure" variant="default" />
                 </CardContent>
               </Card>
 
@@ -162,7 +163,7 @@ const Cardiovascular = () => {
                     </ul>
                   </div>
                   
-                  <Button className="w-full mt-auto" variant="outline">Explore Full Pathway</Button>
+                  <PathwayModal id="hypertension" variant="outline" />
                 </CardContent>
               </Card>
             </div>

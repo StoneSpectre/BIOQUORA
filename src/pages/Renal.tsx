@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { searchPubMed, type PubMedArticle } from "@/lib/pubmed";
 import { searchClinicalTrials, type ClinicalTrial } from "@/lib/clinicaltrials";
+import { PathwayModal } from "@/components/common/PathwayModal";
 
 const Renal = () => {
   const { markModuleVisited } = useProgressTracking();
@@ -131,7 +132,7 @@ const Renal = () => {
                     </ul>
                   </div>
                   
-                  <Button className="w-full mt-auto" variant="default">Explore Full Pathway</Button>
+                  <PathwayModal id="ckd" variant="default" />
                 </CardContent>
               </Card>
 
@@ -159,7 +160,7 @@ const Renal = () => {
                     </ul>
                   </div>
                   
-                  <Button className="w-full mt-auto" variant="outline">Explore Full Pathway</Button>
+                  <PathwayModal id="aki" variant="outline" />
                 </CardContent>
               </Card>
             </div>

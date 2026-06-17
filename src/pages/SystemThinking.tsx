@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { searchPubMed, type PubMedArticle } from "@/lib/pubmed";
 import { searchClinicalTrials, type ClinicalTrial } from "@/lib/clinicaltrials";
+import { PathwayModal } from "@/components/common/PathwayModal";
 
 const SystemThinking = () => {
   const { markModuleVisited } = useProgressTracking();
@@ -106,7 +107,7 @@ const SystemThinking = () => {
                     </ul>
                   </div>
                   
-                  <Button className="w-full mt-auto" variant="default">Explore Full Pathway</Button>
+                  <PathwayModal id="cardiorenal" variant="default" />
                 </CardContent>
               </Card>
 
@@ -134,7 +135,7 @@ const SystemThinking = () => {
                     </ul>
                   </div>
                   
-                  <Button className="w-full mt-auto" variant="outline">Explore Full Pathway</Button>
+                  <PathwayModal id="acid-base" variant="outline" />
                 </CardContent>
               </Card>
             </div>
