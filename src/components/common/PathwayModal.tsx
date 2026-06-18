@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 import { pathwaysData } from "@/data/pathwaysData";
-import { Activity, Pill, Stethoscope, Dna, ArrowRight } from "lucide-react";
+import { Activity, Pill, Stethoscope, Dna, ArrowRight, Microscope, Syringe } from "lucide-react";
 
 interface PathwayModalProps {
   id: string;
@@ -96,19 +96,56 @@ export function PathwayModal({
               </section>
 
               {/* Pharmacology */}
-              <section>
-                <div className="flex items-center gap-2 mb-4 border-b border-border/50 pb-2">
-                  <Pill className="h-5 w-5 text-primary" />
-                  <h3 className="text-xl font-semibold">Pharmacological Interventions</h3>
-                </div>
-                <div className="grid gap-3">
-                  {data.pharmacology.map((point, i) => (
-                    <div key={i} className="bg-background border border-border/60 p-4 rounded-lg shadow-sm hover:border-primary/30 transition-colors">
-                      <p className="text-sm sm:text-base text-foreground/80">{point}</p>
-                    </div>
-                  ))}
-                </div>
-              </section>
+              {data.pharmacology && data.pharmacology.length > 0 && (
+                <section>
+                  <div className="flex items-center gap-2 mb-4 border-b border-border/50 pb-2">
+                    <Pill className="h-5 w-5 text-primary" />
+                    <h3 className="text-xl font-semibold">Pharmacological Interventions</h3>
+                  </div>
+                  <div className="grid gap-3">
+                    {data.pharmacology.map((point, i) => (
+                      <div key={i} className="bg-background border border-border/60 p-4 rounded-lg shadow-sm hover:border-primary/30 transition-colors">
+                        <p className="text-sm sm:text-base text-foreground/80">{point}</p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {/* Investigations */}
+              {data.investigations && data.investigations.length > 0 && (
+                <section>
+                  <div className="flex items-center gap-2 mb-4 border-b border-border/50 pb-2">
+                    <Microscope className="h-5 w-5 text-primary" />
+                    <h3 className="text-xl font-semibold">Investigations & Diagnostics</h3>
+                  </div>
+                  <ul className="space-y-3 pl-2">
+                    {data.investigations.map((point, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                        <div className="h-2 w-2 rounded-full bg-primary/60 mt-2 shrink-0" />
+                        <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{point}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
+
+              {/* Treatment */}
+              {data.treatment && data.treatment.length > 0 && (
+                <section>
+                  <div className="flex items-center gap-2 mb-4 border-b border-border/50 pb-2">
+                    <Syringe className="h-5 w-5 text-primary" />
+                    <h3 className="text-xl font-semibold">Treatment & Guidelines</h3>
+                  </div>
+                  <div className="grid gap-3">
+                    {data.treatment.map((point, i) => (
+                      <div key={i} className="bg-background border border-border/60 p-4 rounded-lg shadow-sm hover:border-primary/30 transition-colors">
+                        <p className="text-sm sm:text-base text-foreground/80">{point}</p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
 
             </div>
           </div>

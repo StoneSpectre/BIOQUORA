@@ -23,9 +23,9 @@ type QueryResponse = {
 
 export default function Assistant() {
   const [query, setQuery] = useState("");
-  const [mode, setMode] = useState("hybrid");
+  const [mode, setMode] = useState("graph");
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<QueryResponse | null>(null);
+  const [result, setResult] = useState<QueryResponse | any | null>(null);
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,17 +35,21 @@ export default function Assistant() {
     setResult(null);
 
     try {
-      const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8001";
-      const response = await fetch(`${API_URL}/query`, {
+      const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+      let fetchUrl = `${API_URL}/query`;
+      let bodyData: any = { question: query, top_k: 5, mode: mode };
+
+      if (mode === "graph") {
+        fetchUrl = `${API_URL}/api/v1/graphrag/query`;
+        bodyData = { query: query };
+      }
+
+      const response = await fetch(fetchUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          question: query,
-          top_k: 5,
-          mode: mode,
-        }),
+        body: JSON.stringify(bodyData),
       });
 
       if (!response.ok) {
@@ -145,7 +149,7 @@ export default function Assistant() {
           </div>
         )}
 
-        {result && !loading && (
+        {result && !loading && mode !== "graph" && (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {/* Answer Card */}
             <Card className="bg-slate-900/50 border-slate-800">
@@ -155,7 +159,7 @@ export default function Assistant() {
                     <BrainCircuit className="h-5 w-5" /> Synthesis
                   </h3>
                   <span className="text-xs font-mono bg-slate-800 px-3 py-1 rounded-full text-slate-300">
-                    {result.metadata.engine} Engine
+                    {result.metadata?.engine || mode} Engine
                   </span>
                 </div>
                 <div className="text-slate-200 leading-relaxed text-lg whitespace-pre-wrap">
@@ -169,7 +173,7 @@ export default function Assistant() {
               <div>
                 <h3 className="text-sm uppercase tracking-widest text-slate-500 mb-4 ml-2">Retrieved Evidence Context</h3>
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                  {result.sources.map((source, idx) => {
+                  {result.sources.map((source: any, idx: number) => {
                     const pmid = source.pmid || source.metadata?.pmid;
                     const text = source.text || source.metadata?.text || "No text available.";
                     
@@ -193,6 +197,132 @@ export default function Assistant() {
                     </Card>
                     );
                   })}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* GraphRAG Specific Results */}
+        {result && !loading && mode === "graph" && result.data && result.data.step1 && (
+          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            {/* Step 1: Reasoning & Intent */}
+            <Card className="bg-slate-900/50 border-cyan-500/30 shadow-lg shadow-cyan-900/10">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between mb-4 pb-4 border-b border-slate-800">
+                  <h3 className="text-lg font-semibold flex items-center gap-2 text-cyan-400">
+                    <BrainCircuit className="h-5 w-5" /> GraphRAG Intent Classification
+                  </h3>
+                  <span className="text-xs font-mono bg-cyan-900/50 text-cyan-200 px-3 py-1 rounded-full border border-cyan-700/50">
+                    {result.data.step1.intent.intent.toUpperCase()} ({(result.data.step1.intent.confidence * 100).toFixed(0)}% Confidence)
+                  </span>
+                </div>
+                
+                <div className="mb-6">
+                  <div className="text-sm text-slate-500 mb-2 uppercase tracking-wider font-semibold">Retrieval Strategy</div>
+                  <p className="text-slate-300 bg-slate-950/50 p-4 rounded-md border border-slate-800">
+                    {result.data.step1.intent.retrieval_strategy}
+                  </p>
+                </div>
+
+                <div className="mb-2">
+                  <div className="text-sm text-slate-500 mb-3 uppercase tracking-wider font-semibold">Multi-Hop Reasoning Chain</div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    {result.data.step1.multi_hop.reasoning_chain.map((node: string, i: number) => (
+                      <React.Fragment key={i}>
+                        <div className="bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-md text-sm text-fuchsia-300 shadow-sm">
+                          {node}
+                        </div>
+                        {i < result.data.step1.multi_hop.reasoning_chain.length - 1 && (
+                          <div className="text-slate-600">→</div>
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Step 1.2: Entities */}
+              <Card className="bg-slate-900/50 border-slate-800">
+                <CardContent className="p-6">
+                  <h3 className="text-md font-semibold text-slate-200 mb-4 flex items-center gap-2">
+                    <Database className="h-4 w-4 text-emerald-400" /> Detected Entities
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {result.data.step1.entity_spans.length === 0 ? (
+                      <span className="text-slate-500 text-sm">No specific biomedical entities detected.</span>
+                    ) : (
+                      result.data.step1.entity_spans.map((ent: any, i: number) => (
+                        <span key={i} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border border-emerald-500/20 bg-emerald-500/10 text-emerald-300">
+                          {ent.text}
+                          <span className="opacity-50 text-[10px] ml-1 uppercase">{ent.entity_type}</span>
+                        </span>
+                      ))
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Step 1.4: Triples */}
+              <Card className="bg-slate-900/50 border-slate-800">
+                <CardContent className="p-6">
+                  <h3 className="text-md font-semibold text-slate-200 mb-4 flex items-center gap-2">
+                    <Database className="h-4 w-4 text-blue-400" /> Knowledge Graph Triples
+                  </h3>
+                  <div className="space-y-3">
+                    {result.data.step1.triples.length === 0 ? (
+                      <span className="text-slate-500 text-sm">No explicit relation triples found in query.</span>
+                    ) : (
+                      result.data.step1.triples.map((trip: any, i: number) => (
+                        <div key={i} className="flex items-center gap-2 text-sm bg-slate-950/50 p-2 rounded border border-slate-800/50">
+                          <span className="text-blue-300 font-semibold">{trip.subject}</span>
+                          <span className="text-slate-500 text-xs uppercase tracking-widest">{trip.relation}</span>
+                          <span className="text-blue-300 font-semibold">{trip.object}</span>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Generated Context Assembly Message */}
+            <Card className="bg-gradient-to-br from-cyan-950/50 to-blue-950/50 border-cyan-800/50">
+              <CardContent className="p-6 text-center">
+                <Sparkles className="h-8 w-8 text-cyan-400 mx-auto mb-3" />
+                <h3 className="text-xl font-semibold text-slate-200 mb-2">Context Assembled Successfully</h3>
+                <p className="text-slate-400 text-sm max-w-xl mx-auto">
+                  The GraphRAG engine has successfully executed biomedical intent classification, entity linking, and knowledge graph traversal. The structured context is now ready to be securely injected into the LLM context window for grounded synthesis.
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Source Documents (Step 2 Chunks) */}
+            {result.data.step2 && result.data.step2.retrieved_chunks && result.data.step2.retrieved_chunks.length > 0 && (
+              <div className="mt-8">
+                <h3 className="text-sm uppercase tracking-widest text-slate-500 mb-4 ml-2">Semantic Retrieved Context (Step 2)</h3>
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  {result.data.step2.retrieved_chunks.map((source: any, idx: number) => (
+                    <Card key={idx} className="bg-slate-950/50 border-slate-800 hover:border-cyan-500/30 transition-colors">
+                      <CardContent className="p-5">
+                        <div className="flex justify-between items-start mb-3">
+                          <span className="text-xs font-mono text-fuchsia-400 bg-fuchsia-400/10 px-2 py-1 rounded">
+                            {source.pmid ? `PMID: ${source.pmid}` : "Source Chunk"}
+                          </span>
+                          {source.score !== undefined && (
+                            <span className="text-xs font-mono text-emerald-400">
+                              Score: {source.score.toFixed(3)}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-sm text-slate-400 line-clamp-6">
+                          {source.text}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  ))}
                 </div>
               </div>
             )}

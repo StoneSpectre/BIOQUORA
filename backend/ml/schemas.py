@@ -142,6 +142,32 @@ class RespiratoryInput(BaseModel):
         return v
 
 
+# ── Cardiovascular ─────────────────────────────────────────────────────────────
+class CardiovascularInput(BaseModel):
+    age: int                  = Field(..., ge=1,  le=120)
+    sex: int                  = Field(..., ge=0,  le=1)
+    blood_pressure: float     = Field(..., ge=40, le=200)
+    cholesterol: float        = Field(..., ge=50, le=500)
+    heart_rate: int           = Field(..., ge=30, le=250)
+    bmi: float                = Field(..., ge=10, le=70)
+
+# ── Renal ────────────────────────────────────────────────────────────────────
+class RenalInput(BaseModel):
+    age: int                  = Field(..., ge=1,  le=120)
+    sex: int                  = Field(..., ge=0,  le=1)
+    blood_pressure: float     = Field(..., ge=40, le=200)
+    serum_creatinine: float   = Field(..., ge=0.1, le=15.0)
+    bun: float                = Field(..., ge=1, le=100)
+    gfr: float                = Field(..., ge=1, le=200)
+
+# ── Immunology ───────────────────────────────────────────────────────────────
+class ImmunologyInput(BaseModel):
+    age: int                  = Field(..., ge=1,  le=120)
+    sex: int                  = Field(..., ge=0,  le=1)
+    wbc_count: float          = Field(..., ge=0.5, le=50.0)
+    crp: float                = Field(..., ge=0, le=300)
+    esr: float                = Field(..., ge=0, le=150)
+
 # ── Feedback ─────────────────────────────────────────────────────────────────
 
 class FeedbackInput(BaseModel):

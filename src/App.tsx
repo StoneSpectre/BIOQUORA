@@ -30,6 +30,8 @@ import ExplorerV1 from "./pages/ExplorerV1";
 import ExplorerV2 from "./pages/ExplorerV2";
 import NotFound from "./pages/NotFound";
 import DiagnosticDashboard from "./pages/DiagnosticDashboard";
+import Steps67 from "./pages/Steps67";
+import Phase4 from "./pages/Phase4";
 
 import Workspace from "./pages/Workspace";
 
@@ -68,6 +70,8 @@ const App = () => (
             <Route path="/workspace" element={<Workspace />} />
             <Route path="/explorer-v1" element={<ExplorerV1 />} />
             <Route path="/explorer-v2" element={<ExplorerV2 />} />
+            <Route path="/steps-6-7" element={<Steps67 />} />
+            <Route path="/phase4" element={<Phase4 />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

@@ -135,6 +135,16 @@ export function Header() {
               Phase Tracker
             </Button>
           </Link>
+          <Link to="/steps-6-7" className="hidden sm:block">
+            <Button variant="ghost" size="sm">
+              Steps 6 & 7
+            </Button>
+          </Link>
+          <Link to="/phase4" className="hidden sm:block">
+            <Button variant="ghost" size="sm">
+              Phase 4
+            </Button>
+          </Link>
           <Link to="/about" className="hidden sm:block">
             <Button variant="ghost" size="sm">
               About
@@ -266,6 +276,16 @@ export function Header() {
               <Link to="/roadmap" onClick={() => setMobileMenuOpen(false)}>
                 <Button variant="ghost" className="w-full justify-start">
                   Phase Tracker
+                </Button>
+              </Link>
+              <Link to="/steps-6-7" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full justify-start">
+                  Steps 6 & 7
+                </Button>
+              </Link>
+              <Link to="/phase4" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full justify-start">
+                  Phase 4
                 </Button>
               </Link>
               <Link to="/about" onClick={() => setMobileMenuOpen(false)}>

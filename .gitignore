@@ -3,7 +3,6 @@ dist/
 .env
 .DS_Store
 backend/__pycache__/
-backend/models/*.pkl
 *.log
 backend/vector_index/
 .gemini/

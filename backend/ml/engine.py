@@ -29,8 +29,9 @@ from imblearn.over_sampling import SMOTE
 
 logger = logging.getLogger(__name__)
 
-MODEL_DIR = Path(os.getenv("MODEL_DIR", "./models"))
-MODEL_DIR.mkdir(exist_ok=True)
+BASE_DIR = Path(__file__).parent.parent
+MODEL_DIR = Path(os.getenv("MODEL_DIR", BASE_DIR / "models"))
+MODEL_DIR.mkdir(parents=True, exist_ok=True)
 
 # ── Feature metadata (display names + normal ranges shown in UI) ──────────────
 FEATURE_META = {
@@ -831,4 +832,4 @@ if __name__ == "__main__":
     train_cardiovascular()
     train_renal()
     train_immunology()
-    print("\n✅ All Phase-1 and Phase-2 models trained and saved to", MODEL_DIR.resolve())
+    print("\n[SUCCESS] All Phase-1 and Phase-2 models trained and saved to", MODEL_DIR.resolve())
