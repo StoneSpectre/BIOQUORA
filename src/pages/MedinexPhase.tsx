@@ -705,9 +705,9 @@ const steps = [
 
 export default function MedinexDashboard() {
 
-  const defaultSteps = new Set([11, 21]);
+  const defaultSteps = new Set([1, 2, 3, 4, 8, 9, 10, 11, 21, 41, 42, 43, 44]);
 
-  const defaultTasks = new Set(["11-1", "11-2", "11-3", "11-4", "11-5", "11-6", "21-1", "21-2", "21-3", "21-4"]);
+  const defaultTasks = new Set([11, 21, 41, 42, 43, 44].flatMap(k => stepTasks[k]?.map(t => t.id) || []));
 
   const [activeStep, setActiveStep]         = useState<number | null>(null);
 
@@ -845,9 +845,9 @@ export default function MedinexDashboard() {
 
         <div style={{ textAlign: "center", marginBottom: "60px" }}>
 
-          <div style={{ fontSize: "11px", letterSpacing: "6px", color: activePhaseTab === 0 ? "#00d4ff" : activePhaseTab === 1 ? "#a78bfa" : activePhaseTab === 2 ? "#34d399" : "#fbbf24", textTransform: "uppercase", marginBottom: "16px", opacity: 0.8 }}>
+          <div style={{ fontSize: "11px", letterSpacing: "6px", color: activePhaseTab === 0 ? "#00d4ff" : activePhaseTab === 1 ? "#a78bfa" : activePhaseTab === 2 ? "#34d399" : activePhaseTab === 4 ? "#00d4c8" : activePhaseTab === 6 ? "#ff4ecd" : activePhaseTab === 7 ? "#f97316" : "#fbbf24", textTransform: "uppercase", marginBottom: "16px", opacity: 0.8 }}>
 
-            {activePhaseTab === 0 ? "BIOMEDICAL INTELLIGENCE" : activePhaseTab === 1 ? "PHASE 1 · MULTI-OMICS & GENOMICS" : activePhaseTab === 2 ? "PHASE 2 · BIOMEDICAL WORKSPACE & COLLABORATION" : activePhaseTab === 3 ? "PHASE 3 · REGULATORY & DEPLOYMENT" : activePhaseTab === 4 ? "PHASE 4 · KNOWLEDGE GRAPH RAG" : activePhaseTab === 6 ? "PHASE 6 · DIAGNOSTIC AGENTS" : "PHASE 7 · PATIENT DIGITAL TWIN"}
+            {activePhaseTab === 0 ? "BIOMEDICAL INTELLIGENCE" : activePhaseTab === 1 ? "MULTI-OMICS & GENOMICS" : activePhaseTab === 2 ? "BIOMEDICAL WORKSPACE" : activePhaseTab === 3 ? "REGULATORY & DEPLOYMENT" : activePhaseTab === 4 ? "KNOWLEDGE GRAPH RAG" : activePhaseTab === 6 ? "DIAGNOSTIC AGENTS" : "PATIENT DIGITAL TWIN"}
 
           </div>
 
@@ -1545,19 +1545,19 @@ export default function MedinexDashboard() {
 
             {[
 
-              { label: "Biomedical Intelligence", sub: "Data Pipeline Layer", color: "#00d4ff", active: true, phaseId: 0 },
+              { label: "Biomedical Intelligence", sub: "Phase 0", color: "#00d4ff", active: true, phaseId: 0 },
 
-              { label: "Phase 1", sub: "Multi-Omics & Genomics", color: "#a78bfa", active: true, phaseId: 1 },
+              { label: "Multi-Omics & Genomics", sub: "Phase 1", color: "#a78bfa", active: true, phaseId: 1 },
 
-              { label: "Phase 2", sub: "Biomedical Workspace", color: "#34d399", active: true, phaseId: 2 },
+              { label: "Biomedical Workspace", sub: "Phase 2", color: "#34d399", active: true, phaseId: 2 },
 
-              { label: "Phase 3", sub: "Regulatory & Deployment", color: "#fbbf24", active: true, phaseId: 3 },
+              { label: "Regulatory & Deployment", sub: "Phase 3", color: "#fbbf24", active: true, phaseId: 3 },
 
-              { label: "Phase 4", sub: "Knowledge Graph RAG", color: "#00d4c8", active: true, phaseId: 4 },
+              { label: "Knowledge Graph RAG", sub: "Phase 4", color: "#00d4c8", active: true, phaseId: 4 },
 
-              { label: "Phase 6", sub: "Diagnostic Agents", color: "#ff4ecd", active: true, phaseId: 6 },
+              { label: "Diagnostic Agents", sub: "Phase 6", color: "#ff4ecd", active: true, phaseId: 6 },
 
-              { label: "Phase 7", sub: "Patient Digital Twin", color: "#f97316", active: true, phaseId: 7 },
+              { label: "Patient Digital Twin", sub: "Phase 7", color: "#f97316", active: true, phaseId: 7 },
 
             ].map((p, i, arr) => (
 
