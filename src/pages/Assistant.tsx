@@ -35,7 +35,7 @@ export default function Assistant() {
     setResult(null);
 
     try {
-      const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+      const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
       let fetchUrl = `${API_URL}/query`;
       let bodyData: any = { question: query, top_k: 5, mode: mode };
 
@@ -58,9 +58,9 @@ export default function Assistant() {
 
       const data = await response.json();
       setResult(data);
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to connect to the backend AI engine. Make sure the FastAPI server is running on port 8001.");
+    } catch (err: any) {
+      console.error("Fetch error:", err);
+      toast.error(`Failed to connect to the backend AI engine. Make sure the FastAPI server is running on port 8000. Error: ${err.message}`);
     } finally {
       setLoading(false);
     }
