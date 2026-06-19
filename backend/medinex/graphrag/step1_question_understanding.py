@@ -185,7 +185,7 @@ class BiomedicalNER:
         entity_positions: List[Tuple[int, int, str]] = []  # (start, end, type)
         for etype, terms in GAZETTEERS.items():
             for term in terms:
-                for m in re.finditer(re.escape(term), q_lower):
+                for m in re.finditer(re.escape(term.lower()), q_lower):
                     entity_positions.append((m.start(), m.end(), etype))
         entity_positions.sort(key=lambda x: x[0])
 

@@ -256,14 +256,17 @@ class GraphTraversalEngine:
 
         def dfs(current_id: str, path_nodes: List[str], path_edges: List[str],
                 depth: int, visited: set, conf: float):
+            # Record the path so far whenever it has grown beyond the seed,
+            # not only when max depth is reached — many real paths dead-end
+            # before max_hops because a node has no further outgoing edges.
+            if len(path_nodes) > 1:
+                paths.append(TraversalPath(
+                    nodes=list(path_nodes),
+                    edges=list(path_edges),
+                    hops=len(path_edges),
+                    total_confidence=round(conf, 3),
+                ))
             if depth == 0:
-                if len(path_nodes) > 1:
-                    paths.append(TraversalPath(
-                        nodes=list(path_nodes),
-                        edges=list(path_edges),
-                        hops=len(path_edges),
-                        total_confidence=round(conf, 3),
-                    ))
                 return
             for edge in ADJ.get(current_id, []):
                 tid = edge.target_id

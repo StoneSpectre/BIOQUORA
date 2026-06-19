@@ -20,10 +20,13 @@ class GraphRAGQuery(BaseModel):
 @router.post("/query")
 def execute_graphrag_pipeline(data: GraphRAGQuery):
     """
-    Executes the 3-Step Medinex GraphRAG Pipeline:
+    Executes the full 6-Step Medinex GraphRAG Pipeline:
     1. Question Understanding
     2. Semantic Retrieval
     3. Knowledge Graph Traversal
+    4. GraphRAG Context Assembly
+    5. Evidence Ranking & Provenance Scoring
+    6. Transparent Citation-Grounded Generation
     """
     try:
         # Run the imported pipeline
