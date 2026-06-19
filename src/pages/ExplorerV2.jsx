@@ -213,6 +213,23 @@ function StatsBar({ stats, loading }) {
       borderBottom: "0.5px solid var(--color-border-tertiary)",
       overflowX: "auto", padding: "0 0",
     }}>
+      {/* Exit Button */}
+      <div style={{
+        display: "flex", alignItems: "center",
+        padding: "0 16px",
+        borderRight: "0.5px solid var(--color-border-tertiary)",
+        flexShrink: 0,
+      }}>
+        <button 
+          onClick={() => window.location.href = '/'}
+          style={{ padding: "4px 10px", background: "transparent", border: "1px solid var(--color-border-primary)", borderRadius: "4px", color: "var(--color-text-secondary)", cursor: "pointer", display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", transition: "all 0.2s" }}
+          onMouseEnter={(e) => { e.currentTarget.style.color = "var(--color-text-primary)"; e.currentTarget.style.background = "var(--color-background-secondary)"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.color = "var(--color-text-secondary)"; e.currentTarget.style.background = "transparent"; }}
+        >
+          <span>←</span> Home
+        </button>
+      </div>
+
       {/* Brand slug */}
       <div style={{
         display: "flex", alignItems: "center", gap: 8,

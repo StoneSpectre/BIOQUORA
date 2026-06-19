@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 // The 3 ML endpoints
 const MODULES = [
@@ -12,6 +13,7 @@ const MODULES = [
 ];
 
 export default function DiagnosticDashboard() {
+  const navigate = useNavigate();
   const [activeModule, setActiveModule] = useState(MODULES[0]);
   const [fields, setFields] = useState([]);
   const [formData, setFormData] = useState({});
@@ -70,8 +72,17 @@ export default function DiagnosticDashboard() {
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#0D0F12", color: "#E8EAF0", fontFamily: "Inter, sans-serif", padding: "40px 20px" }}>
-      <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
+      <div style={{ maxWidth: "1000px", margin: "0 auto", position: "relative" }}>
         
+        {/* Exit Button */}
+        <button 
+          onClick={() => navigate('/')}
+          style={{ position: "absolute", top: 0, left: 0, padding: "8px 16px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", color: "#8A8FA8", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px", transition: "all 0.2s" }}
+          onMouseEnter={(e) => { e.currentTarget.style.color = "#fff"; e.currentTarget.style.background = "rgba(255,255,255,0.1)"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.color = "#8A8FA8"; e.currentTarget.style.background = "rgba(255,255,255,0.05)"; }}
+        >
+          <span>←</span> Exit to Home
+        </button>
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: "40px", animation: "fadeIn 1s ease-out" }}>
           <h1 style={{ fontSize: "2.5rem", fontWeight: 700, letterSpacing: "-0.02em", marginBottom: "10px", background: `linear-gradient(90deg, ${activeModule.color}, #ffffff)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
