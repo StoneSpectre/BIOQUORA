@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { ComposableMap, Geographies, Geography, Marker, ZoomableGroup } from "react-simple-maps";
 
-const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json";
+const geoUrl = "https://gist.githubusercontent.com/dwannat/24d6e65c6770faad006e3f613036deb4/raw/world-india.map.json";
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 const T = {
   bg:       "#0D0F12",
@@ -218,6 +218,18 @@ const css = `
   }
   .filter-chip:hover  { border-color: ${T.teal}; color: ${T.teal}; }
   .filter-chip.active { background: ${T.tealGlow}; border-color: ${T.teal}; color: ${T.teal}; }
+
+  /* ── Map Styling ───────────────────────────────────────────────── */
+  .map-geography {
+    fill: #1E242D !important;
+    stroke: rgba(255, 255, 255, 0.25) !important;
+    stroke-width: 0.75px !important;
+    outline: none !important;
+  }
+  .map-geography:hover {
+    fill: #252A35 !important;
+    stroke: rgba(255, 255, 255, 0.5) !important;
+  }
 
   /* ── Main Layout ───────────────────────────────────────────────── */
   .main-layout {
