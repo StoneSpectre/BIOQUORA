@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
 
+const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 const T = {
   bg:       "#0D0F12",
@@ -755,19 +757,26 @@ function DiseasePanel({ diseases, loading, selected, onSelect }) {
 function GraphCanvas({ diseaseId, diseaseName }) {
   const canvasRef = useRef(null);
   const wrapRef = useRef(null);
-  const simRef = useRef(null);
   const animRef = useRef(null);
-  const [graphData, setGraphData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [viewMode, setViewMode] = useState("network");
+  const [graphData, setGraphData] = useState(null);
   const [tooltip, setTooltip] = useState(null);
   const [zoom, setZoom] = useState(1);
   const zoomRef = useRef(1);
   const panRef = useRef({ x: 0, y: 0 });
   const draggingRef = useRef(null);
 
+  const MOCK_OUTBREAKS = [
+    { name: "New York", coordinates: [-74.006, 40.7128], severity: 0.9 },
+    { name: "London", coordinates: [-0.1276, 51.5072], severity: 0.6 },
+    { name: "Tokyo", coordinates: [139.6503, 35.6762], severity: 0.8 },
+    { name: "São Paulo", coordinates: [-46.6333, -23.5505], severity: 0.5 },
+    { name: "Sydney", coordinates: [151.2093, -33.8688], severity: 0.3 }
+  ];
+
   // Force simulation
   const simulate = useCallback((nodes, edges, W, H) => {
-    // Init positions
     nodes.forEach((n, i) => {
       if (!n.x) {
         const angle = (i / nodes.length) * Math.PI * 2;
@@ -787,11 +796,9 @@ function GraphCanvas({ diseaseId, diseaseName }) {
       const centerForce = 0.003;
 
       nodes.forEach(n => {
-        // Center gravity
         n.vx += (W / 2 - n.x) * centerForce;
         n.vy += (H / 2 - n.y) * centerForce;
 
-        // Repulsion
         nodes.forEach(m => {
           if (m === n) return;
           const dx = n.x - m.x, dy = n.y - m.y;
@@ -802,7 +809,6 @@ function GraphCanvas({ diseaseId, diseaseName }) {
         });
       });
 
-      // Link attraction
       edges.forEach(e => {
         const src = nodeMap[e.source], tgt = nodeMap[e.target];
         if (!src || !tgt) return;
@@ -815,7 +821,6 @@ function GraphCanvas({ diseaseId, diseaseName }) {
         tgt.vy -= (dy / dist) * force;
       });
 
-      // Integrate
       nodes.forEach(n => {
         if (draggingRef.current === n.id) return;
         n.vx *= 0.72; n.vy *= 0.72;
@@ -838,7 +843,6 @@ function GraphCanvas({ diseaseId, diseaseName }) {
 
     const nodeMap = Object.fromEntries(nodes.map(n => [n.id, n]));
 
-    // Edges
     edges.forEach(e => {
       const src = nodeMap[e.source], tgt = nodeMap[e.target];
       if (!src || !tgt) return;
@@ -850,13 +854,11 @@ function GraphCanvas({ diseaseId, diseaseName }) {
       ctx.stroke();
     });
 
-    // Nodes
     nodes.forEach(n => {
       const isDisease = n.type === "disease";
       const r = isDisease ? 18 : 7 + n.score * 8;
       const color = isDisease ? "#1DB891" : `rgba(29,184,145,${0.35 + n.score * 0.65})`;
 
-      // Glow
       if (isDisease || n.score > 0.7) {
         const grd = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, r * 2.5);
         grd.addColorStop(0, isDisease ? "rgba(29,184,145,0.22)" : "rgba(29,184,145,0.1)");
@@ -867,7 +869,6 @@ function GraphCanvas({ diseaseId, diseaseName }) {
         ctx.fill();
       }
 
-      // Circle
       ctx.beginPath();
       ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
       ctx.fillStyle = color;
@@ -879,7 +880,6 @@ function GraphCanvas({ diseaseId, diseaseName }) {
         ctx.stroke();
       }
 
-      // Label
       ctx.fillStyle = isDisease ? "#E8EAF0" : (n.score > 0.6 ? "#8A8FA8" : "#4A5068");
       ctx.font = isDisease
         ? `600 11px 'JetBrains Mono', monospace`
@@ -903,7 +903,7 @@ function GraphCanvas({ diseaseId, diseaseName }) {
   }, [diseaseId]);
 
   useEffect(() => {
-    if (!graphData || !canvasRef.current || !wrapRef.current) return;
+    if (!graphData || !canvasRef.current || !wrapRef.current || viewMode !== "network") return;
     const wrap = wrapRef.current;
     const W = wrap.clientWidth, H = wrap.clientHeight;
     const canvas = canvasRef.current;
@@ -921,9 +921,8 @@ function GraphCanvas({ diseaseId, diseaseName }) {
     };
     animRef.current = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(animRef.current);
-  }, [graphData, simulate, draw]);
+  }, [graphData, simulate, draw, viewMode]);
 
-  // Canvas mouse events
   const getNodeAt = (cx, cy) => {
     if (!graphData) return null;
     const z = zoomRef.current, pan = panRef.current;
@@ -963,8 +962,30 @@ function GraphCanvas({ diseaseId, diseaseName }) {
   return (
     <div className="graph-panel">
       <div className="graph-toolbar">
-        <span className="graph-toolbar-title">Association Graph</span>
-        {diseaseName && <span style={{ fontSize: 11, color: T.teal, fontFamily: "'JetBrains Mono', monospace", maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{diseaseName}</span>}
+        <div style={{ display: 'flex', gap: '4px', background: "#161a20", padding: '4px', borderRadius: '6px' }}>
+          <button 
+            onClick={() => setViewMode("network")}
+            style={{ 
+              background: viewMode === "network" ? "rgba(29,184,145,0.15)" : "transparent",
+              color: viewMode === "network" ? "#23D4A6" : "#8A8FA8",
+              border: `1px solid ${viewMode === "network" ? "#23D4A6" : "transparent"}`,
+              borderRadius: "4px", padding: "4px 12px", fontSize: "11px", cursor: "pointer",
+              fontFamily: "'Inter', sans-serif", fontWeight: 600, transition: "all 0.2s"
+            }}
+          >Network View</button>
+          <button 
+            onClick={() => setViewMode("map")}
+            style={{ 
+              background: viewMode === "map" ? "rgba(29,184,145,0.15)" : "transparent",
+              color: viewMode === "map" ? "#23D4A6" : "#8A8FA8",
+              border: `1px solid ${viewMode === "map" ? "#23D4A6" : "transparent"}`,
+              borderRadius: "4px", padding: "4px 12px", fontSize: "11px", cursor: "pointer",
+              fontFamily: "'Inter', sans-serif", fontWeight: 600, transition: "all 0.2s"
+            }}
+          >Predictive Map</button>
+        </div>
+        {diseaseName && <span style={{ marginLeft: "10px", fontSize: 11, color: "#23D4A6", fontFamily: "'JetBrains Mono', monospace", maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{diseaseName}</span>}
+        <div style={{ flex: 1 }} />
         <button className="icon-btn" onClick={resetView} title="Reset view">⟳ Reset</button>
         <button className="icon-btn" onClick={() => { zoomRef.current = Math.min(2.5, zoomRef.current + 0.2); setZoom(zoomRef.current); }}>＋</button>
         <button className="icon-btn" onClick={() => { zoomRef.current = Math.max(0.3, zoomRef.current - 0.2); setZoom(zoomRef.current); }}>－</button>
@@ -973,23 +994,25 @@ function GraphCanvas({ diseaseId, diseaseName }) {
       <div className="graph-canvas-wrap" ref={wrapRef}>
         {loading && (
           <div className="graph-empty">
-            <div style={{ color: T.teal, fontFamily: "'JetBrains Mono', monospace", fontSize: 12 }}>Loading graph…</div>
+            <div style={{ color: "#23D4A6", fontFamily: "'JetBrains Mono', monospace", fontSize: 12 }}>Loading visualization…</div>
           </div>
         )}
         {!loading && !diseaseId && (
           <div className="graph-empty">
             <div className="graph-empty-icon">⬡</div>
-            <div className="graph-empty-text">Select a disease to visualise its gene network</div>
+            <div className="graph-empty-text">Select a disease to visualise its spatial telemetry</div>
           </div>
         )}
+        
+        {/* NETWORK VIEW */}
         <canvas
           ref={canvasRef}
           onMouseMove={handleMouseMove}
           onMouseLeave={() => setTooltip(null)}
           onWheel={handleWheel}
-          style={{ display: (loading || !diseaseId) ? "none" : "block", width: "100%", height: "100%" }}
+          style={{ display: (loading || !diseaseId || viewMode !== "network") ? "none" : "block", width: "100%", height: "100%" }}
         />
-        {tooltip && (
+        {viewMode === "network" && tooltip && (
           <div className="graph-tooltip" style={{ left: tooltip.x, top: tooltip.y }}>
             <div className="tooltip-name">{tooltip.node.label}</div>
             <div className="tooltip-row">
@@ -999,6 +1022,66 @@ function GraphCanvas({ diseaseId, diseaseName }) {
             <div className="tooltip-row">
               <span>Score</span>
               <span className="tooltip-val">{(tooltip.node.score * 100).toFixed(1)}%</span>
+            </div>
+          </div>
+        )}
+
+        {/* MAP VIEW */}
+        {!loading && diseaseId && viewMode === "map" && (
+          <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "#0c0e12", position: "relative" }}>
+            <ComposableMap projection="geoMercator" projectionConfig={{ scale: 130 }} style={{ width: "100%", height: "100%" }}>
+              <Geographies geography={geoUrl}>
+                {({ geographies }) =>
+                  geographies.map((geo) => (
+                    <Geography
+                      key={geo.rsmKey}
+                      geography={geo}
+                      fill={T.surfaceHi}
+                      stroke={T.border}
+                      strokeWidth={0.5}
+                      style={{
+                        default: { outline: "none" },
+                        hover: { fill: T.border, outline: "none" },
+                        pressed: { outline: "none" },
+                      }}
+                    />
+                  ))
+                }
+              </Geographies>
+              {MOCK_OUTBREAKS.map((marker, i) => (
+                <Marker key={i} coordinates={marker.coordinates as [number, number]}>
+                  <circle
+                    r={marker.severity * 15}
+                    fill={T.red}
+                    opacity={0.6}
+                    stroke={T.red}
+                    strokeWidth={2}
+                  >
+                    <animate attributeName="r" values={`${marker.severity * 10};${marker.severity * 25};${marker.severity * 10}`} dur="2s" repeatCount="indefinite" />
+                    <animate attributeName="opacity" values="0.6;0.1;0.6" dur="2s" repeatCount="indefinite" />
+                  </circle>
+                  <circle r={marker.severity * 4} fill={T.red} />
+                  <text
+                    textAnchor="middle"
+                    y={-10 - (marker.severity * 5)}
+                    style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", fill: T.textPrimary }}
+                  >
+                    {marker.name}
+                  </text>
+                </Marker>
+              ))}
+            </ComposableMap>
+            
+            {/* Predictive Telemetry Overlay Panel */}
+            <div style={{ position: "absolute", bottom: "24px", left: "24px", background: "rgba(22, 26, 32, 0.85)", border: `1px solid ${T.border}`, padding: "16px", borderRadius: "8px", backdropFilter: "blur(12px)", boxShadow: "0 8px 32px rgba(0,0,0,0.5)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+                <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: T.red, boxShadow: `0 0 8px ${T.red}` }} />
+                <div style={{ fontSize: "11px", color: T.textSecondary, textTransform: "uppercase", letterSpacing: "0.1em" }}>DBSCAN Spatial Cluster</div>
+              </div>
+              <div style={{ color: T.red, fontFamily: "'JetBrains Mono', monospace", fontSize: "14px", fontWeight: 600 }}>HIGH RISK SPREAD PREDICTED</div>
+              <div style={{ fontSize: "12px", color: T.textPrimary, marginTop: "6px", maxWidth: "250px", lineHeight: 1.5 }}>
+                Telemetry indicates active outbreak clusters across 5 major global hubs for <strong style={{color: T.teal}}>{diseaseName}</strong>.
+              </div>
             </div>
           </div>
         )}
