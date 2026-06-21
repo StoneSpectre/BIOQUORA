@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
+import { ComposableMap, Geographies, Geography, Marker, ZoomableGroup } from "react-simple-maps";
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 // ─── Design Tokens ────────────────────────────────────────────────────────────
@@ -760,6 +760,7 @@ function GraphCanvas({ diseaseId, diseaseName }) {
   const animRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [viewMode, setViewMode] = useState("network");
+  const [mapPos, setMapPos] = useState({ coordinates: [0, 0], zoom: 1 });
   const [graphData, setGraphData] = useState(null);
   const [tooltip, setTooltip] = useState(null);
   const [zoom, setZoom] = useState(1);
@@ -948,15 +949,38 @@ function GraphCanvas({ diseaseId, diseaseName }) {
   };
 
   const handleWheel = (e) => {
+    if (viewMode !== "network") return; // Map view handles its own wheel natively
     e.preventDefault();
     zoomRef.current = Math.max(0.3, Math.min(2.5, zoomRef.current - e.deltaY * 0.001));
     setZoom(zoomRef.current);
   };
 
   const resetView = () => {
-    zoomRef.current = 1;
-    panRef.current = { x: 0, y: 0 };
-    setZoom(1);
+    if (viewMode === "network") {
+      zoomRef.current = 1;
+      panRef.current = { x: 0, y: 0 };
+      setZoom(1);
+    } else {
+      setMapPos({ coordinates: [0, 0], zoom: 1 });
+    }
+  };
+
+  const zoomIn = () => {
+    if (viewMode === "network") {
+      zoomRef.current = Math.min(2.5, zoomRef.current + 0.2);
+      setZoom(zoomRef.current);
+    } else {
+      setMapPos(pos => ({ ...pos, zoom: Math.min(pos.zoom * 1.5, 4) }));
+    }
+  };
+
+  const zoomOut = () => {
+    if (viewMode === "network") {
+      zoomRef.current = Math.max(0.3, zoomRef.current - 0.2);
+      setZoom(zoomRef.current);
+    } else {
+      setMapPos(pos => ({ ...pos, zoom: Math.max(pos.zoom / 1.5, 1) }));
+    }
   };
 
   return (
@@ -986,13 +1010,9 @@ function GraphCanvas({ diseaseId, diseaseName }) {
         </div>
         {diseaseName && <span style={{ marginLeft: "10px", fontSize: 11, color: "#23D4A6", fontFamily: "'JetBrains Mono', monospace", maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{diseaseName}</span>}
         <div style={{ flex: 1 }} />
-        {viewMode === "network" && (
-          <>
-            <button className="icon-btn" onClick={resetView} title="Reset view">⟳ Reset</button>
-            <button className="icon-btn" onClick={() => { zoomRef.current = Math.min(2.5, zoomRef.current + 0.2); setZoom(zoomRef.current); }}>＋</button>
-            <button className="icon-btn" onClick={() => { zoomRef.current = Math.max(0.3, zoomRef.current - 0.2); setZoom(zoomRef.current); }}>－</button>
-          </>
-        )}
+        <button className="icon-btn" onClick={resetView} title="Reset view">⟳ Reset</button>
+        <button className="icon-btn" onClick={zoomIn}>＋</button>
+        <button className="icon-btn" onClick={zoomOut}>－</button>
       </div>
 
       <div className="graph-canvas-wrap" ref={wrapRef}>
@@ -1034,45 +1054,51 @@ function GraphCanvas({ diseaseId, diseaseName }) {
         {!loading && diseaseId && viewMode === "map" && (
           <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "#0c0e12", position: "relative" }}>
             <ComposableMap projection="geoMercator" projectionConfig={{ scale: 130 }} style={{ width: "100%", height: "100%" }}>
-              <Geographies geography={geoUrl}>
-                {({ geographies }) =>
-                  geographies.map((geo) => (
-                    <Geography
-                      key={geo.rsmKey}
-                      geography={geo}
-                      stroke={T.border}
-                      strokeWidth={0.5}
-                      style={{
-                        default: { outline: "none", fill: T.surfaceHi },
-                        hover: { fill: T.border, outline: "none" },
-                        pressed: { outline: "none", fill: T.surfaceHi },
-                      }}
-                    />
-                  ))
-                }
-              </Geographies>
-              {MOCK_OUTBREAKS.map((marker, i) => (
-                <Marker key={i} coordinates={marker.coordinates as [number, number]}>
-                  <circle
-                    r={marker.severity * 15}
-                    fill={T.red}
-                    opacity={0.6}
-                    stroke={T.red}
-                    strokeWidth={2}
-                  >
-                    <animate attributeName="r" values={`${marker.severity * 10};${marker.severity * 25};${marker.severity * 10}`} dur="2s" repeatCount="indefinite" />
-                    <animate attributeName="opacity" values="0.6;0.1;0.6" dur="2s" repeatCount="indefinite" />
-                  </circle>
-                  <circle r={marker.severity * 4} fill={T.red} />
-                  <text
-                    textAnchor="middle"
-                    y={-10 - (marker.severity * 5)}
-                    style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", fill: T.textPrimary }}
-                  >
-                    {marker.name}
-                  </text>
-                </Marker>
-              ))}
+              <ZoomableGroup 
+                zoom={mapPos.zoom} 
+                center={mapPos.coordinates as [number, number]} 
+                onMoveEnd={(position) => setMapPos(position)}
+              >
+                <Geographies geography={geoUrl}>
+                  {({ geographies }) =>
+                    geographies.map((geo) => (
+                      <Geography
+                        key={geo.rsmKey}
+                        geography={geo}
+                        stroke="rgba(255, 255, 255, 0.18)"
+                        strokeWidth={0.8}
+                        style={{
+                          default: { outline: "none", fill: T.surfaceHi },
+                          hover: { fill: T.border, outline: "none" },
+                          pressed: { outline: "none", fill: T.surfaceHi },
+                        }}
+                      />
+                    ))
+                  }
+                </Geographies>
+                {MOCK_OUTBREAKS.map((marker, i) => (
+                  <Marker key={i} coordinates={marker.coordinates as [number, number]}>
+                    <circle
+                      r={marker.severity * 15}
+                      fill={T.red}
+                      opacity={0.6}
+                      stroke={T.red}
+                      strokeWidth={2}
+                    >
+                      <animate attributeName="r" values={`${marker.severity * 10};${marker.severity * 25};${marker.severity * 10}`} dur="2s" repeatCount="indefinite" />
+                      <animate attributeName="opacity" values="0.6;0.1;0.6" dur="2s" repeatCount="indefinite" />
+                    </circle>
+                    <circle r={marker.severity * 4} fill={T.red} />
+                    <text
+                      textAnchor="middle"
+                      y={-10 - (marker.severity * 5)}
+                      style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", fill: T.textPrimary }}
+                    >
+                      {marker.name}
+                    </text>
+                  </Marker>
+                ))}
+              </ZoomableGroup>
             </ComposableMap>
             
             {/* Predictive Telemetry Overlay Panel */}
