@@ -1065,6 +1065,7 @@ function GraphCanvas({ diseaseId, diseaseName }) {
                       <Geography
                         key={geo.rsmKey}
                         geography={geo}
+                        fill={T.surfaceHi}
                         stroke="rgba(255, 255, 255, 0.18)"
                         strokeWidth={0.8}
                         style={{
