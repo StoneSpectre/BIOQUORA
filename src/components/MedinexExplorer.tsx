@@ -1078,9 +1078,9 @@ function GraphCanvas({ diseaseId, diseaseName }) {
                         key={geo.rsmKey}
                         geography={geo}
                         style={{
-                          default: { fill: "#1E242D", stroke: "#1DB891", strokeWidth: 0.8, outline: "none" },
-                          hover: { fill: "#2A323D", stroke: "#1DB891", strokeWidth: 1.2, outline: "none" },
-                          pressed: { fill: "#1E242D", stroke: "#1DB891", strokeWidth: 0.8, outline: "none" },
+                          default: { fill: "#1E242D", stroke: "#0c0e12", strokeWidth: 0.8, outline: "none" },
+                          hover: { fill: "#2A323D", stroke: "#0c0e12", strokeWidth: 1.2, outline: "none" },
+                          pressed: { fill: "#1E242D", stroke: "#0c0e12", strokeWidth: 0.8, outline: "none" },
                         }}
                       />
                     ))
