@@ -38,6 +38,7 @@ import ResearchCopilot from "./pages/ResearchCopilot";
 
 import MedinexExplorer from "./components/MedinexExplorer";
 import RecommendationOnboarding from "./components/RecommendationOnboarding";
+import RecommendationPhase2 from "./components/RecommendationPhase2";
 
 const queryClient = new QueryClient();
 
@@ -79,6 +80,7 @@ const App = () => (
             <Route path="/copilot" element={<ResearchCopilot />} />
             <Route path="/medinex-explorer" element={<MedinexExplorer />} />
             <Route path="/recommendations" element={<RecommendationOnboarding />} />
+            <Route path="/recommendations/phase2" element={<RecommendationPhase2 />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

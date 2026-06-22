@@ -1193,6 +1193,19 @@ export default function App() {
           fontSize: 12, fontWeight: 800, letterSpacing: 1,
         }}>MEDINEX</div>
         <span style={{ color: "#475569", fontSize: 13 }}>Phase 5 · Recommendation Systems · Steps 1 & 2</span>
+        <button 
+          onClick={() => window.location.href = '/recommendations/phase2'}
+          style={{ 
+            background: "#10b981", border: "none", borderRadius: "6px", 
+            color: "#fff", cursor: "pointer", display: "flex", alignItems: "center", 
+            gap: "6px", padding: "4px 10px", fontSize: 12, marginLeft: "auto", transition: "all 0.2s",
+            fontWeight: 600
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = "#059669"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = "#10b981"; }}
+        >
+          Next Phase (Steps 3 & 4) →
+        </button>
       </div>
 
       {/* Tab bar */}
