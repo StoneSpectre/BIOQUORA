@@ -79,7 +79,7 @@ const Cardiovascular = () => {
           </div>
           <p className="text-lg text-muted-foreground max-w-3xl">
             Explore cardiovascular physiology through interactive simulations, connected research literature, 
-            and curated open datasets as part of the Medinex Biomedical Intelligence OS.
+            and curated open datasets as part of the Bioquora Biomedical Intelligence OS.
           </p>
         </div>
 
@@ -222,7 +222,7 @@ const Cardiovascular = () => {
           <TabsContent value="research" className="space-y-6 animate-fade-in">
             <div>
               <h2 className="text-2xl font-semibold mb-2">Biomedical Literature Studio</h2>
-              <p className="text-muted-foreground mb-6">Search and analyze cardiovascular papers powered by PubMed and Medinex RAG.</p>
+              <p className="text-muted-foreground mb-6">Search and analyze cardiovascular papers powered by PubMed and Bioquora RAG.</p>
             </div>
             
             <div className="flex gap-4 mb-8 bg-muted/30 p-2 rounded-lg border border-border/50">

@@ -23,7 +23,7 @@ import TermsOfService from "./pages/TermsOfService";
 
 import { KnowledgeGraph } from "./pages/KnowledgeGraph";
 import { Analytics } from "./pages/Analytics";
-import MedinexDashboard from "./pages/MedinexPhase";
+import BioquoraDashboard from "./pages/BioquoraPhase";
 import Assistant from "./pages/Assistant";
 import ExplorerSelector from "./pages/ExplorerSelector";
 import ExplorerV1 from "./pages/ExplorerV1";
@@ -36,7 +36,7 @@ import Phase4 from "./pages/Phase4";
 import Workspace from "./pages/Workspace";
 import ResearchCopilot from "./pages/ResearchCopilot";
 
-import MedinexExplorer from "./components/MedinexExplorer";
+import BioquoraExplorer from "./components/BioquoraExplorer";
 import RecommendationOnboarding from "./components/RecommendationOnboarding";
 import RecommendationPhase2 from "./components/RecommendationPhase2";
 
@@ -66,7 +66,7 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/terms" element={<TermsOfService />} />
-            <Route path="/roadmap" element={<MedinexDashboard />} />
+            <Route path="/roadmap" element={<BioquoraDashboard />} />
             <Route path="/knowledge-graph" element={<KnowledgeGraph />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/assistant" element={<Assistant />} />
@@ -78,7 +78,7 @@ const App = () => (
             <Route path="/steps-6-7" element={<Steps67 />} />
             <Route path="/phase4" element={<Phase4 />} />
             <Route path="/copilot" element={<ResearchCopilot />} />
-            <Route path="/medinex-explorer" element={<MedinexExplorer />} />
+            <Route path="/bioquora-explorer" element={<BioquoraExplorer />} />
             <Route path="/recommendations" element={<RecommendationOnboarding />} />
             <Route path="/recommendations/phase2" element={<RecommendationPhase2 />} />
             <Route path="*" element={<NotFound />} />

@@ -1,8 +1,8 @@
 """
-medinex/graph/schema.py
+bioquora/graph/schema.py
 
 Defines all node types, relationship types, and property schemas
-for the Medinex Biomedical Knowledge Graph.
+for the Bioquora Biomedical Knowledge Graph.
 
 Fixes vs Phase 1:
   - Added PATHWAY_PROPS and RESEARCHER_PROPS (were missing)

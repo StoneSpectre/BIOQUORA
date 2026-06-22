@@ -1,5 +1,5 @@
 """
-MEDINEX — STEP 6: GRAPH ANALYTICS
+BIOQUORA — STEP 6: GRAPH ANALYTICS
 ===================================
 Runs deep network analysis on the biomedical knowledge graph
 built in Step 5, producing actionable intelligence.
@@ -36,12 +36,12 @@ GRAPH_DIR.mkdir(parents=True, exist_ok=True)
 
 
 # ══════════════════════════════════════════════════════════════════
-# 6A.  GRAPH LOADER — reconstruct MedinexGraph from saved JSON
+# 6A.  GRAPH LOADER — reconstruct BioquoraGraph from saved JSON
 # ══════════════════════════════════════════════════════════════════
 
 def load_graph(path: Optional[Path] = None) -> nx.MultiDiGraph:
     """Load saved knowledge graph from JSON."""
-    path = path or GRAPH_DIR / "medinex_graph.json"
+    path = path or GRAPH_DIR / "bioquora_graph.json"
     with open(path) as f:
         data = json.load(f)
 
@@ -721,7 +721,7 @@ def print_section(title: str):
 
 
 if __name__ == "__main__":
-    print("\n  MEDINEX PHASE 0 · STEP 6: GRAPH ANALYTICS")
+    print("\n  BIOQUORA PHASE 0 · STEP 6: GRAPH ANALYTICS")
     print("  " + "─" * 55)
 
     # Load graph from Step 5

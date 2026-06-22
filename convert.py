@@ -1,6 +1,6 @@
 import os, re
 
-html_path = r'C:\Users\hp\Downloads\medinex-steps-6-7.html'
+html_path = r'C:\Users\hp\Downloads\bioquora-steps-6-7.html'
 with open(html_path, 'r', encoding='utf-8') as f:
     content = f.read()
 
@@ -8,7 +8,7 @@ with open(html_path, 'r', encoding='utf-8') as f:
 style_match = re.search(r'<style>(.*?)</style>', content, re.DOTALL)
 css = style_match.group(1).strip() if style_match else ''
 
-with open(r'C:\Users\hp\Downloads\MEDINEX-BIO\src\pages\Steps67.css', 'w', encoding='utf-8') as f:
+with open(r'C:\Users\hp\Downloads\BIOQUORA-BIO\src\pages\Steps67.css', 'w', encoding='utf-8') as f:
     f.write(css)
 
 # Extract Body
@@ -87,6 +87,6 @@ const Steps67 = () => {{
 export default Steps67;
 """
 
-with open(r'C:\Users\hp\Downloads\MEDINEX-BIO\src\pages\Steps67.tsx', 'w', encoding='utf-8') as f:
+with open(r'C:\Users\hp\Downloads\BIOQUORA-BIO\src\pages\Steps67.tsx', 'w', encoding='utf-8') as f:
     f.write(react_code)
 print('Done!')

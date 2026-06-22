@@ -1,5 +1,5 @@
 // ============================================================
-// Medinex Phase 1 — Cypher Reference
+// Bioquora Phase 1 — Cypher Reference
 // Steps 2–6 edition
 //
 // Run these blocks in the Neo4j Browser at http://localhost:7474

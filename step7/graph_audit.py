@@ -1,10 +1,10 @@
 """
-medinex/graph/graph_audit.py  —  Step 8
+bioquora/graph/graph_audit.py  —  Step 8
 
 Proprietary Knowledge Graph Asset — Consolidation & Audit.
 
 Step 8 is not a new data source. It's the moment you verify that the
-Medinex Biomedical Knowledge Graph is a real, defensible asset — one
+Bioquora Biomedical Knowledge Graph is a real, defensible asset — one
 that took months to build and that nobody can easily replicate.
 
 This module provides:
@@ -31,15 +31,15 @@ import sys
 _HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(_HERE, "..", "backend", "graph"))
 
-from db import MedinexGraph
+from db import BioquoraGraph
 
 
 class GraphAudit:
     """
-    Audits the Medinex knowledge graph and reports on its value as an asset.
+    Audits the Bioquora knowledge graph and reports on its value as an asset.
     """
 
-    def __init__(self, graph: MedinexGraph):
+    def __init__(self, graph: BioquoraGraph):
         self.graph = graph
 
     # ── 1. Full asset report ──────────────────────────────────
@@ -163,7 +163,7 @@ class GraphAudit:
 
     # ── 4. Snapshot export ────────────────────────────────────
 
-    def export_snapshot(self, output_path: str = "medinex_snapshot.json"):
+    def export_snapshot(self, output_path: str = "bioquora_snapshot.json"):
         """
         Exports the full graph to a JSON snapshot for backup and migration.
         Large graphs: run with output_path pointing to a disk with sufficient space.
@@ -295,7 +295,7 @@ class GraphAudit:
         """Prints a full human-readable asset dashboard to stdout."""
 
         print("\n╔══════════════════════════════════════════════════════╗")
-        print("║   Medinex Biomedical Knowledge Graph — Asset Report  ║")
+        print("║   Bioquora Biomedical Knowledge Graph — Asset Report  ║")
         print("╚══════════════════════════════════════════════════════╝\n")
 
         report = self.asset_report()
@@ -368,7 +368,7 @@ class GraphAudit:
 # ── CLI ───────────────────────────────────────────────────────
 
 def main():
-    with MedinexGraph() as graph:
+    with BioquoraGraph() as graph:
         audit = GraphAudit(graph)
 
         # Run full dashboard
@@ -376,7 +376,7 @@ def main():
 
         # Offer export
         print("── Snapshot export ──────────────────────────────────────")
-        print("  Run: audit.export_snapshot('medinex_snapshot.json')")
+        print("  Run: audit.export_snapshot('bioquora_snapshot.json')")
         print("  This creates a full JSON backup of all nodes and edges.")
         print()
 

@@ -18,7 +18,7 @@ export default function ExplorerSelector() {
       </button>
 
       <h1 style={{ fontSize: "2.5rem", fontWeight: "600", color: "hsl(var(--primary))", margin: 0 }}>
-        Medinex Explorer
+        Bioquora Explorer
       </h1>
       <p style={{ fontSize: "1.1rem", color: "hsl(var(--muted-foreground))", maxWidth: "600px" }}>
         Welcome to the Biomedical Knowledge Graph. Please choose which version of the explorer you'd like to use.
@@ -42,7 +42,7 @@ export default function ExplorerSelector() {
               V1
             </h2>
             <p style={{ color: "hsl(var(--muted-foreground))", fontSize: "0.95rem" }}>
-              The original Medinex Explorer prototype.
+              The original Bioquora Explorer prototype.
             </p>
           </div>
         </Link>
@@ -69,7 +69,7 @@ export default function ExplorerSelector() {
           </div>
         </Link>
 
-        <Link to="/medinex-explorer" style={{ textDecoration: "none" }}>
+        <Link to="/bioquora-explorer" style={{ textDecoration: "none" }}>
           <div style={{
             background: "hsl(var(--card))",
             border: "1px solid hsl(var(--border))",

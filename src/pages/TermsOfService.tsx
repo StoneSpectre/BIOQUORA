@@ -31,10 +31,10 @@ const TermsOfService = () => {
             </CardHeader>
             <CardContent className="text-red-900/80 dark:text-red-200/80 leading-relaxed text-sm">
               <p className="mb-4">
-                The content, tools, simulations, and literature search capabilities provided by Medinex (the "Platform") are for <strong>educational and informational purposes only</strong>. 
+                The content, tools, simulations, and literature search capabilities provided by Bioquora (the "Platform") are for <strong>educational and informational purposes only</strong>. 
               </p>
               <p>
-                Medinex is <strong>NOT</strong> an AI diagnostic tool, a medical device, or a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider with any questions you may have regarding a medical condition. Never disregard professional medical advice or delay in seeking it because of information accessed through this Platform.
+                Bioquora is <strong>NOT</strong> an AI diagnostic tool, a medical device, or a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider with any questions you may have regarding a medical condition. Never disregard professional medical advice or delay in seeking it because of information accessed through this Platform.
               </p>
             </CardContent>
           </Card>
@@ -44,7 +44,7 @@ const TermsOfService = () => {
               <Info className="h-5 w-5 text-primary" /> 1. Acceptance of Terms
             </h2>
             <p className="text-muted-foreground leading-relaxed text-sm">
-              By accessing or using the Medinex Biomedical Intelligence Operating System, you agree to be bound by these Terms of Service. If you disagree with any part of the terms, you may not access the Platform.
+              By accessing or using the Bioquora Biomedical Intelligence Operating System, you agree to be bound by these Terms of Service. If you disagree with any part of the terms, you may not access the Platform.
             </p>
           </section>
 
@@ -58,7 +58,7 @@ const TermsOfService = () => {
             <ul className="list-disc pl-6 space-y-2 text-sm text-muted-foreground">
               <li>We do not control, endorse, or guarantee the accuracy, completeness, or reliability of any third-party data displayed.</li>
               <li>Your use of literature and datasets is subject to the respective terms and policies of the original providers (e.g., the National Library of Medicine).</li>
-              <li>Medinex is not responsible for errors, omissions, or algorithmic biases present in external scientific literature or trial registries.</li>
+              <li>Bioquora is not responsible for errors, omissions, or algorithmic biases present in external scientific literature or trial registries.</li>
             </ul>
           </section>
 
@@ -76,7 +76,7 @@ const TermsOfService = () => {
               <Scale className="h-5 w-5 text-primary" /> 4. Limitation of Liability
             </h2>
             <p className="text-muted-foreground leading-relaxed text-sm">
-              In no event shall Medinex, its founders, developers, or affiliates be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to or use of or inability to access or use the Platform.
+              In no event shall Bioquora, its founders, developers, or affiliates be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to or use of or inability to access or use the Platform.
             </p>
           </section>
           

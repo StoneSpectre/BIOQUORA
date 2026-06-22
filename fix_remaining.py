@@ -1,6 +1,6 @@
 import re
 
-filepath = r'C:\Users\hp\Downloads\MEDINEX-BIO\src\pages\Steps67.tsx'
+filepath = r'C:\Users\hp\Downloads\BIOQUORA-BIO\src\pages\Steps67.tsx'
 with open(filepath, 'r', encoding='utf-8') as f:
     content = f.read()
 
@@ -35,7 +35,7 @@ content = content.replace('    <span className="str">"limit"</span>: <span class
 content = content.replace('capabilities: [gpu]}]', 'capabilities: [gpu]}{"}"}]')
 
 # 1005, 1008
-content = content.replace('{"{"}app: medinex-api}', '{"{"}app: medinex-api{"}"}')
+content = content.replace('{"{"}app: bioquora-api}', '{"{"}app: bioquora-api{"}"}')
 
 # 1013
 content = content.replace('containerPort: <span className="num">8000</span>}]', 'containerPort: <span className="num">8000</span>}{"}"}]')

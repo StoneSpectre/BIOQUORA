@@ -950,8 +950,8 @@ Produce: 1 objective sentence,
     image: postgres:16
     volumes: [pg_data:/var/lib/postgresql/data]
     environment:
-      POSTGRES_DB: medinex
-      POSTGRES_USER: medinex
+      POSTGRES_DB: bioquora
+      POSTGRES_USER: bioquora
       POSTGRES_PASSWORD: ${PG_PASSWORD}
 
   <span className="fn">neo4j</span>:
@@ -998,18 +998,18 @@ Produce: 1 objective sentence,
 <span className="kw">apiVersion</span>: apps/v1
 <span className="kw">kind</span>: Deployment
 <span className="kw">metadata</span>:
-  name: medinex-api
+  name: bioquora-api
 <span className="kw">spec</span>:
   replicas: <span className="num">3</span>
   selector:
-    matchLabels: {"{"}app: medinex-api{"}"}{"}"}
+    matchLabels: {"{"}app: bioquora-api{"}"}{"}"}
   template:
     metadata:
-      labels: {"{"}app: medinex-api{"}"}{"}"}
+      labels: {"{"}app: bioquora-api{"}"}{"}"}
     spec:
       containers:
       - name: api
-        image: medinex/api-gateway:latest
+        image: bioquora/api-gateway:latest
         ports: [{"{"}containerPort: <span className="num">8000</span>{"}"}]
         resources:
           requests: {"{"}cpu: <span className="str">"500m"</span>, memory: <span className="str">"512Mi"</span>{"}"}
@@ -1024,7 +1024,7 @@ Produce: 1 objective sentence,
   replicas: <span className="num">4</span>          <span className="cm"># NLP workers — scale by queue depth</span>
   containers:
   - name: worker
-    image: medinex/nlp-worker:latest
+    image: bioquora/nlp-worker:latest
     resources:
       limits:
         nvidia.com/gpu: <span className="num">1</span>   <span className="cm"># GPU for NER + RE models</span></div>
@@ -1089,7 +1089,7 @@ Produce: 1 objective sentence,
           <span className="pill pill-blue">Kubernetes</span>
         </div>
         <div style={{marginTop: "20px", color: "var(--muted)", fontSize: "13px", lineHeight: "1.7"}}>
-          At this point, MEDINEX has the architecture of a biomedical research intelligence platform comparable in direction to Elsevier, Semantic Scholar, and BenevolentAI — with automated ingestion, evidence-ranked knowledge graph, LLM-powered Q&A, contradiction detection, trend forecasting, link prediction, and collaborative workspaces.
+          At this point, BIOQUORA has the architecture of a biomedical research intelligence platform comparable in direction to Elsevier, Semantic Scholar, and BenevolentAI — with automated ingestion, evidence-ranked knowledge graph, LLM-powered Q&A, contradiction detection, trend forecasting, link prediction, and collaborative workspaces.
         </div>
       </div>
     </div>

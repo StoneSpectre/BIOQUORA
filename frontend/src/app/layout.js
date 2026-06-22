@@ -1,7 +1,7 @@
 import './globals.css'
 
 export const metadata = {
-  title: 'Medinex Explorer',
+  title: 'Bioquora Explorer',
   description: 'Biomedical knowledge graph explorer',
 }
 

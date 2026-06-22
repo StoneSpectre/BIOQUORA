@@ -1,7 +1,7 @@
 """
-medinex/graphrag/pipeline.py  —  Step 7
+bioquora/graphrag/pipeline.py  —  Step 7
 
-The Medinex GraphRAG pipeline.
+The Bioquora GraphRAG pipeline.
 This is what upgrades the Phase 0 Study Assistant from a flat RAG chatbot
 to a graph-grounded biomedical intelligence system.
 
@@ -30,8 +30,8 @@ import anthropic
 _HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(_HERE, "..", "backend", "graph"))
 
-from db import MedinexGraph
-from vector_store import MedinexVectorStore
+from db import BioquoraGraph
+from vector_store import BioquoraVectorStore
 
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 # haiku: fast + cheap for high-frequency RAG calls
@@ -40,7 +40,7 @@ LLM_MODEL = "claude-haiku-4-5-20251001"
 
 class GraphRAGPipeline:
     """
-    Full GraphRAG pipeline for Medinex.
+    Full GraphRAG pipeline for Bioquora.
 
     Usage:
         with GraphRAGPipeline() as p:
@@ -51,8 +51,8 @@ class GraphRAGPipeline:
     """
 
     def __init__(self):
-        self.graph  = MedinexGraph()
-        self.vs     = MedinexVectorStore()
+        self.graph  = BioquoraGraph()
+        self.vs     = BioquoraVectorStore()
         self.client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 
     def close(self):
@@ -335,7 +335,7 @@ class GraphRAGPipeline:
         cite specific gene symbols, drug names, and PMIDs.
         """
         system = (
-            "You are Medinex, a biomedical research assistant backed by a "
+            "You are Bioquora, a biomedical research assistant backed by a "
             "structured biomedical knowledge graph (diseases, genes, drugs, "
             "symptoms, pathways, research papers).\n\n"
             "Rules:\n"

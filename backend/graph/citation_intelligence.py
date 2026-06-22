@@ -1,7 +1,7 @@
 """
-medinex/graph/citation_intelligence.py  — Step 6
+bioquora/graph/citation_intelligence.py  — Step 6
 
-Citation Intelligence Layer for Medinex.
+Citation Intelligence Layer for Bioquora.
 
 Provides:
   1. run_pagerank()            — compute PageRank on Paper→CITES graph via Neo4j GDS
@@ -25,16 +25,16 @@ Or import into API:
 """
 
 from typing import Optional
-from db import MedinexGraph
+from db import BioquoraGraph
 
 
 class CitationIntelligence:
     """
     All citation-graph analytics in one class.
-    Wraps a MedinexGraph instance.
+    Wraps a BioquoraGraph instance.
     """
 
-    def __init__(self, graph: MedinexGraph):
+    def __init__(self, graph: BioquoraGraph):
         self.graph = graph
 
     # ── 1. PageRank ───────────────────────────────────────────
@@ -338,10 +338,10 @@ class CitationIntelligence:
 
 def main():
     print("\n╔══════════════════════════════════════════════╗")
-    print("║   Medinex — Citation Intelligence Report    ║")
+    print("║   Bioquora — Citation Intelligence Report    ║")
     print("╚══════════════════════════════════════════════╝\n")
 
-    with MedinexGraph() as graph:
+    with BioquoraGraph() as graph:
         ci = CitationIntelligence(graph)
 
         # 1. PageRank

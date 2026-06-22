@@ -1,7 +1,7 @@
 """
-medinex/api/api.py  — Step 5: Disease Explorer API
+bioquora/api/api.py  — Step 5: Disease Explorer API
 
-FastAPI graph query layer on top of the Medinex knowledge graph.
+FastAPI graph query layer on top of the Bioquora knowledge graph.
 Powers the Disease Explorer frontend (Next.js).
 
 Endpoints:
@@ -27,19 +27,19 @@ from typing import Optional
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
-from .db import MedinexGraph
+from .db import BioquoraGraph
 from .citation_intelligence import CitationIntelligence
 
 # ── App lifecycle ─────────────────────────────────────────────
 
-_graph: Optional[MedinexGraph] = None
+_graph: Optional[BioquoraGraph] = None
 _ci: Optional[CitationIntelligence] = None
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global _graph, _ci
-    _graph = MedinexGraph()
+    _graph = BioquoraGraph()
     health = _graph.health_check()
     if not health["ok"]:
         raise RuntimeError(f"Neo4j unreachable at startup: {health['error']}")
@@ -51,9 +51,9 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="Medinex Disease Explorer API",
+    title="Bioquora Disease Explorer API",
     version="0.1.0",
-    description="Graph query layer for the Medinex Biomedical Knowledge Graph",
+    description="Graph query layer for the Bioquora Biomedical Knowledge Graph",
     lifespan=lifespan,
 )
 
@@ -62,15 +62,15 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:3000", 
         "http://localhost:8080",
-        "https://medinex-bio.vercel.app",
-        "https://medinex-bio.netlify.app"
+        "https://bioquora-bio.vercel.app",
+        "https://bioquora-bio.netlify.app"
     ],   # Dev & Prod servers
     allow_methods=["GET"],
     allow_headers=["*"],
 )
 
 
-def graph() -> MedinexGraph:
+def graph() -> BioquoraGraph:
     if _graph is None:
         raise HTTPException(503, "Graph not initialised")
     return _graph

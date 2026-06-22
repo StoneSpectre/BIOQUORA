@@ -230,7 +230,7 @@ function StatsBar({ stats, loading }) {
           fontWeight: 500, color: "var(--color-text-primary)",
           letterSpacing: "0.08em",
         }}>
-          MEDINEX
+          BIOQUORA
         </span>
       </div>
 
@@ -904,7 +904,7 @@ function GraphCanvas({ data, selectedNode, onNodeSelect }) {
 // ════════════════════════════════════════════════════════════════
 // Root — assembles all four components
 // ════════════════════════════════════════════════════════════════
-export default function MedinexExplorer() {
+export default function BioquoraExplorer() {
   const [diseaseData, setDiseaseData] = useState(null);
   const [loading, setLoading]         = useState(false);
   const [selectedNode, setSelectedNode] = useState(null);
@@ -939,7 +939,7 @@ export default function MedinexExplorer() {
       background: "var(--color-background-tertiary)",
       fontSize: 13,
     }}>
-      <h2 className="sr-only">Medinex Knowledge Graph Explorer — search diseases to view graph context</h2>
+      <h2 className="sr-only">Bioquora Knowledge Graph Explorer — search diseases to view graph context</h2>
 
       {/* StatsBar */}
       <StatsBar stats={stats} loading={loading} />

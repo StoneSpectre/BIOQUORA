@@ -283,7 +283,7 @@ embeddings = HuggingFaceEmbeddings(
 vectorstore = Qdrant.from_documents(
     chunks, embeddings,
     location=":memory:",
-    collection_name="medinex_papers",
+    collection_name="bioquora_papers",
 )
 
 # Biomedical-specific prompt
@@ -328,7 +328,7 @@ embeddings  = HuggingFaceEmbeddings(
     model_name="microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract"
 )
 vectorstore = Qdrant.from_existing_collection(
-    embeddings, collection_name="medinex_papers",
+    embeddings, collection_name="bioquora_papers",
     url="http://localhost:6333",
 )
 
@@ -363,7 +363,7 @@ llm   = ChatOpenAI(model="gpt-4o", temperature=0)
 tools = [search_literature, pubmed_live_search, drug_target_lookup]
 
 prompt = ChatPromptTemplate.from_messages([
-    ("system", "You are MEDINEX, a biomedical AI research assistant. "
+    ("system", "You are BIOQUORA, a biomedical AI research assistant. "
                "Use your tools to answer questions with evidence."),
     ("user",   "{input}"),
     MessagesPlaceholder("agent_scratchpad"),
@@ -625,7 +625,7 @@ def graph_rag_answer(question: str) -> str:
         model="gpt-4o",
         messages=[
             {"role": "system", "content":
-                "You are MEDINEX. Synthesise a clear biomedical answer "
+                "You are BIOQUORA. Synthesise a clear biomedical answer "
                 "from the graph query results provided."},
             {"role": "user", "content":
                 f"Question: {question}\n\n"
@@ -646,7 +646,7 @@ print(answer)`,
   10: {
     tabs: ["Full Stack Setup", "Integration Pipeline", "API Server", "Evaluation Suite", "Docker Deploy"],
     code: [
-      `# ΓöÇΓöÇ MEDINEX Phase 0 ΓÇö Full Stack Requirements ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+      `# ΓöÇΓöÇ BIOQUORA Phase 0 ΓÇö Full Stack Requirements ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 # requirements.txt
 
 # Data ingestion
@@ -700,23 +700,23 @@ python-dotenv==1.0.1
 loguru==0.7.2`,
 
       `"""
-medinex/pipeline.py
+bioquora/pipeline.py
 Full Phase 0 integration pipeline ΓÇö runs end-to-end
 """
 import asyncio
 from loguru import logger
-from medinex.ingestion   import fetch_pubmed_batch
-from medinex.nlp         import extract_entities_and_relations
-from medinex.graph       import build_neo4j_graph
-from medinex.analytics   import run_graph_analytics
-from medinex.embeddings  import build_vector_index
-from medinex.rag         import build_rag_engine
+from bioquora.ingestion   import fetch_pubmed_batch
+from bioquora.nlp         import extract_entities_and_relations
+from bioquora.graph       import build_neo4j_graph
+from bioquora.analytics   import run_graph_analytics
+from bioquora.embeddings  import build_vector_index
+from bioquora.rag         import build_rag_engine
 
 async def run_phase0_pipeline(
     query: str,
     max_papers: int = 1000,
 ):
-    logger.info("ΓöÇΓöÇ MEDINEX Phase 0 Pipeline ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ")
+    logger.info("ΓöÇΓöÇ BIOQUORA Phase 0 Pipeline ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ")
 
     # ΓöÇΓöÇ Step 1: Data Ingestion ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
     logger.info("Step 1: Fetching PubMed abstracts...")
@@ -761,17 +761,17 @@ if __name__ == "__main__":
     ))`,
 
       `"""
-medinex/api.py ΓÇö FastAPI server exposing MEDINEX endpoints
+bioquora/api.py ΓÇö FastAPI server exposing BIOQUORA endpoints
 """
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from medinex.rag         import get_rag_engine
-from medinex.graph       import query_graph
-from medinex.embeddings  import semantic_search
-from medinex.analytics   import get_hub_genes, get_communities
+from bioquora.rag         import get_rag_engine
+from bioquora.graph       import query_graph
+from bioquora.embeddings  import semantic_search
+from bioquora.analytics   import get_hub_genes, get_communities
 
 app = FastAPI(
-    title="MEDINEX Biomedical Intelligence API",
+    title="BIOQUORA Biomedical Intelligence API",
     version="0.1.0",
     description="Phase 0 ΓÇö RAG + Graph + Semantic Search",
 )
@@ -822,12 +822,12 @@ async def communities():
 
 @app.get("/health")
 async def health():
-    return {"status": "ok", "service": "MEDINEX Phase 0"}
+    return {"status": "ok", "service": "BIOQUORA Phase 0"}
 
-# Run: uvicorn medinex.api:app --reload --port 8000`,
+# Run: uvicorn bioquora.api:app --reload --port 8000`,
 
       `"""
-medinex/evaluation.py ΓÇö RAGAS + BioASQ benchmark suite
+bioquora/evaluation.py ΓÇö RAGAS + BioASQ benchmark suite
 """
 from ragas import evaluate
 from ragas.metrics import (
@@ -835,7 +835,7 @@ from ragas.metrics import (
     context_precision, context_recall,
 )
 from datasets import Dataset
-from medinex.rag import get_rag_engine
+from bioquora.rag import get_rag_engine
 import json, pandas as pd
 from datetime import datetime
 
@@ -891,7 +891,7 @@ def run_evaluation():
 if __name__ == "__main__":
     run_evaluation()`,
 
-      `# ΓöÇΓöÇ docker-compose.yml ΓÇö MEDINEX Phase 0 Full Stack ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+      `# ΓöÇΓöÇ docker-compose.yml ΓÇö BIOQUORA Phase 0 Full Stack ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 version: "3.9"
 
 services:
@@ -902,7 +902,7 @@ services:
       - "7474:7474"   # Neo4j Browser
       - "7687:7687"   # Bolt protocol
     environment:
-      NEO4J_AUTH: neo4j/medinex_password
+      NEO4J_AUTH: neo4j/bioquora_password
       NEO4J_PLUGINS: '["apoc", "graph-data-science"]'
     volumes:
       - neo4j_data:/data
@@ -915,7 +915,7 @@ services:
     volumes:
       - qdrant_data:/qdrant/storage
 
-  medinex_api:
+  bioquora_api:
     build:
       context: .
       dockerfile: Dockerfile
@@ -924,14 +924,14 @@ services:
     environment:
       NEO4J_URI:      bolt://neo4j:7687
       NEO4J_USER:     neo4j
-      NEO4J_PASSWORD: medinex_password
+      NEO4J_PASSWORD: bioquora_password
       QDRANT_HOST:    qdrant
       QDRANT_PORT:    6333
       OPENAI_API_KEY: \${OPENAI_API_KEY}
     depends_on:
       - neo4j
       - qdrant
-    command: uvicorn medinex.api:app --host 0.0.0.0 --port 8000 --reload
+    command: uvicorn bioquora.api:app --host 0.0.0.0 --port 8000 --reload
 
 volumes:
   neo4j_data:
@@ -943,7 +943,7 @@ volumes:
 # COPY requirements.txt .
 # RUN pip install --no-cache-dir -r requirements.txt
 # COPY . .
-# CMD ["uvicorn", "medinex.api:app", "--host", "0.0.0.0", "--port", "8000"]
+# CMD ["uvicorn", "bioquora.api:app", "--host", "0.0.0.0", "--port", "8000"]
 
 # ΓöÇΓöÇ Run ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 # docker-compose up -d
@@ -980,7 +980,7 @@ const stepTasks = {
     { id: "8-6",  label: "Build LangChain RetrievalQAWithSourcesChain with biomedical prompt", difficulty: "medium", est: "30 min" },
     { id: "8-7",  label: "Implement PubMed live-search tool for LangChain agent", difficulty: "hard",   est: "45 min" },
     { id: "8-8",  label: "Wire up drug target lookup tool (ChEMBL stub ΓåÆ real API)", difficulty: "hard",   est: "1 hr"  },
-    { id: "8-9",  label: "Build multi-tool AgentExecutor with MEDINEX system prompt", difficulty: "hard",   est: "1 hr"  },
+    { id: "8-9",  label: "Build multi-tool AgentExecutor with BIOQUORA system prompt", difficulty: "hard",   est: "1 hr"  },
     { id: "8-10", label: "Run RAGAS evaluation: faithfulness, relevancy, precision, recall", difficulty: "hard",   est: "1 hr"  },
   ],
   9: [
@@ -1005,7 +1005,7 @@ const stepTasks = {
     { id: "10-7",  label: "Wire run_phase0_pipeline() end-to-end async orchestrator", difficulty: "hard",   est: "1 hr"  },
     { id: "10-8",  label: "Build FastAPI server with /query, /analytics, /health endpoints", difficulty: "medium", est: "1 hr"  },
     { id: "10-9",  label: "Write RAGAS + BioASQ evaluation suite with CSV export", difficulty: "hard",   est: "1.5 hr"},
-    { id: "10-10", label: "Write docker-compose.yml (Neo4j + Qdrant + medinex_api)", difficulty: "medium", est: "45 min" },
+    { id: "10-10", label: "Write docker-compose.yml (Neo4j + Qdrant + bioquora_api)", difficulty: "medium", est: "45 min" },
     { id: "10-11", label: "Smoke-test full pipeline: PubMed ingest ΓåÆ RAG query end-to-end", difficulty: "hard",   est: "2 hr"  },
     { id: "10-12", label: "Deploy & verify Swagger UI, Neo4j Browser, Qdrant Dashboard", difficulty: "medium", est: "1 hr"  },
   ],
@@ -1283,7 +1283,7 @@ const steps = [
   },
   {
     id: 10,
-    title: "Medinex Phase 0 Final System",
+    title: "Bioquora Phase 0 Final System",
     subtitle: "Biomedical Intelligence Platform",
     color: "#ff4ecd",
     icon: "≡ƒÜÇ",
@@ -1305,8 +1305,8 @@ const steps = [
       "Enable multi-hop reasoning via Microsoft GraphRAG",
       "Evaluate outputs with RAGAS, TruLens & BioASQ benchmarks",
     ],
-    deliverable: "MEDINEX ΓÇö Biomedical Intelligence Platform (Phase 0 Complete)",
-    flow: ["PubMed ┬╖ PMC ┬╖ PhysioNet ┬╖ MIMIC-IV", "NCBI APIs", "scispaCy ┬╖ BioBERT ┬╖ PubMedBERT", "Neo4j Knowledge Graph", "NetworkX Analytics", "FAISS ┬╖ Qdrant", "LlamaIndex ┬╖ LangChain", "Microsoft GraphRAG", "MEDINEX"],
+    deliverable: "BIOQUORA ΓÇö Biomedical Intelligence Platform (Phase 0 Complete)",
+    flow: ["PubMed ┬╖ PMC ┬╖ PhysioNet ┬╖ MIMIC-IV", "NCBI APIs", "scispaCy ┬╖ BioBERT ┬╖ PubMedBERT", "Neo4j Knowledge Graph", "NetworkX Analytics", "FAISS ┬╖ Qdrant", "LlamaIndex ┬╖ LangChain", "Microsoft GraphRAG", "BIOQUORA"],
     isFinal: true,
     codeKey: 10,
   },
@@ -1573,7 +1573,7 @@ function TaskPanel({ stepId, stepColor, completedTasks, toggleTask }) {
 
 // ΓöÇΓöÇΓöÇ MAIN COMPONENT ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
-export default function MedinexDashboard() {
+export default function BioquoraDashboard() {
   const [activeStep, setActiveStep]         = useState(null);
   const [completedSteps, setCompletedSteps] = useState(new Set());
   const [completedTasks, setCompletedTasks] = useState(new Set());
@@ -1649,7 +1649,7 @@ export default function MedinexDashboard() {
             backgroundClip: "text",
             lineHeight: 1.1,
           }}>
-            MEDINEX
+            BIOQUORA
           </h1>
           <p style={{ color: "#64748b", fontSize: "15px", marginTop: "12px", letterSpacing: "1px" }}>
             Build the first true Biomedical Intelligence Layer
@@ -1717,7 +1717,7 @@ export default function MedinexDashboard() {
                 fontWeight: 700,
                 letterSpacing: "1px",
               }}>
-                MEDINEX
+                BIOQUORA
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-// medinex/frontend/src/lib/api.ts
+// bioquora/frontend/src/lib/api.ts
 // Typed API client wrapping all FastAPI endpoints.
 
 import type {

@@ -1,4 +1,4 @@
-// File: C:\Users\hp\Downloads\MEDINEX-BIO\frontend\src\app\v1\page.jsx
+// File: C:\Users\hp\Downloads\BIOQUORA-BIO\frontend\src\app\v1\page.jsx
 import * as entry from '../../../../src/app/v1/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

@@ -1,5 +1,5 @@
 -- ============================================================
--- MEDINEX — Step 7: Collaboration Layer
+-- BIOQUORA — Step 7: Collaboration Layer
 -- Migration: 001_step7_collaboration.sql
 -- ============================================================
 

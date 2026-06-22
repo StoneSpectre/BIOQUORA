@@ -1,12 +1,12 @@
 """
-MEDINEX — STEP 5: KNOWLEDGE GRAPH ENGINEERING
+BIOQUORA — STEP 5: KNOWLEDGE GRAPH ENGINEERING
 ==============================================
 Connects all biomedical concepts extracted in Step 4 into a
 queryable knowledge graph.
 
 Architecture:
   ┌─────────────────────────────────────────────────────────────────┐
-  │  Neo4j (production)  ←→  MedinexGraph (in-memory fallback)     │
+  │  Neo4j (production)  ←→  BioquoraGraph (in-memory fallback)     │
   │                                                                  │
   │  Nodes:   Disease · Drug · Gene · Protein · Paper · Chemical   │
   │  Edges:   TREATS · INHIBITS · ASSOCIATED_WITH · CAUSES ·       │
@@ -14,7 +14,7 @@ Architecture:
   │           MENTIONED_IN · HAS_MESH_TERM                         │
   └─────────────────────────────────────────────────────────────────┘
 
-Medinex Biomedical Graph schema:
+Bioquora Biomedical Graph schema:
   Disease ──Associated_With──▶ Gene
   Gene    ──Targeted_By──────▶ Drug
   Drug    ──Mentioned_In─────▶ Paper
@@ -130,7 +130,7 @@ class Neo4jConnector:
     """
 
     def __init__(self, uri: str = "bolt://localhost:7687",
-                 user: str = "neo4j", password: str = "medinex"):
+                 user: str = "neo4j", password: str = "bioquora"):
         from neo4j import GraphDatabase
         self.driver = GraphDatabase.driver(uri, auth=(user, password))
         self._connected = False
@@ -143,7 +143,7 @@ class Neo4jConnector:
             return True
         except Exception as e:
             print(f"  ⚠ Neo4j not available: {e}")
-            print("  → Using in-memory MedinexGraph (NetworkX) instead")
+            print("  → Using in-memory BioquoraGraph (NetworkX) instead")
             return False
 
     def setup_schema(self):
@@ -153,8 +153,8 @@ class Neo4jConnector:
                 s.run(stmt)
         print("  ✓ Neo4j schema created")
 
-    def ingest_graph(self, graph: "MedinexGraph"):
-        """Ingest a MedinexGraph into Neo4j."""
+    def ingest_graph(self, graph: "BioquoraGraph"):
+        """Ingest a BioquoraGraph into Neo4j."""
         with self.driver.session() as s:
             # Nodes
             for node_id, attrs in graph.G.nodes(data=True):
@@ -185,12 +185,12 @@ class Neo4jConnector:
 
 
 # ══════════════════════════════════════════════════════════════════
-# 5C.  MEDINEX IN-MEMORY KNOWLEDGE GRAPH
+# 5C.  BIOQUORA IN-MEMORY KNOWLEDGE GRAPH
 #      Built on NetworkX — mirrors the Neo4j schema exactly.
 #      Every method has a Cypher equivalent comment.
 # ══════════════════════════════════════════════════════════════════
 
-class MedinexGraph:
+class BioquoraGraph:
     """
     In-memory Biomedical Knowledge Graph backed by NetworkX DiGraph.
     Mirrors Neo4j schema — use as development/offline replacement.
@@ -380,7 +380,7 @@ class MedinexGraph:
 
     def save(self, path: Optional[Path] = None) -> Path:
         """Export graph to JSON (nodes + edges)."""
-        path = path or GRAPH_DIR / "medinex_graph.json"
+        path = path or GRAPH_DIR / "bioquora_graph.json"
         data = {
             "nodes": [{"id": n, **dict(self.G.nodes[n])} for n in self.G.nodes],
             "edges": [{"src": u, "dst": v, **dict(d)}
@@ -395,7 +395,7 @@ class MedinexGraph:
 
     def save_graphml(self, path: Optional[Path] = None) -> Path:
         """Export to GraphML — importable into Neo4j and Gephi."""
-        path = path or GRAPH_DIR / "medinex_graph.graphml"
+        path = path or GRAPH_DIR / "bioquora_graph.graphml"
         # GraphML doesn't support dict attrs — stringify them
         G_simple = nx.DiGraph()
         for n, d in self.G.nodes(data=True):
@@ -439,9 +439,9 @@ class MedinexGraph:
 # ══════════════════════════════════════════════════════════════════
 
 class GraphBuilder:
-    """Builds the MedinexGraph from all upstream data sources."""
+    """Builds the BioquoraGraph from all upstream data sources."""
 
-    def __init__(self, graph: MedinexGraph):
+    def __init__(self, graph: BioquoraGraph):
         self.G = graph
 
     def ingest_nlp_results(self, nlp_results: list[dict],
@@ -730,10 +730,10 @@ class GraphBuilder:
 # DEMO — Run Step 5
 # ══════════════════════════════════════════════════════════════════
 
-def print_graph_stats(G: MedinexGraph):
+def print_graph_stats(G: BioquoraGraph):
     s = G.stats()
     print("\n" + "═" * 70)
-    print("  MEDINEX KNOWLEDGE GRAPH — STATISTICS")
+    print("  BIOQUORA KNOWLEDGE GRAPH — STATISTICS")
     print("═" * 70)
     print(f"  Total nodes : {s['total_nodes']}")
     print(f"  Total edges : {s['total_edges']}")
@@ -754,7 +754,7 @@ def print_graph_stats(G: MedinexGraph):
     print("═" * 70)
 
 
-def demo_queries(G: MedinexGraph):
+def demo_queries(G: BioquoraGraph):
     print("\n" + "═" * 70)
     print("  KNOWLEDGE GRAPH QUERIES")
     print("═" * 70)
@@ -802,7 +802,7 @@ if __name__ == "__main__":
     sys.path.insert(0, str(Path(__file__).parent.parent))
     from sample_data import SAMPLE_PAPERS
 
-    print("\n  MEDINEX PHASE 0 · STEP 5: KNOWLEDGE GRAPH ENGINEERING")
+    print("\n  BIOQUORA PHASE 0 · STEP 5: KNOWLEDGE GRAPH ENGINEERING")
     print("  " + "─" * 55)
 
     # Load NLP results from Step 4
@@ -816,8 +816,8 @@ if __name__ == "__main__":
         nlp_results = []
 
     # Build the graph
-    print("\n  Building Medinex Knowledge Graph...")
-    G = MedinexGraph()
+    print("\n  Building Bioquora Knowledge Graph...")
+    G = BioquoraGraph()
     builder = GraphBuilder(G)
 
     builder.add_curated_biomedical_facts()

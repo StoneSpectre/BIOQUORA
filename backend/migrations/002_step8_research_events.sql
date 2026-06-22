@@ -1,5 +1,5 @@
 -- ============================================================
--- MEDINEX — Step 8: Research Workflow Data Asset
+-- BIOQUORA — Step 8: Research Workflow Data Asset
 -- Migration: 002_step8_research_events.sql
 -- ============================================================
 

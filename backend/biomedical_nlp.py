@@ -1,5 +1,5 @@
 """
-MEDINEX — STEP 4: BIOMEDICAL NLP PIPELINE
+BIOQUORA — STEP 4: BIOMEDICAL NLP PIPELINE
 ==========================================
 Converts biomedical text into structured knowledge.
 
@@ -675,7 +675,7 @@ if __name__ == "__main__":
     sys.path.insert(0, str(Path(__file__).parent.parent))
     from sample_data import SAMPLE_PAPERS
 
-    print("\n  MEDINEX PHASE 0 · STEP 4: BIOMEDICAL NLP PIPELINE")
+    print("\n  BIOQUORA PHASE 0 · STEP 4: BIOMEDICAL NLP PIPELINE")
     print("  " + "─" * 55)
     print("\n  Components:")
     print("  ├─ BiomedicalNER        (scispaCy equivalent — EntityRuler + lexicons)")

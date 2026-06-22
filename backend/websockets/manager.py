@@ -24,7 +24,7 @@ from fastapi import WebSocket
 logger = logging.getLogger(__name__)
 
 REDIS_URL = "redis://localhost:6379"
-CHANNEL_PREFIX = "medinex:project:"
+CHANNEL_PREFIX = "bioquora:project:"
 
 
 class ConnectionManager:

@@ -12,7 +12,7 @@ const About = () => {
             Building the Biomedical Intelligence OS
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Medinex is evolving from an educational tool into a comprehensive intelligence ecosystem connecting literature, datasets, and clinical reasoning.
+            Bioquora is evolving from an educational tool into a comprehensive intelligence ecosystem connecting literature, datasets, and clinical reasoning.
           </p>
         </div>
 
@@ -91,7 +91,7 @@ const About = () => {
                   <Activity className="h-4 w-4 text-muted-foreground" /> Future Phase: Clinical Utility
                 </h4>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  As our Knowledge Graph expands, Medinex will transition from a learning platform into a robust research ecosystem, eventually laying the groundwork for verifiable, graph-backed diagnostic support tools.
+                  As our Knowledge Graph expands, Bioquora will transition from a learning platform into a robust research ecosystem, eventually laying the groundwork for verifiable, graph-backed diagnostic support tools.
                 </p>
               </div>
             </div>

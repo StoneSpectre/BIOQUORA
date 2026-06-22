@@ -1,7 +1,7 @@
 """
-medinex/graph/verify.py
+bioquora/graph/verify.py
 
-Comprehensive sanity checks for the Medinex knowledge graph.
+Comprehensive sanity checks for the Bioquora knowledge graph.
 Prints a structured pass/fail report.
 
 Fixes vs Phase 1:
@@ -15,7 +15,7 @@ Fixes vs Phase 1:
 Run: python verify.py
 """
 
-from db import MedinexGraph
+from db import BioquoraGraph
 
 
 PASS = "✓"
@@ -36,12 +36,12 @@ def _check(condition: bool, pass_msg: str, fail_msg: str, warn_only: bool = Fals
 
 def verify():
     print("\n╔══════════════════════════════════════════════╗")
-    print("║   Medinex Knowledge Graph — Verification    ║")
+    print("║   Bioquora Knowledge Graph — Verification    ║")
     print("╚══════════════════════════════════════════════╝\n")
 
     all_ok = True
 
-    with MedinexGraph() as graph:
+    with BioquoraGraph() as graph:
 
         # ── 1. Connection health ──────────────────────────────
         print("── 1. Connection ────────────────────────────")

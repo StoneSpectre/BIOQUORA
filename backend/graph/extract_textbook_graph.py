@@ -8,7 +8,7 @@ from pydantic import BaseModel, Field
 # Ensure we import from the same path
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from graph.db import MedinexGraph
+from graph.db import BioquoraGraph
 
 load_dotenv(find_dotenv(usecwd=True))
 
@@ -29,7 +29,7 @@ class GraphExtraction(BaseModel):
 
 def extract_graph_from_pdf():
     print("Connecting to Neo4j Knowledge Graph...")
-    graph = MedinexGraph()
+    graph = BioquoraGraph()
 
     data_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "data")
     pdf_path = None

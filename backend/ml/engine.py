@@ -1,5 +1,5 @@
 """
-Medinex ML Engine
+Bioquora ML Engine
 -----------------
 Handles:
   1. Training XGBoost models for hepatic, diabetes, thyroid, respiratory
@@ -648,7 +648,7 @@ def train_immunology() -> Tuple[Pipeline, shap.Explainer, IsolationForest]:
 # UNIFIED PREDICTOR
 # ══════════════════════════════════════════════════════════════════════════════
 
-class MedinexPredictor:
+class BioquoraPredictor:
     """Lazy-loads models on first call per module."""
 
     _cache: Dict = {}
@@ -819,7 +819,7 @@ class MedinexPredictor:
         }
 
 
-predictor = MedinexPredictor()
+predictor = BioquoraPredictor()
 
 
 # ── Train all models when run directly ───────────────────────────────────────

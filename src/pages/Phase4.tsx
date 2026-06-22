@@ -36,7 +36,7 @@ const Phase4: React.FC = () => {
       <header>
         <div className="phase-badge">Phase 4 · 2028 – 2029</div>
         <h1>GraphRAG &<br />Research Copilot</h1>
-        <p className="subtitle">From semantic search to structured biomedical reasoning — building the transparent intelligence layer of MEDINEX.</p>
+        <p className="subtitle">From semantic search to structured biomedical reasoning — building the transparent intelligence layer of BIOQUORA.</p>
         <div className="header-stats">
           <div className="stat">
             <div className="stat-num">10</div>
@@ -69,7 +69,7 @@ const Phase4: React.FC = () => {
             <div className="step-eyebrow teal">Query Layer · Input Processing</div>
             <div className="step-title">Biomedical Question Understanding</div>
             <div className="step-desc">
-              Raw clinical or research questions are far noisier than web search queries. Before anything else, MEDINEX must parse intent, disambiguate entities, and classify question type — a task that determines the entire downstream pipeline shape.
+              Raw clinical or research questions are far noisier than web search queries. Before anything else, BIOQUORA must parse intent, disambiguate entities, and classify question type — a task that determines the entire downstream pipeline shape.
             </div>
             <div className="sub-items">
               <div className="sub-item">
@@ -336,7 +336,7 @@ OUTPUT_SCHEMA: {'{'}<br/>
             <div className="step-eyebrow amber">Reasoning Layer · Post-processing</div>
             <div className="step-title">Contradiction Detection & Hypothesis Surfacing</div>
             <div className="step-desc">
-              MEDINEX doesn't just synthesize consensus — it surfaces where the literature disagrees and what might explain the conflict. This step turns tensions in retrieved evidence into explicit research leads.
+              BIOQUORA doesn't just synthesize consensus — it surfaces where the literature disagrees and what might explain the conflict. This step turns tensions in retrieved evidence into explicit research leads.
             </div>
             <div className="sub-items">
               <div className="sub-item">
@@ -422,7 +422,7 @@ OUTPUT_SCHEMA: {'{'}<br/>
             <div className="sub-items">
               <div className="sub-item">
                 <div className="sub-dot teal"></div>
-                <div><span className="sub-label">Retrieval metrics</span><span className="sub-body">— Recall@K, MRR, NDCG on BioASQ, MedQA, and held-out MEDINEX query sets</span></div>
+                <div><span className="sub-label">Retrieval metrics</span><span className="sub-body">— Recall@K, MRR, NDCG on BioASQ, MedQA, and held-out BIOQUORA query sets</span></div>
               </div>
               <div className="sub-item">
                 <div className="sub-dot teal"></div>
@@ -461,7 +461,7 @@ OUTPUT_SCHEMA: {'{'}<br/>
             <div className="step-eyebrow amber">Delivery Layer · Scale & Access</div>
             <div className="step-title">Production Deployment, Access Control & Collaborative Workspaces</div>
             <div className="step-desc">
-              Phase 4 closes by hardening the system for multi-user, institutional deployment — with role-based access, audit logging, collaborative annotation, and API access for external integrations. This is when MEDINEX becomes a platform, not a pipeline.
+              Phase 4 closes by hardening the system for multi-user, institutional deployment — with role-based access, audit logging, collaborative annotation, and API access for external integrations. This is when BIOQUORA becomes a platform, not a pipeline.
             </div>
             <div className="sub-items">
               <div className="sub-item">
@@ -507,7 +507,7 @@ OUTPUT_SCHEMA: {'{'}<br/>
         <div className="products-grid">
           <div className="product-card">
             <div className="product-icon">🧬</div>
-            <div className="product-name">MEDINEX Research Copilot</div>
+            <div className="product-name">BIOQUORA Research Copilot</div>
             <div className="product-desc">A conversational biomedical research assistant with full GraphRAG reasoning — not an LLM wrapper, but a structured intelligence layer with traceable claims.</div>
             <ul className="capability-list">
               <li>Explain diseases at molecular, cellular, and systemic levels</li>
@@ -520,7 +520,7 @@ OUTPUT_SCHEMA: {'{'}<br/>
           <div className="product-card">
             <div className="product-icon">🔬</div>
             <div className="product-name">Evidence Intelligence API</div>
-            <div className="product-desc">Programmatic access to the full GraphRAG pipeline — enabling hospitals, EHR vendors, and research institutions to embed MEDINEX reasoning into their own tools.</div>
+            <div className="product-desc">Programmatic access to the full GraphRAG pipeline — enabling hospitals, EHR vendors, and research institutions to embed BIOQUORA reasoning into their own tools.</div>
             <ul className="capability-list">
               <li>REST + GraphQL query endpoints</li>
               <li>Structured JSON responses with provenance metadata</li>
@@ -549,7 +549,7 @@ OUTPUT_SCHEMA: {'{'}<br/>
         <div className="advantage-inner">
           <div className="advantage-eyebrow">Core Differentiator</div>
           <div className="advantage-text">Transparent reasoning.<br /><em>Not black-box answers.</em></div>
-          <div className="advantage-sub">Every MEDINEX response is a structured argument: claim → evidence → source → confidence. Researchers and clinicians can audit, contest, and extend any output. The graph makes the reasoning path visible. The citation chain makes it verifiable. This is the architecture that earns trust in high-stakes biomedical decision-making.</div>
+          <div className="advantage-sub">Every BIOQUORA response is a structured argument: claim → evidence → source → confidence. Researchers and clinicians can audit, contest, and extend any output. The graph makes the reasoning path visible. The citation chain makes it verifiable. This is the architecture that earns trust in high-stakes biomedical decision-making.</div>
         </div>
       </div>
 

@@ -1,5 +1,5 @@
-from backend.graph.db import MedinexGraph
-g = MedinexGraph()
+from backend.graph.db import BioquoraGraph
+g = BioquoraGraph()
 g.run('MATCH (n) DETACH DELETE n')
 
 extracted_data = {

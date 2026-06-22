@@ -58,7 +58,7 @@ export function ReviewDraftUI({ projectId }: ReviewDraftUIProps) {
         <h2 className="text-2xl font-semibold mb-2">AI Literature Review</h2>
         <p className="text-muted-foreground max-w-lg mb-8">
           Synthesize your saved papers into a comprehensive literature review draft. 
-          Medinex GraphRAG will analyze your collection, highlight key themes, and construct a citation network.
+          Bioquora GraphRAG will analyze your collection, highlight key themes, and construct a citation network.
         </p>
         <Button 
           onClick={() => generateReviewMutation.mutate()} 

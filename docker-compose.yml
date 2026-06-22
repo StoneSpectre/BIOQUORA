@@ -8,44 +8,44 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - POSTGRES_URL=postgresql://medinex_user:password@db:5432/medinex_db
+      - POSTGRES_URL=postgresql://bioquora_user:password@db:5432/bioquora_db
       - REDIS_URL=redis://redis:6379
       - OPENAI_API_KEY=${OPENAI_API_KEY}
     depends_on:
       db:
         condition: service_healthy
     networks:
-      - medinex-net
+      - bioquora-net
     volumes:
       - ./backend:/app/backend
 
   db:
     image: postgres:15-alpine
     environment:
-      - POSTGRES_USER=medinex_user
+      - POSTGRES_USER=bioquora_user
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=medinex_db
+      - POSTGRES_DB=bioquora_db
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U medinex_user -d medinex_db"]
+      test: ["CMD-SHELL", "pg_isready -U bioquora_user -d bioquora_db"]
       interval: 5s
       timeout: 5s
       retries: 5
     networks:
-      - medinex-net
+      - bioquora-net
 
   redis:
     image: redis:7-alpine
     ports:
       - "6379:6379"
     networks:
-      - medinex-net
+      - bioquora-net
 
 networks:
-  medinex-net:
+  bioquora-net:
     driver: bridge
 
 volumes:

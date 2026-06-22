@@ -285,7 +285,7 @@ from app.recommendation.profile_builder import ProfileBuilder
 from app.cache import set_user_profile
 
 logger = logging.getLogger(__name__)
-QUEUE_KEY = "medinex:profile_rebuild_queue"
+QUEUE_KEY = "bioquora:profile_rebuild_queue"
 
 async def enqueue_profile_rebuild(user_id: UUID):
     """Push user_id onto the Redis rebuild queue (fire-and-forget)."""
@@ -742,7 +742,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      DATABASE_URL: postgresql+asyncpg://medinex:secret@postgres:5432/medinex
+      DATABASE_URL: postgresql+asyncpg://bioquora:secret@postgres:5432/bioquora
       REDIS_URL:    redis://redis:6379
       QDRANT_URL:   http://qdrant:6333
     depends_on:
@@ -754,7 +754,7 @@ services:
     build: .
     command: python -m app.workers.profile_worker
     environment:
-      DATABASE_URL: postgresql+asyncpg://medinex:secret@postgres:5432/medinex
+      DATABASE_URL: postgresql+asyncpg://bioquora:secret@postgres:5432/bioquora
       REDIS_URL:    redis://redis:6379
       QDRANT_URL:   http://qdrant:6333
     depends_on:
@@ -765,8 +765,8 @@ services:
   postgres:
     image: postgres:16
     environment:
-      POSTGRES_DB:       medinex
-      POSTGRES_USER:     medinex
+      POSTGRES_DB:       bioquora
+      POSTGRES_USER:     bioquora
       POSTGRES_PASSWORD: secret
     volumes:
       - pg_data:/var/lib/postgresql/data
@@ -913,11 +913,11 @@ function OverviewTab() {
         padding: "24px 28px", marginBottom: 28,
       }}>
         <h2 style={{ margin: "0 0 8px", fontSize: 22, color: "#f1f5f9" }}>
-          Medinex · Phase 5 · Recommendation Systems
+          Bioquora · Phase 5 · Recommendation Systems
         </h2>
         <p style={{ margin: 0, color: "#94a3b8", fontSize: 14 }}>
           A production-grade implementation of Step 1 (Interaction Tracking & User Modelling) and
-          Step 2 (Content-Based Filtering) for the Medinex biomedical paper recommender.
+          Step 2 (Content-Based Filtering) for the Bioquora biomedical paper recommender.
         </p>
       </div>
 
@@ -1191,7 +1191,7 @@ export default function App() {
           background: "#1d4ed8", color: "#fff",
           borderRadius: 8, padding: "4px 10px",
           fontSize: 12, fontWeight: 800, letterSpacing: 1,
-        }}>MEDINEX</div>
+        }}>BIOQUORA</div>
         <span style={{ color: "#475569", fontSize: 13 }}>Phase 5 · Recommendation Systems · Steps 1 & 2</span>
         <button 
           onClick={() => window.location.href = '/recommendations/phase2'}

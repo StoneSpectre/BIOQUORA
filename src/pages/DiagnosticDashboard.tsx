@@ -23,7 +23,7 @@ export default function DiagnosticDashboard() {
 
   // Set the document title dynamically
   useEffect(() => {
-    document.title = "Diagnostic Intelligence | MEDINEX";
+    document.title = "Diagnostic Intelligence | BIOQUORA";
   }, []);
 
   // Fetch fields when module changes

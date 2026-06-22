@@ -613,7 +613,7 @@ export default function RecommendationPhase2() {
           background: "#1d4ed8", color: "#fff",
           borderRadius: 8, padding: "4px 10px",
           fontSize: 12, fontWeight: 800, letterSpacing: 1,
-        }}>MEDINEX</div>
+        }}>BIOQUORA</div>
         <span style={{ color: "#475569", fontSize: 13 }}>Phase 5 · Recommendation Systems · Steps 3 & 4</span>
       </div>
 

@@ -1,7 +1,7 @@
 """
-medinex/study_assistant/assistant.py  —  Step 7
+bioquora/study_assistant/assistant.py  —  Step 7
 
-The Medinex Study Assistant — upgraded with GraphRAG.
+The Bioquora Study Assistant — upgraded with GraphRAG.
 
 This is the Step 7 integration: the Phase 0 Study Assistant
 now answers questions using the Phase 1 knowledge graph instead
@@ -39,7 +39,7 @@ from contextlib import asynccontextmanager
 _HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(_HERE, "..", "backend", "graph"))
 
-from db import MedinexGraph
+from db import BioquoraGraph
 from pipeline import GraphRAGPipeline
 
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
@@ -67,14 +67,14 @@ class AskResponse(BaseModel):
 # ── App lifecycle ─────────────────────────────────────────────
 
 _pipeline: Optional[GraphRAGPipeline] = None
-_graph:    Optional[MedinexGraph]     = None
+_graph:    Optional[BioquoraGraph]     = None
 _client:   Optional[anthropic.Anthropic] = None
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global _pipeline, _graph, _client
-    _graph    = MedinexGraph()
+    _graph    = BioquoraGraph()
     _pipeline = GraphRAGPipeline()
     _client   = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
     print("[Assistant] Study Assistant ready — GraphRAG pipeline loaded.")
@@ -85,11 +85,11 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="Medinex Study Assistant",
+    title="Bioquora Study Assistant",
     version="0.2.0",
     description=(
         "Step 7: Study Assistant upgraded with GraphRAG. "
-        "Answers biomedical questions using the Medinex knowledge graph."
+        "Answers biomedical questions using the Bioquora knowledge graph."
     ),
     lifespan=lifespan,
 )
@@ -146,7 +146,7 @@ def ask(req: AskRequest):
         if req.user_level != "medical":
             level_instr = _level_instruction(req.user_level)
             answer = _llm(
-                system=f"You are Medinex. {level_instr}",
+                system=f"You are Bioquora. {level_instr}",
                 user=(
                     f"Rewrite this answer for the specified level.\n\n"
                     f"Original answer:\n{result['answer']}\n\n"
@@ -165,7 +165,7 @@ def ask(req: AskRequest):
 
     # Direct mode — no graph context
     answer = _llm(
-        system=f"You are Medinex, a biomedical study assistant. {_level_instruction(req.user_level)}",
+        system=f"You are Bioquora, a biomedical study assistant. {_level_instruction(req.user_level)}",
         user=req.question,
     )
     return AskResponse(
@@ -209,7 +209,7 @@ def explain_disease(disease: str, level: str = "medical"):
 
     result = _llm(
         system=(
-            "You are Medinex. Generate a structured disease explanation. "
+            "You are Bioquora. Generate a structured disease explanation. "
             f"{level_instr} "
             "Return a JSON object with these exact keys: "
             "beginner_explanation, medical_explanation, pathophysiology, "
@@ -257,7 +257,7 @@ def flashcards(topic: str, count: int = 10, level: str = "medical"):
     level_instr = _level_instruction(level)
     result = _llm(
         system=(
-            "You are Medinex. Generate medical flashcards. "
+            "You are Bioquora. Generate medical flashcards. "
             f"{level_instr} "
             "Return ONLY a JSON array of objects with 'front' and 'back' keys. "
             "No markdown, no explanation."
@@ -301,7 +301,7 @@ def quiz(topic: str, count: int = 5, level: str = "medical"):
     level_instr = _level_instruction(level)
     result = _llm(
         system=(
-            "You are Medinex. Generate quiz questions. "
+            "You are Bioquora. Generate quiz questions. "
             f"{level_instr} "
             "Return ONLY a JSON array. Each item: "
             "{question, options: [A, B, C, D], correct: 'A'/'B'/'C'/'D', explanation}. "
@@ -354,7 +354,7 @@ def summarise_paper(req: SummariseRequest):
 
     result = _llm(
         system=(
-            "You are Medinex. Summarise a research paper for a medical student. "
+            "You are Bioquora. Summarise a research paper for a medical student. "
             "Return ONLY JSON with keys: summary, methods, findings, limitations, future_work. "
             "Each value is 2-4 sentences. No markdown."
         ),

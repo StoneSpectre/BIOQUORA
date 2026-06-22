@@ -5,9 +5,9 @@ import json
 from dotenv import load_dotenv
 
 try:
-    from graph.db import MedinexGraph
+    from graph.db import BioquoraGraph
 except ImportError:
-    MedinexGraph = None
+    BioquoraGraph = None
 
 load_dotenv()
 
@@ -18,16 +18,16 @@ class GraphRAGEngine:
         self.connect()
 
     def connect(self):
-        if not MedinexGraph:
-            print("Warning: graph.db.MedinexGraph not found.")
+        if not BioquoraGraph:
+            print("Warning: graph.db.BioquoraGraph not found.")
             return
             
         try:
-            self.graph = MedinexGraph()
+            self.graph = BioquoraGraph()
             # Test connection
             self.graph.run("RETURN 1")
             self.connected = True
-            print("Connected to Neo4j successfully via MedinexGraph.")
+            print("Connected to Neo4j successfully via BioquoraGraph.")
         except (ServiceUnavailable, AuthError, Exception) as e:
             print(f"Warning: Could not connect to Neo4j. GraphRAG will return mock/stub data. ({str(e)})")
             self.connected = False

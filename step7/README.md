@@ -1,4 +1,4 @@
-# Medinex Phase 1 — Steps 7 and 8
+# Bioquora Phase 1 — Steps 7 and 8
 
 ## What these steps do
 
@@ -63,7 +63,7 @@ Expected output:
     [VectorStore] Building paper index from Neo4j...
     [VectorStore] Embedding 480 papers...
     [VectorStore] Paper index complete: 480 vectors.
-    [VectorStore] Collection stats: {'medinex_nodes': 9800, 'medinex_papers': 480}
+    [VectorStore] Collection stats: {'bioquora_nodes': 9800, 'bioquora_papers': 480}
 
 ### Test the GraphRAG pipeline
 
@@ -132,7 +132,7 @@ defensible proprietary asset.
 Expected output:
 
     ╔══════════════════════════════════════════════════════╗
-    ║   Medinex Biomedical Knowledge Graph — Asset Report  ║
+    ║   Bioquora Biomedical Knowledge Graph — Asset Report  ║
     ╚══════════════════════════════════════════════════════╝
 
     ── Node inventory ───────────────────────────────────────
@@ -165,12 +165,12 @@ Expected output:
 
 From Python:
 
-    from db import MedinexGraph
+    from db import BioquoraGraph
     from graph_audit import GraphAudit
 
-    with MedinexGraph() as graph:
+    with BioquoraGraph() as graph:
         audit = GraphAudit(graph)
-        audit.export_snapshot("medinex_snapshot_2027_03.json")
+        audit.export_snapshot("bioquora_snapshot_2027_03.json")
 
 The snapshot is a full JSON export of all nodes and edges.
 Import it to a new Neo4j instance or use it as a checkpoint.
@@ -189,7 +189,7 @@ Import it to a new Neo4j instance or use it as a checkpoint.
 
 ## What you have at the end of Step 8
 
-Your Medinex Biomedical Knowledge Graph is now a proprietary asset:
+Your Bioquora Biomedical Knowledge Graph is now a proprietary asset:
 
     13,000+ nodes
     25,000+ edges

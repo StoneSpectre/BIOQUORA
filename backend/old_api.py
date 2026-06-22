@@ -13,7 +13,7 @@ import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 app = FastAPI(
-    title="MEDINEX Biomedical Intelligence API",
+    title="BIOQUORA Biomedical Intelligence API",
     version="0.1.0",
     description="Phase 7-10 — FAISS Vector Search + RAG + GraphRAG API",
 )
@@ -51,7 +51,7 @@ class QueryResponse(BaseModel):
 
 @app.on_event("startup")
 async def startup_event():
-    print("MEDINEX API Starting up...")
+    print("BIOQUORA API Starting up...")
     # Initialize engines
     global vector_engine, rag_engine, graph_engine, predictive_engine
     

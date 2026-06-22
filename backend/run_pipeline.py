@@ -1,5 +1,5 @@
 """
-MEDINEX — PHASE 0: COMPLETE PIPELINE RUNNER
+BIOQUORA — PHASE 0: COMPLETE PIPELINE RUNNER
 ============================================
 Runs Steps 1 through 6 end-to-end using bundled sample data.
 Generates all output artifacts: JSON, CSV, SQLite DB, Knowledge Graph, Analytics.
@@ -25,7 +25,7 @@ from sample_data import SAMPLE_PAPERS, SAMPLE_SEARCH_RESULTS, SAMPLE_CITATIONS
 
 def banner(step_num, title):
     print("\n" + "=" * 70)
-    print(f"  MEDINEX | STEP {step_num} --- {title}")
+    print(f"  BIOQUORA | STEP {step_num} --- {title}")
     print("=" * 70)
 
 
@@ -179,9 +179,9 @@ def run_step_4():
 # ===========================================
 def run_step_5(nlp_results, db_path):
     banner(5, "KNOWLEDGE GRAPH ENGINEERING")
-    from knowledge_graph import MedinexGraph, GraphBuilder, print_graph_stats, demo_queries
+    from knowledge_graph import BioquoraGraph, GraphBuilder, print_graph_stats, demo_queries
 
-    graph = MedinexGraph()
+    graph = BioquoraGraph()
     builder = GraphBuilder(graph)
 
     # Build from NLP results
@@ -309,7 +309,7 @@ def run_step_6(graph):
 # ===========================================
 if __name__ == "__main__":
     print("\n" + "#" * 70)
-    print("  MEDINEX PHASE 0 --- BIOMEDICAL INTELLIGENCE LAYER")
+    print("  BIOQUORA PHASE 0 --- BIOMEDICAL INTELLIGENCE LAYER")
     print("  Complete Pipeline Execution")
     print("  " + datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     print("#" * 70)
@@ -328,7 +328,7 @@ if __name__ == "__main__":
 
     # Final summary
     print("\n" + "#" * 70)
-    print("  ✅ MEDINEX PHASE 0 — ALL STEPS COMPLETE")
+    print("  ✅ BIOQUORA PHASE 0 — ALL STEPS COMPLETE")
     print("#" * 70)
 
     data_dir = Path(__file__).parent / "data"

@@ -11,7 +11,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import EarlyAccessModal from "@/components/common/EarlyAccessModal";
-import medinexLogo from "@/assets/medinex-logo.png";
+import bioquoraLogo from "@/assets/bioquora-logo.png";
 import { Waves, Wind, ActivitySquare, Zap, Baby, Eye, Ear } from "lucide-react";
 
 const topicItems = [
@@ -51,7 +51,7 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/30 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60 shadow-sm transition-all">
       <div className="container flex h-16 items-center justify-between">
       <Link to="/" className="flex items-center gap-3">
-          <img src={medinexLogo} alt="MEDINEX" className="h-10 w-auto" />
+          <img src={bioquoraLogo} alt="BIOQUORA" className="h-10 w-auto" />
         </Link>
 
         {/* Desktop Navigation */}

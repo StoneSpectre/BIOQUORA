@@ -1,8 +1,8 @@
 """
-medinex/graph/db.py
+bioquora/graph/db.py
 
 Neo4j connection manager and CRUD operations for the
-Medinex Biomedical Knowledge Graph.
+Bioquora Biomedical Knowledge Graph.
 
 Fixes vs Phase 1:
   - Added upsert_protein, upsert_pathway, upsert_researcher
@@ -29,20 +29,20 @@ load_dotenv(find_dotenv(usecwd=True))
 
 NEO4J_URI      = os.getenv("NEO4J_URI",      "bolt://localhost:7687")
 NEO4J_USER     = os.getenv("NEO4J_USER",     "neo4j")
-NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD", "medinex123")
+NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD", "bioquora123")
 
 
-class MedinexGraph:
+class BioquoraGraph:
     """
     Wrapper around the Neo4j driver.
 
     Usage (explicit):
-        graph = MedinexGraph()
+        graph = BioquoraGraph()
         graph.upsert_disease({...})
         graph.close()
 
     Usage (context manager — preferred):
-        with MedinexGraph() as graph:
+        with BioquoraGraph() as graph:
             graph.upsert_disease({...})
     """
 

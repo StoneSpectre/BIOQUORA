@@ -1002,8 +1002,8 @@ function GraphCanvas({ diseaseId, diseaseName }) {
   );
 }
 
-// ─── Root: MedinexExplorer ────────────────────────────────────────────────────
-export default function MedinexExplorer() {
+// ─── Root: BioquoraExplorer ────────────────────────────────────────────────────
+export default function BioquoraExplorer() {
   const [stats, setStats] = useState(null);
   const [diseases, setDiseases] = useState([]);
   const [selected, setSelected] = useState(null);

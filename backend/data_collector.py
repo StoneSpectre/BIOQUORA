@@ -1,5 +1,5 @@
 """
-MEDINEX — STEP 2: BIOMEDICAL DATA COLLECTION ENGINE
+BIOQUORA — STEP 2: BIOMEDICAL DATA COLLECTION ENGINE
 ====================================================
 Uses NCBI E-Utilities to build a structured PubMed dataset:
   - Paper Search Engine (ESearch)
@@ -21,7 +21,7 @@ DATA_DIR = Path(__file__).parent.parent / "data" / "pubmed"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 NCBI_BASE = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
-EMAIL = "medinex@example.com"
+EMAIL = "bioquora@example.com"
 MAX_REQUESTS_PER_SEC = 3  # NCBI rate limit (10/sec with API key)
 
 
@@ -329,7 +329,7 @@ def save_dataset(df: pd.DataFrame, topic: str):
 def print_dataset_summary(df: pd.DataFrame, topic: str):
     """Print a rich summary of the collected dataset."""
     print("\n" + "═" * 70)
-    print(f"  MEDINEX │ STEP 2 — DATASET SUMMARY: '{topic}'")
+    print(f"  BIOQUORA │ STEP 2 — DATASET SUMMARY: '{topic}'")
     print("═" * 70)
     print(f"\n  📄 Papers collected   : {len(df)}")
     print(f"  📅 Year range         : {df['pub_year'].min()} – {df['pub_year'].max()}")
@@ -366,7 +366,7 @@ def print_dataset_summary(df: pd.DataFrame, topic: str):
 # ─────────────────────────────────────────────
 
 if __name__ == "__main__":
-    print("\n  MEDINEX PHASE 0 · STEP 2: DATA COLLECTION ENGINE")
+    print("\n  BIOQUORA PHASE 0 · STEP 2: DATA COLLECTION ENGINE")
     print("  " + "─" * 50)
 
     QUERIES = [

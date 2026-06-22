@@ -58,7 +58,7 @@ Care
 Existing
  
 Problems
-HTTPS://MEDINEX-BIO.NETLIFY.APP/
+HTTPS://BIOQUORA-BIO.NETLIFY.APP/
 --- SLIDE 2 ---
 UNIFIED 
 KNOWLEDGE
@@ -144,7 +144,7 @@ with
 every
  
 user.
-MEDINEX
+BIOQUORA
 Where
  
 Medical
@@ -240,7 +240,7 @@ Market
  
 Overview
 --- SLIDE 4 ---
-MEDINEX
+BIOQUORA
 Where
  
 Medical
@@ -298,10 +298,10 @@ General
 Medicine
 Why
  
-Medinex
+Bioquora
  
 Wins
-Medinex
+Bioquora
  
 operates
  
@@ -346,7 +346,7 @@ booking
 access.
  
 Instead, 
-Medinex
+Bioquora
  
 connects
  
@@ -412,7 +412,7 @@ a
  
 result,
  
-Medinex
+Bioquora
  
 builds
  
@@ -667,7 +667,7 @@ decision
  
 support.
 --- SLIDE 8 ---
-Medinex
+Bioquora
  
 Revenue
  
@@ -698,7 +698,7 @@ Collaboration Revenue
 With
  
 scale, 
-Medinex
+Bioquora
  
 builds
  

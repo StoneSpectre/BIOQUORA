@@ -248,7 +248,7 @@ function StatsBar({ stats, loading }) {
           fontWeight: 500, color: "var(--color-text-primary)",
           letterSpacing: "0.08em",
         }}>
-          MEDINEX
+          BIOQUORA
         </span>
       </div>
 
@@ -1008,7 +1008,7 @@ export default function ExplorerV2() {
       background: "var(--color-background-tertiary)",
       fontSize: 13,
     }}>
-      <h2 className="sr-only">Medinex Knowledge Graph Explorer — search diseases to view graph context</h2>
+      <h2 className="sr-only">Bioquora Knowledge Graph Explorer — search diseases to view graph context</h2>
 
       {/* StatsBar */}
       <StatsBar stats={stats} loading={loading} />

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
-import medinexLogo from "@/assets/medinex-logo.png";
+import bioquoraLogo from "@/assets/bioquora-logo.png";
 export function Footer() {
   return (
     <footer className="mt-16 border-t border-border bg-muted/30">
@@ -9,7 +9,7 @@ export function Footer() {
           {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-             <img src={medinexLogo} alt="MEDINEX" className="h-10 w-auto" /> 
+             <img src={bioquoraLogo} alt="BIOQUORA" className="h-10 w-auto" /> 
             </div>
             <p className="text-sm text-muted-foreground">
               Understanding human physiology the way critical care decisions demand.
@@ -82,7 +82,7 @@ export function Footer() {
             <span>Primary References: Multi-Source Synthesized Knowledge Base (Robbins Pathology, Guyton Physiology, Clinical Data)</span>
           </div>
           <p className="pt-2">
-            © {new Date().getFullYear()} MEDINEX. All rights reserved.
+            © {new Date().getFullYear()} BIOQUORA. All rights reserved.
           </p>
         </div>
       </div>

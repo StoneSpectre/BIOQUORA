@@ -1,5 +1,5 @@
 """
-medinex/graphrag/vector_store.py  —  Step 7
+bioquora/graphrag/vector_store.py  —  Step 7
 
 Embeds every Disease, Drug, Gene, Symptom, and Paper node into Qdrant.
 This is the vector search (retrieval) half of GraphRAG.
@@ -17,8 +17,8 @@ Model: pritamdeka/S-PubMedBert-MS-MARCO
   768-dim cosine similarity.
 
 Collections:
-  medinex_nodes   — Disease · Drug · Gene · Symptom nodes
-  medinex_papers  — Paper title + abstract
+  bioquora_nodes   — Disease · Drug · Gene · Symptom nodes
+  bioquora_papers  — Paper title + abstract
 
 Install:
   pip install qdrant-client sentence-transformers torch
@@ -39,7 +39,7 @@ from sentence_transformers import SentenceTransformer
 _HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(_HERE, "..", "backend", "graph"))
 
-from db import MedinexGraph
+from db import BioquoraGraph
 
 # ── Config ───────────────────────────────────────────────────
 
@@ -49,16 +49,16 @@ EMBED_MODEL = "pritamdeka/S-PubMedBert-MS-MARCO"
 VECTOR_DIM  = 768
 BATCH_SIZE  = 64
 
-COL_NODES  = "medinex_nodes"
-COL_PAPERS = "medinex_papers"
+COL_NODES  = "bioquora_nodes"
+COL_PAPERS = "bioquora_papers"
 
 
-class MedinexVectorStore:
+class BioquoraVectorStore:
     """
-    Manages Qdrant collections and embedding for Medinex.
+    Manages Qdrant collections and embedding for Bioquora.
 
     Quick start:
-        vs = MedinexVectorStore()
+        vs = BioquoraVectorStore()
         vs.build_node_index()       # ~2 min for 10k nodes
         vs.build_paper_index()      # ~1 min for 500 papers
 
@@ -103,7 +103,7 @@ class MedinexVectorStore:
         "parkinson" alone matches Disease nodes; "SNCA gene" finds Gene nodes.
         """
         print("[VectorStore] Building node index from Neo4j...")
-        with MedinexGraph() as graph:
+        with BioquoraGraph() as graph:
             rows = graph.run("""
                 MATCH (n)
                 WHERE n:Disease OR n:Drug OR n:Gene OR n:Symptom
@@ -152,7 +152,7 @@ class MedinexVectorStore:
         "title. abstract[:500]" text, embeds, and upserts into Qdrant.
         """
         print("[VectorStore] Building paper index from Neo4j...")
-        with MedinexGraph() as graph:
+        with BioquoraGraph() as graph:
             rows = graph.run("""
                 MATCH (p:Paper)
                 WHERE p.title IS NOT NULL AND p.title <> ''
@@ -251,7 +251,7 @@ class MedinexVectorStore:
 # ── CLI ───────────────────────────────────────────────────────
 
 if __name__ == "__main__":
-    vs = MedinexVectorStore()
+    vs = BioquoraVectorStore()
     vs.build_node_index()
     vs.build_paper_index()
     print("\n[VectorStore] Collection stats:", vs.stats())

@@ -1,5 +1,5 @@
 """
-Medinex Workspace API
+Bioquora Workspace API
 FastAPI application — Steps 1–3
 """
 
@@ -11,7 +11,7 @@ from api.core.config import settings
 from api.core.database import engine, Base
 from api.routers import projects, folders, collections, saved_papers, notes, literature, literature_review, research_maps
 from api.ml_routes import hepatic, endocrine, respiratory, cardiovascular, renal, immunology, feedback, graphrag, contradiction
-# from medinex.step8_research_copilot import copilot_api
+# from bioquora.step8_research_copilot import copilot_api
 # from websockets.manager import manager
 # from services.scheduler import start_scheduler
 
@@ -29,7 +29,7 @@ async def lifespan(app: FastAPI):
     # await manager.close()
 
 app = FastAPI(
-    title="Medinex Workspace API",
+    title="Bioquora Workspace API",
     version="0.3.0",
     description="Researcher workspace — Steps 1–3: schema, CRUD, literature tracker",
     lifespan=lifespan,

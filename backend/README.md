@@ -1,4 +1,4 @@
-# MEDINEX — Phase 0: Biomedical Intelligence Layer
+# BIOQUORA — Phase 0: Biomedical Intelligence Layer
 
 ## Steps Implemented
 

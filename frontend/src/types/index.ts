@@ -1,4 +1,4 @@
-// medinex/frontend/src/types/index.ts
+// bioquora/frontend/src/types/index.ts
 
 export interface DiseaseNode {
   id: string;

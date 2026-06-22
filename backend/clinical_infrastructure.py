@@ -1,5 +1,5 @@
 """
-MEDINEX — STEP 3: CLINICAL DATA INFRASTRUCTURE
+BIOQUORA — STEP 3: CLINICAL DATA INFRASTRUCTURE
 ===============================================
 Understand how real hospital data is structured.
 Implements the full MIMIC-IV data model:
@@ -516,7 +516,7 @@ def run_clinical_analytics(conn):
     These patterns are foundational for clinical AI.
     """
     print("\n" + "═" * 70)
-    print("  MEDINEX │ STEP 3 — CLINICAL ANALYTICS")
+    print("  BIOQUORA │ STEP 3 — CLINICAL ANALYTICS")
     print("═" * 70)
 
     analytics = {
@@ -588,7 +588,7 @@ def run_clinical_analytics(conn):
 def print_schema_reference():
     """Print the full MIMIC-IV schema as a reference guide."""
     print("\n" + "═" * 70)
-    print("  MEDINEX │ STEP 3 — MIMIC-IV SCHEMA REFERENCE")
+    print("  BIOQUORA │ STEP 3 — MIMIC-IV SCHEMA REFERENCE")
     print("═" * 70)
     for table, meta in MIMIC_IV_SCHEMA.items():
         print(f"\n  ┌─ TABLE: {table.upper()}")
@@ -619,7 +619,7 @@ def print_schema_reference():
 # ─────────────────────────────────────────────
 
 if __name__ == "__main__":
-    print("\n  MEDINEX PHASE 0 · STEP 3: CLINICAL DATA INFRASTRUCTURE")
+    print("\n  BIOQUORA PHASE 0 · STEP 3: CLINICAL DATA INFRASTRUCTURE")
     print("  " + "─" * 50)
 
     # Print schema first

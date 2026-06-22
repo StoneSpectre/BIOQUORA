@@ -1,7 +1,7 @@
 """
-medinex/graph/seed.py  — Phase 1 Steps 3 + 4
+bioquora/graph/seed.py  — Phase 1 Steps 3 + 4
 
-Seeds the Medinex Biomedical Knowledge Graph from:
+Seeds the Bioquora Biomedical Knowledge Graph from:
   1. Starter diseases       (clean hand-crafted core nodes — deduped)
   2. Hetionet TSV edges     (disease-gene, disease-symptom, drug-disease)
                             FIX: uses correct TSV column names (source, target)
@@ -30,7 +30,7 @@ from typing import Optional
 import requests
 import pandas as pd
 
-from db import MedinexGraph
+from db import BioquoraGraph
 
 # ── Config ───────────────────────────────────────────────────
 
@@ -89,7 +89,7 @@ def _get_with_retry(url: str, params: dict = None, json_body: dict = None,
 
 # ── Source 1: Starter diseases (deduped) ─────────────────────
 
-def seed_starter_diseases(graph: MedinexGraph):
+def seed_starter_diseases(graph: BioquoraGraph):
     """
     Hand-crafted seed — 10 unique high-priority diseases.
     FIX: removed duplicate Hypertension entry (was listed twice in Phase 1).
@@ -118,7 +118,7 @@ def seed_starter_diseases(graph: MedinexGraph):
 
 # ── Source 2: Hetionet TSV edges ──────────────────────────────
 
-def seed_from_hetionet_tsv(graph: MedinexGraph):
+def seed_from_hetionet_tsv(graph: BioquoraGraph):
     """
     Downloads Hetionet edge TSV files and bulk-ingests them.
 
@@ -237,7 +237,7 @@ def seed_from_hetionet_tsv(graph: MedinexGraph):
 
 # ── Source 3: OpenTargets ─────────────────────────────────────
 
-def seed_from_opentargets(graph: MedinexGraph, limit: int = 500):
+def seed_from_opentargets(graph: BioquoraGraph, limit: int = 500):
     """
     Fetches disease-gene associations via OpenTargets GraphQL.
     Retry-safe, rate-limited.
@@ -327,7 +327,7 @@ def seed_from_opentargets(graph: MedinexGraph, limit: int = 500):
 
 # ── Source 4: PubMed — full metadata ─────────────────────────
 
-def seed_papers_from_pubmed(graph: MedinexGraph, max_per_disease: int = 20):
+def seed_papers_from_pubmed(graph: BioquoraGraph, max_per_disease: int = 20):
     """
     Fetches PubMed papers with FULL metadata:
       title, abstract, year, journal, doi, authors (as Researcher nodes)
@@ -547,7 +547,7 @@ def _parse_pubmed_xml(xml_text: str, disease_id: str):
 
 # ── Source 5: Semantic Scholar (Step 4) ──────────────────────
 
-def seed_researchers_from_semantic_scholar(graph: MedinexGraph):
+def seed_researchers_from_semantic_scholar(graph: BioquoraGraph):
     """
     NEW in Step 4.
     Enriches existing Researcher nodes with Semantic Scholar data:
@@ -646,7 +646,7 @@ def seed_researchers_from_semantic_scholar(graph: MedinexGraph):
 
 # ── Source 6: KEGG Pathways (Step 4) ─────────────────────────
 
-def seed_pathways_from_kegg(graph: MedinexGraph):
+def seed_pathways_from_kegg(graph: BioquoraGraph):
     """
     NEW in Step 4.
     Links Gene nodes (already in graph) to Pathway nodes via KEGG REST API.
@@ -731,11 +731,11 @@ def seed_pathways_from_kegg(graph: MedinexGraph):
 # ── Main ──────────────────────────────────────────────────────
 
 def main():
-    log("Starting Medinex Knowledge Graph seeding...")
+    log("Starting Bioquora Knowledge Graph seeding...")
     log("Make sure Neo4j is running at bolt://localhost:7687")
     print()
 
-    with MedinexGraph() as graph:
+    with BioquoraGraph() as graph:
 
         # ── Health check ─────────────────────────────────────
         health = graph.health_check()

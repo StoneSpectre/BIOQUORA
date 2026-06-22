@@ -9,7 +9,7 @@ export default function Home() {
       backgroundColor: "var(--color-background-tertiary)"
     }}>
       <h1 style={{ fontSize: "2.5rem", fontWeight: "600", color: "#1BC99A", margin: 0 }}>
-        Medinex Explorer
+        Bioquora Explorer
       </h1>
       <p style={{ fontSize: "1.1rem", color: "var(--color-text-secondary)", maxWidth: "600px" }}>
         Welcome to the Biomedical Knowledge Graph. Please choose which version of the explorer you'd like to use.
@@ -33,7 +33,7 @@ export default function Home() {
               Version 1
             </h2>
             <p style={{ color: "var(--color-text-tertiary)", fontSize: "0.95rem" }}>
-              The original Medinex Explorer prototype.
+              The original Bioquora Explorer prototype.
             </p>
           </div>
         </Link>

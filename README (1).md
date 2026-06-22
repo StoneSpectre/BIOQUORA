@@ -1,4 +1,4 @@
-# Medinex — Phase 1 Steps 1–6
+# Bioquora — Phase 1 Steps 1–6
 
 ## File map
 
@@ -22,7 +22,7 @@
 ```bash
 chmod +x setup_neo4j.sh && ./setup_neo4j.sh
 sudo systemctl status neo4j
-# Open http://localhost:7474  Login: neo4j / neo4j → change to medinex123
+# Open http://localhost:7474  Login: neo4j / neo4j → change to bioquora123
 ```
 
 Optional plugins (needed for Steps 5–6):

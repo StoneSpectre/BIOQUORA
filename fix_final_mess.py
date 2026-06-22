@@ -1,4 +1,4 @@
-filepath = r'C:\Users\hp\Downloads\MEDINEX-BIO\src\pages\Steps67.tsx'
+filepath = r'C:\Users\hp\Downloads\BIOQUORA-BIO\src\pages\Steps67.tsx'
 with open(filepath, 'r', encoding='utf-8') as f:
     content = f.read()
 

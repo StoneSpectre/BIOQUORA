@@ -7,8 +7,8 @@ import os
 if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8")
 
-# Add medinex directory to path so we can import the graphrag modules
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../medinex/graphrag')))
+# Add bioquora directory to path so we can import the graphrag modules
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../bioquora/graphrag')))
 
 from pipeline import run_pipeline
 
@@ -20,7 +20,7 @@ class GraphRAGQuery(BaseModel):
 @router.post("/query")
 def execute_graphrag_pipeline(data: GraphRAGQuery):
     """
-    Executes the full 6-Step Medinex GraphRAG Pipeline:
+    Executes the full 6-Step Bioquora GraphRAG Pipeline:
     1. Question Understanding
     2. Semantic Retrieval
     3. Knowledge Graph Traversal

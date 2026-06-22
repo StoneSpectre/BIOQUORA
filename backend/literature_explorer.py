@@ -1,5 +1,5 @@
 """
-MEDINEX — STEP 1: BIOMEDICAL KNOWLEDGE SOURCES
+BIOQUORA — STEP 1: BIOMEDICAL KNOWLEDGE SOURCES
 ===============================================
 Understand the structure of biomedical literature:
   - PubMed abstracts
@@ -20,7 +20,7 @@ DATA_DIR = Path(__file__).parent.parent / "data" / "pubmed"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 NCBI_BASE = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
-EMAIL = "medinex@example.com"  # Required by NCBI
+EMAIL = "bioquora@example.com"  # Required by NCBI
 
 
 # ─────────────────────────────────────────────
@@ -138,7 +138,7 @@ def explain_journal_structure(paper: dict):
     teaching the user what each field means.
     """
     print("\n" + "═" * 70)
-    print("  MEDINEX │ STEP 1 — BIOMEDICAL LITERATURE ANATOMY")
+    print("  BIOQUORA │ STEP 1 — BIOMEDICAL LITERATURE ANATOMY")
     print("═" * 70)
 
     sections = {
@@ -218,7 +218,7 @@ def save_paper(paper: dict):
 # ─────────────────────────────────────────────
 
 if __name__ == "__main__":
-    print("\n  MEDINEX PHASE 0 · STEP 1: BIOMEDICAL KNOWLEDGE SOURCES")
+    print("\n  BIOQUORA PHASE 0 · STEP 1: BIOMEDICAL KNOWLEDGE SOURCES")
     print("  " + "─" * 50)
 
     # Famous Alzheimer's paper — good example of MeSH terms + citations
