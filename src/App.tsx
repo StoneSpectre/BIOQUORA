@@ -32,6 +32,7 @@ import NotFound from "./pages/NotFound";
 import DiagnosticDashboard from "./pages/DiagnosticDashboard";
 import Steps67 from "./pages/Steps67";
 import Phase4 from "./pages/Phase4";
+import Phase5 from "./pages/Phase5";
 
 import Workspace from "./pages/Workspace";
 import ResearchCopilot from "./pages/ResearchCopilot";
@@ -39,6 +40,7 @@ import ResearchCopilot from "./pages/ResearchCopilot";
 import BioquoraExplorer from "./components/BioquoraExplorer";
 import RecommendationOnboarding from "./components/RecommendationOnboarding";
 import RecommendationPhase2 from "./components/RecommendationPhase2";
+import GraphRAGDemo from "./pages/GraphRAGDemo";
 
 const queryClient = new QueryClient();
 
@@ -77,10 +79,12 @@ const App = () => (
             <Route path="/explorer-v2" element={<ExplorerV2 />} />
             <Route path="/steps-6-7" element={<Steps67 />} />
             <Route path="/phase4" element={<Phase4 />} />
+            <Route path="/phase5" element={<Phase5 />} />
             <Route path="/copilot" element={<ResearchCopilot />} />
             <Route path="/bioquora-explorer" element={<BioquoraExplorer />} />
             <Route path="/recommendations" element={<RecommendationOnboarding />} />
             <Route path="/recommendations/phase2" element={<RecommendationPhase2 />} />
+            <Route path="/graphrag-demo" element={<GraphRAGDemo />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

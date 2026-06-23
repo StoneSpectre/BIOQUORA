@@ -847,7 +847,7 @@ export default function BioquoraDashboard() {
 
           <div style={{ fontSize: "11px", letterSpacing: "6px", color: activePhaseTab === 0 ? "#00d4ff" : activePhaseTab === 1 ? "#a78bfa" : activePhaseTab === 2 ? "#34d399" : activePhaseTab === 4 ? "#00d4c8" : activePhaseTab === 6 ? "#ff4ecd" : activePhaseTab === 7 ? "#f97316" : "#fbbf24", textTransform: "uppercase", marginBottom: "16px", opacity: 0.8 }}>
 
-            {activePhaseTab === 0 ? "BIOMEDICAL INTELLIGENCE" : activePhaseTab === 1 ? "PREDICTIVE ML ENGINE" : activePhaseTab === 2 ? "CLINICAL WORKSPACE" : activePhaseTab === 3 ? "PRODUCTION KNOWLEDGE GRAPH" : activePhaseTab === 4 ? "KNOWLEDGE GRAPH RAG" : activePhaseTab === 6 ? "DIAGNOSTIC AGENTS" : "PATIENT DIGITAL TWIN"}
+            {activePhaseTab === 0 ? "BIOMEDICAL INTELLIGENCE" : activePhaseTab === 1 ? "PREDICTIVE ML ENGINE" : activePhaseTab === 2 ? "CLINICAL WORKSPACE" : activePhaseTab === 3 ? "PRODUCTION KNOWLEDGE GRAPH" : activePhaseTab === 4 ? "KNOWLEDGE GRAPH RAG" : activePhaseTab === 5 ? "RECOMMENDATION ENGINE" : activePhaseTab === 6 ? "DIAGNOSTIC AGENTS" : "PATIENT DIGITAL TWIN"}
 
           </div>
 
@@ -1024,6 +1024,14 @@ export default function BioquoraDashboard() {
 
 
         {/* Steps grid */}
+        
+        {activePhaseTab === 5 && (
+          <div style={{ textAlign: "center", marginBottom: "48px" }}>
+            <h2 style={{ fontSize: "24px", color: "#6366f1", marginBottom: "16px" }}>Phase 5: Recommendation Systems</h2>
+            <p style={{ color: "#94a3b8", marginBottom: "24px" }}>Explore the Hybrid Fusion engine, Collaborative Filtering, and Citation Graph.</p>
+            <a href="/phase5" style={{ display: "inline-block", background: "#6366f1", color: "#ffffff", padding: "12px 24px", borderRadius: "8px", textDecoration: "none", fontWeight: "bold" }}>Open Interactive Presentation</a>
+          </div>
+        )}
 
         <div className="phase4-container" style={{ marginBottom: "48px" }}>
 
@@ -1554,6 +1562,8 @@ export default function BioquoraDashboard() {
               { label: "Production Knowledge Graph", sub: "Phase 3", color: "#fbbf24", active: true, phaseId: 3 },
 
               { label: "Knowledge Graph RAG", sub: "Phase 4", color: "#00d4c8", active: true, phaseId: 4 },
+
+              { label: "Recommendation Engine", sub: "Phase 5", color: "#6366f1", active: true, phaseId: 5 },
 
               { label: "Diagnostic Agents", sub: "Phase 6", color: "#ff4ecd", active: true, phaseId: 6 },
 

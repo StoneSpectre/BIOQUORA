@@ -518,6 +518,7 @@ const API_BASE = "http://localhost:8000";
 async function fetchStats() {
   try {
     const r = await fetch(`${API_BASE}/stats`);
+    if (!r.ok) throw new Error();
     return await r.json();
   } catch {
     return { total_diseases: 8342, total_genes: 21419, total_associations: 146820, db_version: "v3.0.0" };
@@ -528,6 +529,7 @@ async function searchDiseases(query, filters = {}) {
   try {
     const params = new URLSearchParams({ q: query, ...filters });
     const r = await fetch(`${API_BASE}/diseases/search?${params}`);
+    if (!r.ok) throw new Error();
     return await r.json();
   } catch {
     // Mock data fallback
@@ -546,6 +548,7 @@ async function searchDiseases(query, filters = {}) {
 async function fetchDiseaseGraph(diseaseId) {
   try {
     const r = await fetch(`${API_BASE}/diseases/${encodeURIComponent(diseaseId)}/graph`);
+    if (!r.ok) throw new Error();
     return await r.json();
   } catch {
     // Mock graph
