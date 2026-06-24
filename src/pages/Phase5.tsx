@@ -34,6 +34,14 @@ const Phase5: React.FC = () => {
 
   return (
     <div className="phase5-container">
+      {/* ═══ Navigation ═══ */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid rgba(255,255,255,0.05)", paddingBottom: "16px", marginBottom: "32px", padding: "0 24px" }}>
+        <a href="/roadmap" style={{ display: "flex", alignItems: "center", gap: "8px", color: "#6366f1", textDecoration: "none", fontSize: "14px", fontWeight: "bold", fontFamily: "monospace" }}>
+          <span style={{ fontSize: "18px" }}>←</span> BACK TO ROADMAP
+        </a>
+        <div style={{ color: "#94a3b8", fontSize: "12px", fontFamily: "monospace", letterSpacing: "2px", textTransform: "uppercase" }}>Recommendation Systems</div>
+      </div>
+
       {/* ═══ HEADER ═══ */}
       <header>
         <div className="phase-badge">Phase 5 · 2029 – 2030</div>
