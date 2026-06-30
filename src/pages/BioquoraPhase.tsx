@@ -1225,6 +1225,31 @@ export default function BioquoraDashboard() {
           </div>
         )}
 
+        {activePhaseTab === 2 && (
+          <div style={{ textAlign: "center", marginBottom: "48px" }}>
+            <h2 style={{ fontSize: "24px", color: "#fbbf24", marginBottom: "16px" }}>Block 2: Knowledge Graph Core</h2>
+            <button 
+              onClick={() => window.location.href = '/knowledge-graph'}
+              style={{
+                background: "linear-gradient(135deg, #fbbf24, #ea580c)", border: "none", color: "#000",
+                padding: "20px 40px", fontSize: "20px", fontWeight: "bold", borderRadius: "12px",
+                cursor: "pointer", boxShadow: "0 0 30px rgba(251, 191, 36, 0.4)", display: "inline-flex",
+                alignItems: "center", gap: "12px", transition: "all 0.3s"
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.transform = "scale(1.05)";
+                e.currentTarget.style.boxShadow = "0 0 40px rgba(251, 191, 36, 0.6)";
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.boxShadow = "0 0 30px rgba(251, 191, 36, 0.4)";
+              }}
+            >
+              🕸️ LAUNCH NEO4J VISUALIZER
+            </button>
+          </div>
+        )}
+
         {/* Phase Roadmap */}
 
         <div style={{
