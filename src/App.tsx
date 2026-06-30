@@ -45,6 +45,7 @@ import BioquoraExplorer from "./components/BioquoraExplorer";
 import RecommendationOnboarding from "./components/RecommendationOnboarding";
 import RecommendationPhase2 from "./components/RecommendationPhase2";
 import FoundationDashboard from "./pages/FoundationDashboard";
+import Handbook from "./pages/Handbook";
 
 const queryClient = new QueryClient();
 
@@ -93,6 +94,7 @@ const App = () => (
             <Route path="/graphrag-demo" element={<GraphRAGDemo />} />
             <Route path="/copilot-dag" element={<BioquoraCopilotDAG />} />
             <Route path="/foundation" element={<FoundationDashboard />} />
+            <Route path="/handbook" element={<Handbook />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

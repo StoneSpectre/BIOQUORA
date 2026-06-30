@@ -10,7 +10,7 @@ import {
   DropdownMenuPortal,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Heart, Droplet, Shield, Brain, Menu, X, Settings, Network, Activity, Layers, Sparkles, ChevronDown, BookOpen, Compass, LineChart, Stethoscope, Bot, Microscope, Database, PersonStanding, Workflow, Cpu, Zap, CircuitBoard } from "lucide-react";
+import { Heart, Droplet, Shield, Brain, Menu, X, Settings, Network, Activity, Layers, Sparkles, ChevronDown, BookOpen, Compass, LineChart, Stethoscope, Bot, Microscope, Database, PersonStanding, Workflow, Cpu, Zap, CircuitBoard, Book } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
@@ -93,6 +93,7 @@ const featureItems = [
 
 const mainItems = [
   { path: "/workspace", label: "Workspace", icon: BookOpen, color: "text-emerald-500" },
+  { path: "/handbook", label: "Handbook", icon: Book, color: "text-cyan-400" },
 ];
 
 export function Header() {
