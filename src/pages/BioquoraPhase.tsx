@@ -1300,6 +1300,31 @@ export default function BioquoraDashboard() {
           </div>
         )}
 
+        {activePhaseTab === 7 && (
+          <div style={{ textAlign: "center", marginBottom: "48px" }}>
+            <h2 style={{ fontSize: "24px", color: "#f97316", marginBottom: "16px" }}>Block 5: Patient Digital Twin (Simulation)</h2>
+            <button 
+              onClick={() => window.location.href = '/steps-6-7'}
+              style={{
+                background: "linear-gradient(135deg, #f97316, #ea580c)", border: "none", color: "#fff",
+                padding: "20px 40px", fontSize: "20px", fontWeight: "bold", borderRadius: "12px",
+                cursor: "pointer", boxShadow: "0 0 30px rgba(249, 115, 22, 0.4)", display: "inline-flex",
+                alignItems: "center", gap: "12px", transition: "all 0.3s"
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.transform = "scale(1.05)";
+                e.currentTarget.style.boxShadow = "0 0 40px rgba(249, 115, 22, 0.6)";
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.boxShadow = "0 0 30px rgba(249, 115, 22, 0.4)";
+              }}
+            >
+              🧬 LAUNCH DIGITAL TWIN
+            </button>
+          </div>
+        )}
+
         {/* Phase Roadmap */}
 
         <div style={{
