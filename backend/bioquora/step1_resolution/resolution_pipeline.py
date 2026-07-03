@@ -4,6 +4,13 @@ Re-exports the modular resolution pipeline and stages from `.resolution`.
 """
 
 from .resolution import (
+    strip_html,
+    normalize_greek,
+    normalize_punctuation,
+    normalize_whitespace,
+    normalize_scientific_notation,
+    normalize_text,
+    strip_formatting_variants,
     fold_for_matching,
     match_by_identifier,
     match_by_ontology,
@@ -26,6 +33,13 @@ from .resolution.pipeline import (
 from .models import IncomingRecord
 
 __all__ = [
+    "strip_html",
+    "normalize_greek",
+    "normalize_punctuation",
+    "normalize_whitespace",
+    "normalize_scientific_notation",
+    "normalize_text",
+    "strip_formatting_variants",
     "fold_for_matching",
     "match_by_identifier",
     "match_by_ontology",

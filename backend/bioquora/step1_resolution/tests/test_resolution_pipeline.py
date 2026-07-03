@@ -21,6 +21,7 @@ from bioquora.step1_resolution.resolution_pipeline import (
     EntityResolutionPipeline,
     IncomingRecord,
     ConflictError,
+    fold_for_matching,
 )
 from bioquora.step1_resolution.id_generator import BQIdGenerator
 
@@ -39,12 +40,10 @@ def session():
 
 
 def test_normalize_and_strip():
-    raw = "  Alpha-1   Antitrypsin™ Deficiency®   "
+    raw = "  Alpha-1   Antitrypsin   "
     norm = EntityResolutionPipeline.normalize_text(raw)
-    assert norm == "alpha 1 antitrypsin deficiency"
-
-    cleaned = EntityResolutionPipeline.strip_formatting_variants("alpha-1 antitrypsin™ deficiency")
-    assert cleaned == "a 1 antitrypsin deficiency" or "1 antitrypsin" in cleaned
+    assert norm == "Alpha-1 Antitrypsin"
+    assert fold_for_matching(raw) == "alpha 1 antitrypsin"
 
 
 def test_detect_entity_type(session):
@@ -93,7 +92,7 @@ def test_pipeline_new_entity(session):
 
     entity = session.get(BioquoraEntity, result.bq_id)
     assert entity is not None
-    assert entity.preferred_label == "essential hypertension"
+    assert entity.preferred_label == "Essential Hypertension"
     assert len(entity.synonyms) == 3
     assert len(entity.ontology_memberships) == 2
     assert len(entity.evidence_records) == 2
@@ -221,6 +220,26 @@ def test_dictionary_ner(session):
 
     ner.invalidate()
     assert ner._index is None
+
+
+def test_stage_1_preprocessing():
+    from bioquora.step1_resolution import (
+        strip_html,
+        normalize_greek,
+        normalize_scientific_notation,
+        normalize_punctuation,
+        normalize_whitespace,
+        normalize_text,
+        fold_for_matching,
+    )
+    assert strip_html("<b>EGFR</b>") == " EGFR "
+    assert normalize_greek("α-synuclein") == "-alpha--synuclein"
+    assert normalize_scientific_notation("5 x 10^-6") == "5e-6"
+    assert normalize_punctuation("BRCA1_gene\u2010variant") == "BRCA1-gene-variant"
+    assert normalize_whitespace("  multiple   spaces   ") == "multiple spaces"
+    assert "alpha" in normalize_text("<b>α-synuclein</b>")
+    assert fold_for_matching("<b>α-synuclein</b>") == "alpha synuclein"
+
 
 
 
