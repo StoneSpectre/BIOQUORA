@@ -11,34 +11,34 @@ const VOLUMES = [
     title: "Volume I: Semantic Layer",
     folder: "volume-1-semantic-layer",
     chapters: [
-      { id: "ch1-intro", title: "Chapter 1: Intro to Biomedical Knowledge" },
-      { id: "ch2-ontologies", title: "Chapter 2: Biomedical Ontologies" },
-      { id: "ch3-identifiers", title: "Chapter 3: Identifiers & Mappings" },
-      { id: "ch4-data-modeling", title: "Chapter 4: Advanced Graph Data Modeling" },
-      { id: "ch5-evidence", title: "Chapter 5: Literature as Evidence" },
-      { id: "ch6-hybrid-search", title: "Chapter 6: Hybrid Semantic Search" },
-      { id: "ch7-nlp", title: "Chapter 7: NLP & Entity Linking" },
-      { id: "ch8-knowledge-graphs", title: "Chapter 8: Knowledge Graph Architecture" },
-      { id: "ch9-molecular-edges", title: "Chapter 9: Molecular Edges & Properties" },
-      { id: "ch10-foundation-models", title: "Chapter 10: Foundation Models" }
+      { id: "ch1-introduction-to-biomedical-knowledge", title: "Chapter 1: Intro to Biomedical Knowledge" },
+      { id: "ch2-biomedical-ontologies", title: "Chapter 2: Biomedical Ontologies" },
+      { id: "ch3-biomedical-identifier-systems", title: "Chapter 3: Identifiers & Mappings" },
+      { id: "ch4-knowledge-representation", title: "Chapter 4: Advanced Graph Data Modeling" },
+      { id: "ch5-entity-resolution", title: "Chapter 5: Literature as Evidence" },
+      { id: "ch6-semantic-search", title: "Chapter 6: Hybrid Semantic Search" },
+      { id: "ch7-knowledge-graph-design", title: "Chapter 7: Knowledge Graph Design" },
+      { id: "ch8-research-papers", title: "Chapter 8: Research Papers & Literature" },
+      { id: "ch9-books-reading-plan", title: "Chapter 9: Books & Reading Plan" },
+      { id: "ch10-implementation", title: "Chapter 10: Implementation Roadmap" }
     ]
   },
   {
     title: "Volume II: Infrastructure",
     folder: "volume-2-infrastructure",
     chapters: [
-      { id: "ch1-infrastructure", title: "Chapter 1: Compute & Storage Overview" },
-      { id: "ch2-postgres", title: "Chapter 2: PostgreSQL & Relational Core" },
-      { id: "ch3-neo4j", title: "Chapter 3: Neo4j Distributed Graph" },
-      { id: "ch4-data-lake", title: "Chapter 4: Data Lake & Parquet" },
+      { id: "ch1-infrastructure-philosophy", title: "Chapter 1: Compute & Storage Philosophy" },
+      { id: "ch2-data-sources", title: "Chapter 2: Data Sources & Ingestion" },
+      { id: "ch3-data-engineering", title: "Chapter 3: Data Engineering Pipelines" },
+      { id: "ch4-storage-layer", title: "Chapter 4: Storage & Data Lake" },
       { id: "ch5-metadata", title: "Chapter 5: Metadata & Governance" },
-      { id: "ch6-healthcare-standards", title: "Chapter 6: FHIR & OMOP Interoperability" },
-      { id: "ch7-api-architecture", title: "Chapter 7: API Architecture (GraphQL/gRPC)" },
-      { id: "ch8-pipeline-orchestration", title: "Chapter 8: Data Orchestration (Airflow)" },
-      { id: "ch9-search-infrastructure", title: "Chapter 9: Search Infrastructure (Qdrant/ES)" },
-      { id: "ch10-production-architecture", title: "Chapter 10: Kubernetes & MLOps" },
+      { id: "ch6-healthcare-standards", title: "Chapter 6: FHIR & OMOP Standards" },
+      { id: "ch7-api-architecture", title: "Chapter 7: API Architecture" },
+      { id: "ch8-pipeline-orchestration", title: "Chapter 8: Pipeline Orchestration" },
+      { id: "ch9-search-infrastructure", title: "Chapter 9: Search Infrastructure" },
+      { id: "ch10-production-architecture", title: "Chapter 10: Production & MLOps Architecture" },
       { id: "ch11-research-papers", title: "Chapter 11: Core Engineering Literature" },
-      { id: "ch12-implementation-architecture", title: "Chapter 12: The Bioquora Operating System" }
+      { id: "ch12-implementation-architecture", title: "Chapter 12: Implementation Architecture" }
     ]
   }
 ];

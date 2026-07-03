@@ -688,22 +688,6 @@ export default function BioquoraDashboard() {
 
         {/* Steps grid */}
         
-        {activePhaseTab === 5 && (
-          <div style={{ textAlign: "center", marginBottom: "48px" }}>
-            <h2 style={{ fontSize: "24px", color: "#00d4c8", marginBottom: "16px" }}>ResearchOS AI Planner DAG Engine</h2>
-            <p style={{ color: "#94a3b8", marginBottom: "24px" }}>Test the live execution DAG of our Research Copilot engine running parallel semantic, graph, and dataset agents.</p>
-            <a href="/copilot-dag" style={{ display: "inline-block", background: "#00d4c8", color: "#050A12", padding: "12px 24px", borderRadius: "8px", textDecoration: "none", fontWeight: "bold" }}>Launch Workflow Simulator</a>
-          </div>
-        )}
-        
-        {activePhaseTab === 3 && (
-          <div style={{ textAlign: "center", marginBottom: "48px" }}>
-            <h2 style={{ fontSize: "24px", color: "#6366f1", marginBottom: "16px" }}>Phase 5: Recommendation Systems</h2>
-            <p style={{ color: "#94a3b8", marginBottom: "24px" }}>Explore the Hybrid Fusion engine, Collaborative Filtering, and Citation Graph.</p>
-            <a href="/phase5" style={{ display: "inline-block", background: "#6366f1", color: "#ffffff", padding: "12px 24px", borderRadius: "8px", textDecoration: "none", fontWeight: "bold" }}>Open Interactive Presentation</a>
-          </div>
-        )}
-
         <div className="phase4-container" style={{ marginBottom: "48px" }}>
 
           <div className="pipeline-visual">
@@ -1200,6 +1184,31 @@ export default function BioquoraDashboard() {
         </div>
 
         {/* Dynamic Buttons */}
+        {activePhaseTab === 0 && (
+          <div style={{ textAlign: "center", marginBottom: "48px" }}>
+            <h2 style={{ fontSize: "24px", color: "#00d4ff", marginBottom: "16px" }}>Biomedical Intelligence: Foundation Models</h2>
+            <button 
+              onClick={() => window.location.href = '/foundation'}
+              style={{
+                background: "linear-gradient(135deg, #00d4ff, #0284c7)", border: "none", color: "#fff",
+                padding: "20px 40px", fontSize: "20px", fontWeight: "bold", borderRadius: "12px",
+                cursor: "pointer", boxShadow: "0 0 30px rgba(0, 212, 255, 0.4)", display: "inline-flex",
+                alignItems: "center", gap: "12px", transition: "all 0.3s"
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.transform = "scale(1.05)";
+                e.currentTarget.style.boxShadow = "0 0 40px rgba(0, 212, 255, 0.6)";
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.boxShadow = "0 0 30px rgba(0, 212, 255, 0.4)";
+              }}
+            >
+              🧠 LAUNCH FOUNDATION MODELS
+            </button>
+          </div>
+        )}
+
         {activePhaseTab === 1 && (
           <div style={{ textAlign: "center", marginBottom: "48px" }}>
             <h2 style={{ fontSize: "24px", color: "#a78bfa", marginBottom: "16px" }}>Phase 1: Predictive ML Engine</h2>
@@ -1246,6 +1255,31 @@ export default function BioquoraDashboard() {
               }}
             >
               🕸️ LAUNCH NEO4J VISUALIZER
+            </button>
+          </div>
+        )}
+
+        {activePhaseTab === 3 && (
+          <div style={{ textAlign: "center", marginBottom: "48px" }}>
+            <h2 style={{ fontSize: "24px", color: "#34d399", marginBottom: "16px" }}>Production Knowledge Graph Explorer</h2>
+            <button 
+              onClick={() => window.location.href = '/explorer'}
+              style={{
+                background: "linear-gradient(135deg, #34d399, #059669)", border: "none", color: "#000",
+                padding: "20px 40px", fontSize: "20px", fontWeight: "bold", borderRadius: "12px",
+                cursor: "pointer", boxShadow: "0 0 30px rgba(52, 211, 153, 0.4)", display: "inline-flex",
+                alignItems: "center", gap: "12px", transition: "all 0.3s"
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.transform = "scale(1.05)";
+                e.currentTarget.style.boxShadow = "0 0 40px rgba(52, 211, 153, 0.6)";
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.boxShadow = "0 0 30px rgba(52, 211, 153, 0.4)";
+              }}
+            >
+              🧭 LAUNCH KNOWLEDGE EXPLORER
             </button>
           </div>
         )}
