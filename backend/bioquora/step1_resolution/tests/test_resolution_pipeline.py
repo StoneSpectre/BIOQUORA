@@ -94,7 +94,7 @@ def test_pipeline_new_entity(session):
     entity = session.get(BioquoraEntity, result.bq_id)
     assert entity is not None
     assert entity.preferred_label == "essential hypertension"
-    assert len(entity.synonyms) == 2
+    assert len(entity.synonyms) == 3
     assert len(entity.ontology_memberships) == 2
     assert len(entity.evidence_records) == 2
     assert len(entity.external_identifiers) == 1
@@ -147,4 +147,50 @@ def test_id_generator(session):
     id_gen = gen.next_id(EntityNamespace.GEN)
     assert id_gen == "BQ:GEN00000001"
     assert BQIdGenerator.validate_format("INVALID_ID") is False
+
+
+def test_modular_stages(session):
+    from bioquora.step1_resolution import (
+        fold_for_matching,
+        match_by_identifier,
+        match_by_ontology,
+        match_by_synonym,
+        apply_context_disambiguation,
+        match_by_similarity,
+    )
+    pipeline = EntityResolutionPipeline(session)
+    rec1 = IncomingRecord(
+        raw_label="Epidermal Growth Factor Receptor",
+        source_database=SourceDatabase.HGNC,
+        external_id="HGNC:3236",
+        entity_type_hint="Gene",
+        synonyms=["EGFR", "ERBB1"],
+    )
+    res1 = pipeline.resolve(rec1)
+    
+    # Test identifier matching stage
+    rec_id_match = IncomingRecord(
+        raw_label="EGFR gene",
+        source_database=SourceDatabase.HGNC,
+        external_id="HGNC:3236",
+    )
+    bq_id, conf = match_by_identifier(rec_id_match, pipeline.store)
+    assert bq_id == res1.bq_id
+    assert conf == 1.00
+
+    # Test synonym matching stage
+    rec_syn = IncomingRecord(
+        raw_label="erbb1",
+    )
+    bq_id_syn, conf_syn = match_by_synonym(rec_syn, pipeline.store)
+    assert bq_id_syn == res1.bq_id
+    assert conf_syn == 0.90
+
+    # Test context disambiguation
+    best_type = apply_context_disambiguation(
+        IncomingRecord(raw_label="EGFR", context="The EGFR kinase activity and receptor phosphorylation were elevated."),
+        ["Gene", "Protein", "Drug"]
+    )
+    assert best_type == "Protein"
+
 

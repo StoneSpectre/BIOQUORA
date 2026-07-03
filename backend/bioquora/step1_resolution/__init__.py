@@ -32,6 +32,12 @@ from .resolution_pipeline import (
     SIGNAL_WEIGHTS,
     EVIDENCE_LEVEL_WEIGHT,
     SOURCE_AUTHORITY_TIER,
+    fold_for_matching,
+    match_by_identifier,
+    match_by_ontology,
+    match_by_synonym,
+    apply_context_disambiguation,
+    match_by_similarity,
 )
 
 __all__ = [
@@ -63,4 +69,10 @@ __all__ = [
     "SIGNAL_WEIGHTS",
     "EVIDENCE_LEVEL_WEIGHT",
     "SOURCE_AUTHORITY_TIER",
+    "fold_for_matching",
+    "match_by_identifier",
+    "match_by_ontology",
+    "match_by_synonym",
+    "apply_context_disambiguation",
+    "match_by_similarity",
 ]
