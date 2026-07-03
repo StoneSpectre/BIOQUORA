@@ -1,41 +1,108 @@
 """
 BIOQUORA TECHNICAL BIBLE — Volume I, Step 1, Part 2, Chapter 3
-BQIdGenerator — Canonical Identifier Generator
+================================================================
+id_generator.py — "Canonical Bioquora Identifier"
+
+    Format:  BQ:<TYPE><NUMBER>          e.g. BQ:DIS00001234
+
+Guarantees enforced here:
+  - Independent of external databases (never derived from a source ID).
+  - Stable once issued — an entity's bq_id never changes, even across
+    merges (the *losing* entity gets `status=MERGED` + `merged_into_id`,
+    it does not get renumbered or deleted).
+  - Monotonic per namespace, never reused, even if an entity is deleted.
+  - Safe under concurrent writers via a row-level counter with
+    `SELECT ... FOR UPDATE` (Postgres) / best-effort locking (SQLite).
+
+Padding width is 8 digits (BQ:DIS00001234 has 8 digits after the prefix),
+matching the examples in Chapter 3. This supports 10^8 - 1 ≈ 99,999,999
+entities per namespace before overflow — reassess if any single namespace
+(most likely PUB, given biomedical literature volume) approaches that.
 """
 
 from __future__ import annotations
 
-import re
-from sqlalchemy import select, func
+from sqlalchemy import select
 from sqlalchemy.orm import Session
-from .models import BioquoraEntity, EntityNamespace
+
+try:
+    from .models import BQIdCounter, EntityNamespace
+except ImportError:
+    from models import BQIdCounter, EntityNamespace
+
+ID_WIDTH = 8
+
+
+class BQIdGenerationError(Exception):
+    pass
 
 
 class BQIdGenerator:
     """
-    Generates sequential canonical Bioquora IDs in the format:
-        BQ-{namespace}-{sequence:06d}
-    Example: BQ-DIS-000001
+    Usage:
+        gen = BQIdGenerator(session)
+        bq_id = gen.next_id(EntityNamespace.DIS)   # -> "BQ:DIS00000001"
+
+    All calls are transactional: `next_id` issues the ID and persists the
+    updated counter within the caller's existing session/transaction, so
+    it should be called inside the same unit of work that creates the
+    BioquoraEntity row (or the increment must be rolled back too).
     """
+
     def __init__(self, session: Session):
         self.session = session
-        self._pattern = re.compile(r"^BQ-([A-Z]+)-(\d+)$")
 
     def next_id(self, namespace: EntityNamespace) -> str:
-        stmt = (
-            select(BioquoraEntity.bq_id)
-            .where(BioquoraEntity.namespace == namespace)
-            .order_by(BioquoraEntity.bq_id.desc())
-            .limit(100)
-        )
-        recent_ids = self.session.execute(stmt).scalars().all()
-        max_seq = 0
-        for bq_id in recent_ids:
-            match = self._pattern.match(bq_id)
-            if match and match.group(1) == namespace.value:
-                seq = int(match.group(2))
-                if seq > max_seq:
-                    max_seq = seq
+        counter = self.session.execute(
+            select(BQIdCounter)
+            .where(BQIdCounter.namespace == namespace)
+            .with_for_update()  # no-op on SQLite, row lock on Postgres
+        ).scalar_one_or_none()
 
-        next_seq = max_seq + 1
-        return f"BQ-{namespace.value}-{next_seq:06d}"
+        if counter is None:
+            counter = BQIdCounter(namespace=namespace, last_value=0)
+            self.session.add(counter)
+            self.session.flush()
+
+        counter.last_value += 1
+        next_value = counter.last_value
+
+        if next_value > 10**ID_WIDTH - 1:
+            raise BQIdGenerationError(
+                f"Namespace {namespace.value} exhausted its {ID_WIDTH}-digit "
+                f"identifier space. Widen ID_WIDTH or introduce a namespace split."
+            )
+
+        self.session.flush()
+        return f"BQ:{namespace.value}{next_value:0{ID_WIDTH}d}"
+
+    def peek(self, namespace: EntityNamespace) -> int:
+        """Read-only: last issued sequence number for a namespace, without
+        incrementing. Useful for dashboards/reporting."""
+        counter = self.session.execute(
+            select(BQIdCounter).where(BQIdCounter.namespace == namespace)
+        ).scalar_one_or_none()
+        return counter.last_value if counter else 0
+
+    @staticmethod
+    def validate_format(bq_id: str) -> bool:
+        """Chapter 3, 'Identifier Quality Rules' -> 'Valid identifier syntax'."""
+        if not bq_id.startswith("BQ:"):
+            return False
+        body = bq_id[3:]
+        for ns in EntityNamespace:
+            prefix = ns.value
+            if body.startswith(prefix):
+                number_part = body[len(prefix):]
+                return number_part.isdigit() and len(number_part) == ID_WIDTH
+        return False
+
+    @staticmethod
+    def namespace_of(bq_id: str) -> EntityNamespace | None:
+        if not BQIdGenerator.validate_format(bq_id):
+            return None
+        body = bq_id[3:]
+        for ns in EntityNamespace:
+            if body.startswith(ns.value):
+                return ns
+        return None

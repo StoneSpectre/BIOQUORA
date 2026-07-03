@@ -20,8 +20,9 @@ from .models import (
     SourceDatabase,
     Synonym,
     SynonymType,
+    BQIdCounter,
 )
-from .id_generator import BQIdGenerator
+from .id_generator import BQIdGenerator, BQIdGenerationError, ID_WIDTH
 from .resolution_pipeline import (
     EntityResolutionPipeline,
     IncomingRecord,
@@ -50,7 +51,10 @@ __all__ = [
     "SourceDatabase",
     "Synonym",
     "SynonymType",
+    "BQIdCounter",
     "BQIdGenerator",
+    "BQIdGenerationError",
+    "ID_WIDTH",
     "EntityResolutionPipeline",
     "IncomingRecord",
     "ConfidenceBreakdown",

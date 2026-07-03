@@ -22,6 +22,7 @@ from bioquora.step1_resolution.resolution_pipeline import (
     IncomingRecord,
     ConflictError,
 )
+from bioquora.step1_resolution.id_generator import BQIdGenerator
 
 
 @pytest.fixture
@@ -86,7 +87,8 @@ def test_pipeline_new_entity(session):
     
     result = pipeline.resolve(rec)
     assert result.created_new_entity is True
-    assert result.bq_id.startswith("BQ-DIS-")
+    assert result.bq_id.startswith("BQ:DIS")
+    assert BQIdGenerator.validate_format(result.bq_id)
     assert result.confidence.total > 0.0
 
     entity = session.get(BioquoraEntity, result.bq_id)
@@ -126,3 +128,23 @@ def test_pipeline_existing_entity_update(session):
     entity = session.get(BioquoraEntity, res1.bq_id)
     assert len(entity.external_identifiers) == 2
     assert entity.version == 2
+
+
+def test_id_generator(session):
+    gen = BQIdGenerator(session)
+    assert gen.peek(EntityNamespace.DIS) == 0
+
+    id1 = gen.next_id(EntityNamespace.DIS)
+    assert id1 == "BQ:DIS00000001"
+    assert gen.peek(EntityNamespace.DIS) == 1
+    assert BQIdGenerator.validate_format(id1)
+    assert BQIdGenerator.namespace_of(id1) == EntityNamespace.DIS
+
+    id2 = gen.next_id(EntityNamespace.DIS)
+    assert id2 == "BQ:DIS00000002"
+    assert gen.peek(EntityNamespace.DIS) == 2
+
+    id_gen = gen.next_id(EntityNamespace.GEN)
+    assert id_gen == "BQ:GEN00000001"
+    assert BQIdGenerator.validate_format("INVALID_ID") is False
+

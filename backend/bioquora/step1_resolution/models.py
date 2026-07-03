@@ -170,6 +170,7 @@ class BioquoraEntity(Base):
     entity_type = Column(String, nullable=False)
     preferred_label = Column(String, nullable=False, index=True)
     status = Column(SQLEnum(EntityStatus), default=EntityStatus.PENDING_REVIEW, nullable=False)
+    merged_into_id = Column(String, ForeignKey("bioquora_entities.bq_id"), nullable=True)
     quality_score = Column(Float, default=0.0, nullable=False)
     confidence_score = Column(Float, default=0.0, nullable=False)
     version = Column(Integer, default=1, nullable=False)
@@ -263,3 +264,11 @@ class EntityVersion(Base):
     change_type = Column(SQLEnum(ChangeType), nullable=False)
     change_summary = Column(String, nullable=False)
     changed_at = Column(DateTime(timezone=True), default=utcnow, nullable=False)
+
+
+class BQIdCounter(Base):
+    __tablename__ = "bioquora_id_counters"
+
+    namespace = Column(SQLEnum(EntityNamespace), primary_key=True)
+    last_value = Column(Integer, default=0, nullable=False)
+
