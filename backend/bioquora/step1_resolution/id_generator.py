@@ -26,9 +26,9 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 try:
-    from .models import BQIdCounter, EntityNamespace
+    from .models import BQIdCounter, EntityNamespace, EntityType, ENTITY_TAXONOMY
 except ImportError:
-    from models import BQIdCounter, EntityNamespace
+    from models import BQIdCounter, EntityNamespace, EntityType, ENTITY_TAXONOMY
 
 ID_WIDTH = 8
 
@@ -52,7 +52,27 @@ class BQIdGenerator:
     def __init__(self, session: Session):
         self.session = session
 
-    def next_id(self, namespace: EntityNamespace) -> str:
+    def next_id(self, namespace: EntityNamespace | EntityType | str) -> str:
+        if not isinstance(namespace, EntityNamespace):
+            found_ns = None
+            if isinstance(namespace, EntityType) or isinstance(namespace, str):
+                key_str = namespace.value if hasattr(namespace, "value") else str(namespace)
+                for cat, leaves in ENTITY_TAXONOMY.items():
+                    for leaf_name, ns_val in leaves.items():
+                        if leaf_name.lower() == key_str.lower():
+                            found_ns = ns_val
+                            break
+                    if found_ns:
+                        break
+                if not found_ns:
+                    try:
+                        found_ns = EntityNamespace(key_str[:3].upper())
+                    except ValueError:
+                        found_ns = EntityNamespace.DIS
+                namespace = found_ns
+            else:
+                namespace = EntityNamespace.DIS
+
         counter = self.session.execute(
             select(BQIdCounter)
             .where(BQIdCounter.namespace == namespace)
@@ -106,3 +126,6 @@ class BQIdGenerator:
             if body.startswith(ns.value):
                 return ns
         return None
+
+
+BioquoraIDGenerator = BQIdGenerator

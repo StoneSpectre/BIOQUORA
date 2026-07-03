@@ -22,8 +22,21 @@ from .models import (
     Synonym,
     SynonymType,
     BQIdCounter,
+    CanonicalEntity,
+    Provenance,
+    RelationshipAssertion,
+    Relationship,
+    RelationType,
 )
-from .id_generator import BQIdGenerator, BQIdGenerationError, ID_WIDTH
+from .id_generator import BQIdGenerator, BQIdGenerationError, ID_WIDTH, BioquoraIDGenerator
+from .graph.store import KnowledgeGraphStore
+from .ontology import (
+    OntologyRegistry,
+    OntologyMeta,
+    OntologyIntegrationPipeline,
+    parse_obo,
+    extract_relationships,
+)
 from .resolution_pipeline import (
     EntityResolutionPipeline,
     IncomingRecord,
@@ -96,4 +109,16 @@ __all__ = [
     "BiomedicalNER",
     "DictionaryNER",
     "DetectedSpan",
+    "CanonicalEntity",
+    "Provenance",
+    "RelationshipAssertion",
+    "Relationship",
+    "RelationType",
+    "BioquoraIDGenerator",
+    "KnowledgeGraphStore",
+    "OntologyRegistry",
+    "OntologyMeta",
+    "OntologyIntegrationPipeline",
+    "parse_obo",
+    "extract_relationships",
 ]

@@ -212,6 +212,71 @@ def new_uuid() -> str:
 # Record" + Chapter 3 "Canonical Bioquora Identifier")
 # ---------------------------------------------------------------------------
 
+class ExternalIdProxy:
+    """
+    Bridges dictionary-style access (entity.external_ids["MONDO"] = "MONDO:000123")
+    with ORM list-style access (for ext in entity.external_ids).
+    """
+    def __init__(self, entity: "BioquoraEntity"):
+        self.entity = entity
+
+    def __getitem__(self, key: int | str) -> any:
+        if isinstance(key, int):
+            return self.entity._external_ids_list[key]
+        key_str = key.value if isinstance(key, enum.Enum) else str(key)
+        for ext in self.entity._external_ids_list:
+            src_str = ext.source_database.value if isinstance(ext.source_database, enum.Enum) else str(ext.source_database)
+            if src_str.lower() == key_str.lower():
+                return ext.external_id
+        raise KeyError(key)
+
+    def __setitem__(self, key: str, value: str) -> None:
+        key_str = key.value if isinstance(key, enum.Enum) else str(key)
+        for ext in self.entity._external_ids_list:
+            src_str = ext.source_database.value if isinstance(ext.source_database, enum.Enum) else str(ext.source_database)
+            if src_str.lower() == key_str.lower():
+                ext.external_id = value
+                return
+        try:
+            src_enum = SourceDatabase(key)
+        except ValueError:
+            src_enum = SourceDatabase.OTHER
+        new_ext = ExternalIdentifier(
+            entity=self.entity,
+            source_database=src_enum,
+            external_id=value,
+            mapping_confidence=1.0
+        )
+        self.entity._external_ids_list.append(new_ext)
+
+    def setdefault(self, key: str, default: str) -> str:
+        try:
+            return self[key]
+        except KeyError:
+            self[key] = default
+            return default
+
+    def __iter__(self):
+        return iter(self.entity._external_ids_list)
+
+    def __len__(self):
+        return len(self.entity._external_ids_list)
+
+    def append(self, item: "ExternalIdentifier"):
+        self.entity._external_ids_list.append(item)
+
+    def __bool__(self):
+        return bool(self.entity._external_ids_list)
+
+    def __repr__(self):
+        return repr(list(self.entity._external_ids_list))
+
+    def __eq__(self, other):
+        if isinstance(other, list):
+            return list(self.entity._external_ids_list) == other
+        return super().__eq__(other)
+
+
 class BioquoraEntity(Base):
     """
     The canonical, internally-stable record for any biomedical concept.
@@ -246,8 +311,8 @@ class BioquoraEntity(Base):
     updated_at: Mapped[datetime] = mapped_column(nullable=False, default=utcnow, onupdate=utcnow)
 
     # relationships
-    external_ids: Mapped[list["ExternalIdentifier"]] = relationship(
-        back_populates="entity", cascade="all, delete-orphan", foreign_keys="ExternalIdentifier.entity_id"
+    _external_ids_list: Mapped[list["ExternalIdentifier"]] = relationship(
+        "ExternalIdentifier", back_populates="entity", cascade="all, delete-orphan", foreign_keys="ExternalIdentifier.entity_id"
     )
     synonyms: Mapped[list["Synonym"]] = relationship(
         back_populates="entity", cascade="all, delete-orphan"
@@ -267,12 +332,69 @@ class BioquoraEntity(Base):
         Index("ix_entity_type_label", "entity_type", "preferred_label"),
     )
 
+    def __init__(self, *args, **kwargs):
+        if "preferred_name" in kwargs and "preferred_label" not in kwargs:
+            kwargs["preferred_label"] = kwargs.pop("preferred_name")
+        if "namespace" not in kwargs and "entity_type" in kwargs:
+            et = kwargs["entity_type"]
+            ns = None
+            for cat, leaves in ENTITY_TAXONOMY.items():
+                for leaf, leaf_ns in leaves.items():
+                    if leaf.lower() == str(et.value if hasattr(et, "value") else et).lower():
+                        ns = leaf_ns
+                        break
+                if ns:
+                    break
+            if not ns:
+                try:
+                    ns = EntityNamespace(str(et)[:3].upper())
+                except ValueError:
+                    ns = EntityNamespace.DIS
+            kwargs["namespace"] = ns
+        super().__init__(*args, **kwargs)
+
     @property
-    def external_identifiers(self) -> list["ExternalIdentifier"]:
+    def external_ids(self) -> "ExternalIdProxy":
+        return ExternalIdProxy(self)
+
+    @external_ids.setter
+    def external_ids(self, value: list["ExternalIdentifier"]) -> None:
+        self._external_ids_list = value
+
+    @property
+    def external_identifiers(self) -> "ExternalIdProxy":
         return self.external_ids
+
+    @property
+    def provenance(self) -> list["ProvenanceRecord"]:
+        return self.provenance_records
+
+    @provenance.setter
+    def provenance(self, value: list["ProvenanceRecord"]) -> None:
+        self.provenance_records = value
+
+    def add_synonym(self, text: str, syn_type: SynonymType | str = SynonymType.EXACT, language: str = "en") -> "Synonym" | None:
+        if not text:
+            return None
+        from .resolution.preprocessing import fold_for_matching
+        if isinstance(syn_type, str):
+            try:
+                syn_type = SynonymType(syn_type.lower())
+            except ValueError:
+                syn_type = SynonymType.EXACT
+        norm = fold_for_matching(text)
+        for s in self.synonyms:
+            if s.normalized_term == norm and s.language == language:
+                return s
+        syn = Synonym(entity_id=self.bq_id, term=text, normalized_term=norm, synonym_type=syn_type, language=language)
+        self.synonyms.append(syn)
+        return syn
 
     def __repr__(self) -> str:  # pragma: no cover
         return f"<BioquoraEntity {self.bq_id} '{self.preferred_label}' ({self.entity_type})>"
+
+
+CanonicalEntity = BioquoraEntity
 
 
 # ---------------------------------------------------------------------------
@@ -353,7 +475,7 @@ class ExternalIdentifier(Base):
     mapped_date: Mapped[datetime] = mapped_column(nullable=False, default=utcnow)
     reviewer: Mapped[str | None] = mapped_column(String(128), nullable=True)
 
-    entity: Mapped["BioquoraEntity"] = relationship(back_populates="external_ids", foreign_keys=[entity_id])
+    entity: Mapped["BioquoraEntity"] = relationship(back_populates="_external_ids_list", foreign_keys=[entity_id])
     confidence_signals: Mapped[list["ConfidenceSignal"]] = relationship(
         back_populates="mapping", cascade="all, delete-orphan"
     )
@@ -483,6 +605,20 @@ class ProvenanceRecord(Base):
 
     entity: Mapped["BioquoraEntity"] = relationship(back_populates="provenance_records")
 
+    def __init__(self, *args, **kwargs):
+        if "source" in kwargs and "mapped_from_database" not in kwargs:
+            kwargs["mapped_from_database"] = kwargs.pop("source")
+        if "imported_what" in kwargs and "original_identifier" not in kwargs:
+            kwargs["original_identifier"] = kwargs.pop("imported_what")
+        if "source_version" in kwargs and "import_version" not in kwargs:
+            kwargs["import_version"] = kwargs.pop("source_version")
+        if "algorithm" in kwargs and "mapping_algorithm" not in kwargs:
+            kwargs["mapping_algorithm"] = kwargs.pop("algorithm")
+        super().__init__(*args, **kwargs)
+
+
+Provenance = ProvenanceRecord
+
 
 # ---------------------------------------------------------------------------
 # Versioning (Chapter 3, "Versioning")
@@ -530,6 +666,9 @@ class RelationType(str, enum.Enum):
     EVALUATES = "EVALUATES"
     TRAINED_ON = "TRAINED_ON"
     SUPPORTS = "SUPPORTS"
+    IS_A = "IS_A"
+    PART_OF = "PART_OF"
+    OTHER = "OTHER"
 
 
 class Relationship(Base):
@@ -551,6 +690,16 @@ class Relationship(Base):
     __table_args__ = (
         Index("ix_subject_predicate_object", "subject_id", "predicate", "object_id"),
     )
+
+
+@dataclass
+class RelationshipAssertion:
+    subject_bq_id: str
+    predicate: str | RelationType
+    object_bq_id: str
+    source: str
+    source_version: str
+    confidence: float = 1.0
 
 
 # ---------------------------------------------------------------------------
