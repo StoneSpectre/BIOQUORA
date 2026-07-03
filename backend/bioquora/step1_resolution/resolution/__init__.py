@@ -13,6 +13,7 @@ from .stages import (
     match_by_similarity,
 )
 from .pipeline import EntityResolutionPipeline
+from .ner import BiomedicalNER, DictionaryNER, DetectedSpan
 
 __all__ = [
     "fold_for_matching",
@@ -22,4 +23,7 @@ __all__ = [
     "apply_context_disambiguation",
     "match_by_similarity",
     "EntityResolutionPipeline",
+    "BiomedicalNER",
+    "DictionaryNER",
+    "DetectedSpan",
 ]

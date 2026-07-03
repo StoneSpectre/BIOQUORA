@@ -9,6 +9,7 @@ from .models import (
     ConfidenceSignalType,
     ENTITY_TAXONOMY,
     EntityNamespace,
+    EntityType,
     EntityStatus,
     EntityVersion,
     ChangeType,
@@ -38,6 +39,9 @@ from .resolution_pipeline import (
     match_by_synonym,
     apply_context_disambiguation,
     match_by_similarity,
+    BiomedicalNER,
+    DictionaryNER,
+    DetectedSpan,
 )
 
 __all__ = [
@@ -46,6 +50,7 @@ __all__ = [
     "ConfidenceSignalType",
     "ENTITY_TAXONOMY",
     "EntityNamespace",
+    "EntityType",
     "EntityStatus",
     "EntityVersion",
     "ChangeType",
@@ -75,4 +80,7 @@ __all__ = [
     "match_by_synonym",
     "apply_context_disambiguation",
     "match_by_similarity",
+    "BiomedicalNER",
+    "DictionaryNER",
+    "DetectedSpan",
 ]

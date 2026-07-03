@@ -88,6 +88,31 @@ class EntityNamespace(str, enum.Enum):
     DAT = "DAT"  # Dataset
 
 
+class EntityType(str, enum.Enum):
+    GENE = "Gene"
+    PROTEIN = "Protein"
+    VARIANT = "Variant"
+    CELL = "Cell"
+    TISSUE = "Tissue"
+    ORGAN = "Organ"
+    DISEASE = "Disease"
+    SYMPTOM = "Symptom"
+    DRUG = "Drug"
+    PROCEDURE = "Procedure"
+    LABORATORY_TEST = "Laboratory Test"
+    CLINICAL_TRIAL = "Clinical Trial"
+    PUBLICATION = "Publication"
+    DATASET = "Dataset"
+    MODEL = "Model"
+    BENCHMARK = "Benchmark"
+    ONTOLOGY = "Ontology"
+    IDENTIFIER_SYSTEM = "Identifier System"
+    ORGANIZATION = "Organization"
+    REPOSITORY = "Repository"
+    OTHER = "Other"
+
+
+
 # Chapter 2 hierarchy — used by seed_taxonomy.py and by the entity-type
 # detector in the resolution pipeline. Kept as a plain dict (not a table)
 # because it's a fixed taxonomy the platform defines, not user data.

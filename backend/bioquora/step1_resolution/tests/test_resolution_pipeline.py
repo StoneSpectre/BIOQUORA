@@ -194,3 +194,33 @@ def test_modular_stages(session):
     assert best_type == "Protein"
 
 
+def test_dictionary_ner(session):
+    from bioquora.step1_resolution import (
+        EntityResolutionPipeline,
+        IncomingRecord,
+        SourceDatabase,
+        DictionaryNER,
+        EntityType,
+    )
+    pipeline = EntityResolutionPipeline(session)
+    rec = IncomingRecord(
+        raw_label="Breast Carcinoma",
+        source_database=SourceDatabase.MONDO,
+        external_id="MONDO:0007254",
+        entity_type_hint="Disease",
+        synonyms=["Mammary cancer"],
+    )
+    pipeline.resolve(rec)
+
+    ner = DictionaryNER(pipeline.store)
+    spans = ner.detect("Mammary cancer")
+    assert len(spans) == 1
+    assert spans[0].text == "Mammary cancer"
+    assert spans[0].entity_type == "Disease" or spans[0].entity_type == EntityType.DISEASE
+    assert spans[0].confidence == 0.9
+
+    ner.invalidate()
+    assert ner._index is None
+
+
+

@@ -11,6 +11,9 @@ from .resolution import (
     apply_context_disambiguation,
     match_by_similarity,
     EntityResolutionPipeline,
+    BiomedicalNER,
+    DictionaryNER,
+    DetectedSpan,
 )
 from .resolution.pipeline import (
     ConflictError,
@@ -30,6 +33,9 @@ __all__ = [
     "apply_context_disambiguation",
     "match_by_similarity",
     "EntityResolutionPipeline",
+    "BiomedicalNER",
+    "DictionaryNER",
+    "DetectedSpan",
     "ConflictError",
     "ConfidenceBreakdown",
     "ResolutionResult",

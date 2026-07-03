@@ -147,6 +147,9 @@ class PipelineStore:
         stmt = select(Synonym.entity_id, Synonym.term, Synonym.normalized_term)
         return [(r[0], r[1], r[2]) for r in self.session.execute(stmt).all()]
 
+    def get_entity(self, bq_id: str) -> BioquoraEntity | None:
+        return self.session.get(BioquoraEntity, bq_id)
+
 
 class EntityResolutionPipeline:
     def __init__(self, session: Session):
