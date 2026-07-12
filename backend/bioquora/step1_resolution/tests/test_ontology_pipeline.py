@@ -8,7 +8,7 @@ from sqlalchemy.orm import sessionmaker
 
 from bioquora.step1_resolution.models import Base, EntityType, CanonicalEntity, Relationship, OntologyMembership
 from bioquora.step1_resolution.graph.store import KnowledgeGraphStore
-from bioquora.step1_resolution.ontology.registry import OntologyRegistry
+from bioquora.step1_resolution.ontology.registry import OntologyRegistry, score_selection_criteria
 from bioquora.step1_resolution.ontology.parser import parse_obo, extract_relationships
 from bioquora.step1_resolution.ontology.pipeline import OntologyIntegrationPipeline
 
@@ -148,3 +148,91 @@ def test_ontology_integration_pipeline_lifecycle(db_session):
     # Total entity count in DB should remain 2
     all_entities = db_session.query(CanonicalEntity).all()
     assert len(all_entities) == 2
+
+
+def test_score_selection_criteria():
+    score = score_selection_criteria(
+        widely_adopted=True,
+        actively_maintained=True,
+        stable_ids=True,
+        machine_readable=True,
+        clear_licensing=True,
+        rich_xrefs=True,
+        community_accepted=True,
+        has_version_history=True,
+        public_docs=True,
+        has_api_or_releases=True,
+    )
+    assert score == 1.0
+
+    partial_score = score_selection_criteria(
+        widely_adopted=True,
+        actively_maintained=True,
+        stable_ids=True,
+        machine_readable=True,
+        clear_licensing=False,
+        rich_xrefs=False,
+        community_accepted=False,
+        has_version_history=False,
+        public_docs=False,
+        has_api_or_releases=False,
+    )
+    assert partial_score == 0.4
+
+
+def test_ch5_graph_methods(db_session):
+    store = KnowledgeGraphStore(db_session)
+    registry = OntologyRegistry(db_session)
+    pipeline = OntologyIntegrationPipeline(store, registry)
+    pipeline.integrate(SAMPLE_OBO, "MONDO", EntityType.DISEASE, "2024-01-01")
+    db_session.commit()
+
+    bq_id = store.find_by_native_id("MONDO", "MONDO:0007254")
+    assert bq_id is not None
+    assert bq_id.startswith("BQ:DIS")
+
+    syn_index = store.all_synonym_index()
+    assert len(syn_index) >= 2
+    assert any("mammary cancer" in r[1].lower() for r in syn_index)
+
+    active_ids = store.all_active_entities()
+    assert len(active_ids) == 2
+
+    rels = store.get_relationships(bq_id)
+    assert len(rels) == 2
+    assert any(r["predicate"] in ("IS_A", "PART_OF") for r in rels)
+
+    conflicts = store.conflicting_assertions(bq_id, "IS_A")
+    assert len(conflicts) == 1
+    assert conflicts[0]["object"] == store.find_by_native_id("MONDO", "MONDO:0000001")
+
+
+def test_core_models():
+    from bioquora.step1_resolution.core_models import (
+        now_iso, EntityType, SynonymType, MatchStage,
+        Synonym, CrossReference, OntologyConcept,
+        Provenance, Evidence, RelationshipAssertion,
+        CanonicalEntity, IncomingRecord, ResolutionResult
+    )
+    assert now_iso().endswith("+00:00") or "T" in now_iso()
+    syn = Synonym("breast cancer", SynonymType.EXACT)
+    assert syn.to_dict() == {"text": "breast cancer", "type": "Exact"}
+
+    xref = CrossReference("MeSH", "D001943")
+    assert xref.to_dict() == {"ontology": "MeSH", "id": "D001943"}
+
+    entity = CanonicalEntity(
+        bq_id="BQ:DIS0001",
+        entity_type=EntityType.DISEASE,
+        preferred_name="Breast Cancer"
+    )
+    entity.add_synonym("CA breast", SynonymType.RELATED)
+    d = entity.to_dict()
+    assert d["bq_id"] == "BQ:DIS0001"
+    assert len(d["synonyms"]) == 1
+
+    restored = CanonicalEntity.from_dict(d)
+    assert restored.bq_id == entity.bq_id
+    assert restored.preferred_name == entity.preferred_name
+    assert len(restored.synonyms) == 1
+

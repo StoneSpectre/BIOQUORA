@@ -241,5 +241,22 @@ def test_stage_1_preprocessing():
     assert fold_for_matching("<b>α-synuclein</b>") == "alpha synuclein"
 
 
+def test_bioquora_id_generator_file_backed(tmp_path):
+    from bioquora.step1_resolution.id_generator import BioquoraIDGenerator
+    from bioquora.step1_resolution.models import EntityType
+    state_file = str(tmp_path / "id_counters.json")
+    gen = BioquoraIDGenerator(state_file)
+    id1 = gen.next_id(EntityType.DISEASE)
+    assert id1 == "BQ:DIS000001"
+    id2 = gen.next_id(EntityType.GENE)
+    assert id2 == "BQ:GEN000001"
+
+    # Verify disk persistence across generator re-instantiation
+    gen2 = BioquoraIDGenerator(state_file)
+    id3 = gen2.next_id(EntityType.DISEASE)
+    assert id3 == "BQ:DIS000002"
+    assert BioquoraIDGenerator.validate_format(id3)
+
+
 
 

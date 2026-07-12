@@ -57,6 +57,14 @@ app.include_router(research_maps.router, prefix="/api/v1/workspace/projects", ta
 # app.include_router(collaboration.router, prefix="/api/v1/workspace/projects", tags=["Collaboration"])
 # app.include_router(research_events.router, prefix="/api/v1/events", tags=["Research Analytics"])
 
+# ---- BioDOS Phase 1: Ontology Ingestion Engine ----
+try:
+    from app.routers import ontologies as bio_ontologies
+    app.include_router(bio_ontologies.router, prefix="/api/v1", tags=["BioDOS Phase 1 - Ontologies"])
+except ImportError:
+    pass
+
+
 # ---- Phase 3: ML Diagnostic Routers ----
 app.include_router(hepatic.router, prefix="/api/v1/hepatic", tags=["ML - Hepatic"])
 app.include_router(endocrine.router, prefix="/api/v1/endocrine", tags=["ML - Endocrine"])

@@ -30,6 +30,7 @@ from .models import (
 )
 from .id_generator import BQIdGenerator, BQIdGenerationError, ID_WIDTH, BioquoraIDGenerator
 from .graph.store import KnowledgeGraphStore
+from .core_models import now_iso, MatchStage, Evidence
 from .ontology import (
     OntologyRegistry,
     OntologyMeta,
@@ -121,4 +122,7 @@ __all__ = [
     "OntologyIntegrationPipeline",
     "parse_obo",
     "extract_relationships",
+    "now_iso",
+    "MatchStage",
+    "Evidence",
 ]

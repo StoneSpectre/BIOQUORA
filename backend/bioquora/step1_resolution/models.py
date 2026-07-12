@@ -86,6 +86,10 @@ class EntityNamespace(str, enum.Enum):
     TRL = "TRL"  # Clinical Trial
     IMG = "IMG"  # Medical Image
     DAT = "DAT"  # Dataset
+    PHE = "PHE"  # Phenotype
+    ANA = "ANA"  # Anatomy
+    CLN = "CLN"  # Clinical
+
 
 
 class EntityType(str, enum.Enum):
@@ -110,6 +114,13 @@ class EntityType(str, enum.Enum):
     ORGANIZATION = "Organization"
     REPOSITORY = "Repository"
     OTHER = "Other"
+    PHENOTYPE = "Phenotype"
+    CHEMICAL = "Chemical"
+    ANATOMY = "Anatomy"
+    PATHWAY = "Pathway"
+    CLINICAL = "Clinical"
+    ORGANISM = "Organism"
+
 
 
 
@@ -124,15 +135,22 @@ ENTITY_TAXONOMY: dict[str, dict] = {
         "Cell": EntityNamespace.CEL,
         "Tissue": EntityNamespace.TIS,
         "Organ": EntityNamespace.ORG,
+        "Organism": EntityNamespace.ORG,
+        "Pathway": EntityNamespace.PTH,
+        "Anatomy": EntityNamespace.ANA,
+        "Chemical": EntityNamespace.CHE,
     },
     "Clinical": {
         "Disease": EntityNamespace.DIS,
+        "Phenotype": EntityNamespace.PHE,
         "Symptom": EntityNamespace.DIS,  # phenotype/symptom share the Disease/Phenotype axis
         "Drug": EntityNamespace.DRG,
+        "Clinical": EntityNamespace.CLN,
         "Procedure": EntityNamespace.TRL,  # placeholder namespace until Procedure gets its own
         "Laboratory Test": EntityNamespace.TRL,
         "Clinical Trial": EntityNamespace.TRL,
     },
+
     "Research": {
         "Publication": EntityNamespace.PUB,
         "Dataset": EntityNamespace.DAT,
@@ -528,6 +546,48 @@ class Synonym(Base):
 
     entity: Mapped["BioquoraEntity"] = relationship(back_populates="synonyms")
 
+    def __init__(self, **kwargs):
+        if "text" in kwargs and "term" not in kwargs:
+            kwargs["term"] = kwargs.pop("text")
+        if "type" in kwargs and "synonym_type" not in kwargs:
+            val = kwargs.pop("type")
+            if isinstance(val, str):
+                try:
+                    val = SynonymType(val.lower())
+                except ValueError:
+                    val = SynonymType.RELATED
+            kwargs["synonym_type"] = val
+        if "term" in kwargs and "normalized_term" not in kwargs:
+            try:
+                from .resolution.preprocessing import fold_for_matching
+                kwargs["normalized_term"] = fold_for_matching(kwargs["term"])
+            except ImportError:
+                kwargs["normalized_term"] = kwargs["term"].strip().lower()
+        if "entity_id" not in kwargs:
+            kwargs["entity_id"] = "pending"
+        super().__init__(**kwargs)
+
+    @property
+    def text(self) -> str:
+        return self.term
+
+    @text.setter
+    def text(self, val: str):
+        self.term = val
+        try:
+            from .resolution.preprocessing import fold_for_matching
+            self.normalized_term = fold_for_matching(val) if val else ""
+        except ImportError:
+            self.normalized_term = val.strip().lower() if val else ""
+
+    @property
+    def type(self) -> SynonymType:
+        return self.synonym_type
+
+    @type.setter
+    def type(self, val: SynonymType):
+        self.synonym_type = val
+
     __table_args__ = (
         UniqueConstraint("entity_id", "normalized_term", "language", name="uq_entity_normalized_term_lang"),
         Index("ix_normalized_term", "normalized_term"),
@@ -746,4 +806,28 @@ class IncomingRecord:
                 self.native_ids[src] = self.external_id
             for ont, tid in self.ontology_refs:
                 self.native_ids[ont] = tid
+
+
+@dataclass
+class CrossReference:
+    ontology: str
+    id: str
+
+
+@dataclass
+class OntologyConcept:
+    ontology: str
+    native_id: str
+    label: str
+    entity_type: Any
+    version: str = "unknown"
+    definition: str | None = ""
+    synonyms: list[Any] = field(default_factory=list)
+    xrefs: list[Any] = field(default_factory=list)
+    parents: list[str] = field(default_factory=list)
+    is_obsolete: bool = False
+
+    @property
+    def name(self) -> str:
+        return self.label
 
