@@ -1,0 +1,192 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bioquora.org/schemas/v1.0/master_ontology_registry.json",
+  "title": "BioSemantics Master Biomedical Ontology Registry",
+  "description": "Comprehensive catalog of authoritative biomedical ontologies integrated into BIOQUORA Step 4 Stage 2",
+  "ontologies": {
+    "MONDO": {
+      "domain": "Disease",
+      "name": "Mondo Disease Ontology",
+      "uri_prefix": "http://purl.obolibrary.org/obo/MONDO_",
+      "format": "OWL/OBO",
+      "license": "CC-BY-4.0",
+      "version": "2026-06-01"
+    },
+    "DOID": {
+      "domain": "Disease",
+      "name": "Human Disease Ontology",
+      "uri_prefix": "http://purl.obolibrary.org/obo/DOID_",
+      "format": "OBO",
+      "license": "CC0",
+      "version": "2026-05-15"
+    },
+    "OMIM": {
+      "domain": "Disease",
+      "name": "Online Mendelian Inheritance in Man",
+      "uri_prefix": "https://omim.org/entry/",
+      "format": "JSON",
+      "license": "Academic-Open",
+      "version": "2026.06"
+    },
+    "SNOMED": {
+      "domain": "Clinical",
+      "name": "SNOMED Clinical Terms",
+      "uri_prefix": "http://snomed.info/id/",
+      "format": "RF2/OWL",
+      "license": "IHTSDO",
+      "version": "20260131"
+    },
+    "ICD10": {
+      "domain": "Clinical",
+      "name": "International Classification of Diseases 10th Revision",
+      "uri_prefix": "http://hl7.org/fhir/sid/icd-10/",
+      "format": "XML",
+      "license": "WHO",
+      "version": "2026-CM"
+    },
+    "ICD11": {
+      "domain": "Clinical",
+      "name": "International Classification of Diseases 11th Revision",
+      "uri_prefix": "http://id.who.int/icd/entity/",
+      "format": "RDF",
+      "license": "WHO",
+      "version": "2026-01"
+    },
+    "LOINC": {
+      "domain": "Clinical",
+      "name": "Logical Observation Identifiers Names and Codes",
+      "uri_prefix": "http://loinc.org/",
+      "format": "CSV/JSON",
+      "license": "Regenstrief",
+      "version": "2.78"
+    },
+    "HGNC": {
+      "domain": "Gene",
+      "name": "HUGO Gene Nomenclature Committee",
+      "uri_prefix": "https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:",
+      "format": "JSON",
+      "license": "CC0",
+      "version": "2026-Q2"
+    },
+    "NCBIGene": {
+      "domain": "Gene",
+      "name": "NCBI Gene Database",
+      "uri_prefix": "https://www.ncbi.nlm.nih.gov/gene/",
+      "format": "TSV/JSON",
+      "license": "Public Domain",
+      "version": "GRCh38.p14"
+    },
+    "Ensembl": {
+      "domain": "Gene",
+      "name": "Ensembl Genome Browser",
+      "uri_prefix": "http://ensembl.org/id/",
+      "format": "GTF/JSON",
+      "license": "EMBL-EBI",
+      "version": "112"
+    },
+    "UniProt": {
+      "domain": "Protein",
+      "name": "UniProt Knowledgebase",
+      "uri_prefix": "https://www.uniprot.org/uniprotkb/",
+      "format": "RDF/XML",
+      "license": "CC-BY-4.0",
+      "version": "2026_02"
+    },
+    "GO": {
+      "domain": "BiologicalFunction",
+      "name": "Gene Ontology",
+      "uri_prefix": "http://purl.obolibrary.org/obo/GO_",
+      "format": "OWL/OBO",
+      "license": "CC-BY-4.0",
+      "version": "2026-06-01"
+    },
+    "ChEBI": {
+      "domain": "Chemical",
+      "name": "Chemical Entities of Biological Interest",
+      "uri_prefix": "http://purl.obolibrary.org/obo/CHEBI_",
+      "format": "OBO",
+      "license": "CC-BY-4.0",
+      "version": "228"
+    },
+    "PubChem": {
+      "domain": "Chemical",
+      "name": "PubChem Compound Database",
+      "uri_prefix": "https://pubchem.ncbi.nlm.nih.gov/compound/",
+      "format": "JSON/SDF",
+      "license": "Public Domain",
+      "version": "2026-06"
+    },
+    "DrugBank": {
+      "domain": "Drug",
+      "name": "DrugBank Knowledgebase",
+      "uri_prefix": "https://go.drugbank.com/drugs/",
+      "format": "XML",
+      "license": "CC-BY-NC-4.0",
+      "version": "5.1.11"
+    },
+    "RxNorm": {
+      "domain": "Drug",
+      "name": "RxNorm Normalized Naming System",
+      "uri_prefix": "http://purl.bioontology.org/ontology/RXNORM/",
+      "format": "RRF",
+      "license": "UMLS",
+      "version": "2026AB"
+    },
+    "HPO": {
+      "domain": "Phenotype",
+      "name": "Human Phenotype Ontology",
+      "uri_prefix": "http://purl.obolibrary.org/obo/HP_",
+      "format": "OWL/OBO",
+      "license": "CC-BY-4.0",
+      "version": "2026-05-18"
+    },
+    "Uberon": {
+      "domain": "Anatomy",
+      "name": "Uber-anatomy Ontology",
+      "uri_prefix": "http://purl.obolibrary.org/obo/UBERON_",
+      "format": "OWL/OBO",
+      "license": "CC-BY-4.0",
+      "version": "2026-04-10"
+    },
+    "FMA": {
+      "domain": "Anatomy",
+      "name": "Foundational Model of Anatomy",
+      "uri_prefix": "http://purl.org/sig/ont/fma/",
+      "format": "OWL",
+      "license": "CC-BY-3.0",
+      "version": "5.0.3"
+    },
+    "Reactome": {
+      "domain": "Pathway",
+      "name": "Reactome Pathway Knowledgebase",
+      "uri_prefix": "https://reactome.org/content/detail/",
+      "format": "RDF/Biopax",
+      "license": "CC-BY-4.0",
+      "version": "89"
+    },
+    "KEGG": {
+      "domain": "Pathway",
+      "name": "Kyoto Encyclopedia of Genes and Genomes",
+      "uri_prefix": "https://www.kegg.jp/entry/",
+      "format": "KGML/JSON",
+      "license": "Academic",
+      "version": "111.0"
+    },
+    "CL": {
+      "domain": "Cell",
+      "name": "Cell Ontology",
+      "uri_prefix": "http://purl.obolibrary.org/obo/CL_",
+      "format": "OWL/OBO",
+      "license": "CC-BY-4.0",
+      "version": "2026-05-01"
+    },
+    "EFO": {
+      "domain": "Experiment",
+      "name": "Experimental Factor Ontology",
+      "uri_prefix": "http://www.ebi.ac.uk/efo/EFO_",
+      "format": "OWL",
+      "license": "Apache-2.0",
+      "version": "3.66.0"
+    }
+  }
+}
