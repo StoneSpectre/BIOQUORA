@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bioquora.org/schemas/v1.0/graph_schema_v1.json",
+  "title": "BioGraph Core v1.0 Master Schema",
+  "description": "Canonical schema governing all Node and Edge objects in BIOQUORA Step 4 Stage 1",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0-KG"
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["bioq_id", "preferred_id", "category", "name", "namespace", "created_at", "version"],
+        "properties": {
+          "bioq_id": {
+            "type": "string",
+            "pattern": "^bioq_[a-zA-Z0-9_-]+$"
+          },
+          "preferred_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9]+:[A-Za-z0-9_.-]+$"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "Disease", "Drug", "Gene", "Protein", "Variant", "Pathway", "Cell",
+              "Phenotype", "Publication", "ClinicalTrial", "Dataset", "Author",
+              "Institution", "Biomarker", "Chemical", "Organism"
+            ]
+          },
+          "name": { "type": "string" },
+          "namespace": { "type": "string" },
+          "aliases": { "type": "array", "items": { "type": "string" } },
+          "status": { "type": "string", "enum": ["ACTIVE", "SUPERSEDED", "DEPRECATED"] },
+          "created_at": { "type": "string", "format": "date-time" },
+          "version": { "type": "string" }
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["edge_id", "source_bioq_id", "predicate", "target_bioq_id", "evidence"],
+        "properties": {
+          "edge_id": { "type": "string" },
+          "source_bioq_id": { "type": "string" },
+          "predicate": {
+            "type": "string",
+            "enum": [
+              "DRUG_TREATS_DISEASE", "DRUG_CONTRAINDICATES_DISEASE", "DRUG_TARGETS_PROTEIN",
+              "GENE_ASSOCIATED_WITH_DISEASE", "GENE_ENCODES_PROTEIN",
+              "PROTEIN_INTERACTS_WITH_PROTEIN", "PROTEIN_PARTICIPATES_IN_PATHWAY",
+              "VARIANT_AFFECTS_GENE", "VARIANT_ASSOCIATED_WITH_PHENOTYPE",
+              "BIOMARKER_INDICATES_DISEASE", "DISEASE_HAS_PHENOTYPE",
+              "PUBLICATION_EVIDENCES_ASSERTION", "CLINICAL_TRIAL_EVALUATES_DRUG",
+              "AUTHOR_AFFILIATED_WITH_INSTITUTION"
+            ]
+          },
+          "target_bioq_id": { "type": "string" },
+          "evidence": {
+            "type": "object",
+            "required": ["confidence"],
+            "properties": {
+              "pmid": { "type": "string" },
+              "doi": { "type": "string" },
+              "confidence": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+              "p_value": { "type": "number" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

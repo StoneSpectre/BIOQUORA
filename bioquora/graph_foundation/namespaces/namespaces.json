@@ -1,0 +1,59 @@
+{
+  "namespaces": {
+    "BIOQ": {
+      "name": "BIOQUORA Canonical Identifier",
+      "uri_prefix": "https://bioquora.org/id/",
+      "pattern": "^BIOQ:[A-Za-z0-9_-]+$"
+    },
+    "DOID": {
+      "name": "Human Disease Ontology",
+      "uri_prefix": "http://purl.obolibrary.org/obo/DOID_",
+      "pattern": "^DOID:[0-9]+$"
+    },
+    "HGNC": {
+      "name": "HUGO Gene Nomenclature Committee",
+      "uri_prefix": "https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:",
+      "pattern": "^HGNC:[0-9]+$"
+    },
+    "UniProt": {
+      "name": "UniProt Knowledgebase",
+      "uri_prefix": "https://www.uniprot.org/uniprotkb/",
+      "pattern": "^UniProt:[A-N,R-Z][0-9]([A-Z][A-Z, 0-9][A-Z, 0-9][0-9]){1,2}$"
+    },
+    "MONDO": {
+      "name": "Mondo Disease Ontology",
+      "uri_prefix": "http://purl.obolibrary.org/obo/MONDO_",
+      "pattern": "^MONDO:[0-9]+$"
+    },
+    "CHEBI": {
+      "name": "Chemical Entities of Biological Interest",
+      "uri_prefix": "http://purl.obolibrary.org/obo/CHEBI_",
+      "pattern": "^CHEBI:[0-9]+$"
+    },
+    "DrugBank": {
+      "name": "DrugBank Database",
+      "uri_prefix": "https://go.drugbank.com/drugs/",
+      "pattern": "^DrugBank:DB[0-9]{5}$"
+    },
+    "Reactome": {
+      "name": "Reactome Pathway Database",
+      "uri_prefix": "https://reactome.org/content/detail/",
+      "pattern": "^Reactome:R-[A-Z]{3}-[0-9]+$"
+    },
+    "PMID": {
+      "name": "PubMed Identifier",
+      "uri_prefix": "https://pubmed.ncbi.nlm.nih.gov/",
+      "pattern": "^PMID:[0-9]+$"
+    },
+    "DOI": {
+      "name": "Digital Object Identifier",
+      "uri_prefix": "https://doi.org/",
+      "pattern": "^DOI:10\\.[0-9]{4,9}/[-._;()/:A-Za-z0-9]+$"
+    },
+    "ORCID": {
+      "name": "Open Researcher and Contributor ID",
+      "uri_prefix": "https://orcid.org/",
+      "pattern": "^ORCID:[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]$"
+    }
+  }
+}
