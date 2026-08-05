@@ -10,7 +10,41 @@ from fastapi.middleware.cors import CORSMiddleware
 from api.core.config import settings
 from api.core.database import engine, Base
 from api.routers import projects, folders, collections, saved_papers, notes, literature, literature_review, research_maps
+"""
+Bioquora Workspace API
+FastAPI application — Steps 1–3
+"""
+
+from contextlib import asynccontextmanager
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+from api.core.config import settings
+from api.core.database import engine, Base
+from api.routers import projects, folders, collections, saved_papers, notes, literature, literature_review, research_maps
 from api.ml_routes import hepatic, endocrine, respiratory, cardiovascular, renal, immunology, feedback, graphrag, contradiction
+
+# Step 7 God Mode Generated Routers (Milestone 1)
+from api.routers.biofoundation import router as biofoundation_router
+from api.routers.bioagents import router as bioagents_router
+from api.routers.bioreason import router as bioreason_router
+from api.routers.biomemory import router as biomemory_router
+from api.routers.bioretriever import router as bioretriever_router
+from api.routers.biovision import router as biovision_router
+from api.routers.biocoder import router as biocoder_router
+from api.routers.biosimulation import router as biosimulation_router
+from api.routers.biovalidator import router as biovalidator_router
+from api.routers.bioassistant import router as bioassistant_router
+from api.routers.bioinference import router as bioinference_router
+from api.routers.biosafe import router as biosafe_router
+from api.routers.bioeval import router as bioeval_router
+from api.routers.bioworkflow import router as bioworkflow_router
+from api.routers.biofactory import router as biofactory_router
+from api.routers.bioaihub import router as bioaihub_router
+from api.routers.biolearning import router as biolearning_router
+from api.routers.biofederated import router as biofederated_router
+from api.routers.bioasi import router as bioasi_router
+from api.routers.biocore import router as biocore_router
 # from bioquora.step8_research_copilot import copilot_api
 # from websockets.manager import manager
 # from services.scheduler import start_scheduler
@@ -90,6 +124,28 @@ app.include_router(rec_router, prefix="/api/v1/recommendations", tags=["Phase 5 
 #     await manager.connect(websocket, project_id)
 
 
-@app.get("/health")
+# Bioquora Step 7 Routers
+app.include_router(biofoundation_router)
+app.include_router(bioagents_router)
+app.include_router(bioreason_router)
+app.include_router(biomemory_router)
+app.include_router(bioretriever_router)
+app.include_router(biovision_router)
+app.include_router(biocoder_router)
+app.include_router(biosimulation_router)
+app.include_router(biovalidator_router)
+app.include_router(bioassistant_router)
+app.include_router(bioinference_router)
+app.include_router(biosafe_router)
+app.include_router(bioeval_router)
+app.include_router(bioworkflow_router)
+app.include_router(biofactory_router)
+app.include_router(bioaihub_router)
+app.include_router(biolearning_router)
+app.include_router(biofederated_router)
+app.include_router(bioasi_router)
+app.include_router(biocore_router)
+
+@app.get("/api/health")
 async def health():
     return {"status": "healthy", "version": app.version}

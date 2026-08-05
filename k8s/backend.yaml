@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bioquora-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: bioquora-backend
+  template:
+    metadata:
+      labels:
+        app: bioquora-backend
+    spec:
+      containers:
+      - name: backend
+        image: bioquora/backend:latest
+        env:
+        - name: DATABASE_URL
+          value: "postgresql+asyncpg://bioquora:bioquora_password@bioquora-db:5432/bioquora_db"
+        - name: QDRANT_URL
+          value: "http://bioquora-qdrant:6333"
+        - name: GEMINI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: bioquora-secrets
+              key: gemini-api-key
+        ports:
+        - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bioquora-backend
+spec:
+  ports:
+  - port: 8000
+  selector:
+    app: bioquora-backend
