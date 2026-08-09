@@ -1,4 +1,4 @@
-import { LucideIcon, ArrowRight } from "lucide-react";
+import { LucideIcon, ArrowRight, CheckCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
@@ -8,6 +8,7 @@ interface ModuleCardProps {
   icon: LucideIcon;
   path: string;
   colorClass: string;
+  concepts?: string[];
   delay?: number;
 }
 
@@ -17,51 +18,65 @@ export function ModuleCard({
   icon: Icon,
   path,
   colorClass,
+  concepts,
   delay = 0,
 }: ModuleCardProps) {
   return (
     <Link
       to={path}
-      className="group animate-fade-in"
+      className="group animate-fade-in block h-full"
       style={{ animationDelay: `${delay}s` }}
     >
-      <article className="relative h-full overflow-hidden rounded-2xl border border-border/60 bg-card p-7 transition-all duration-500 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1">
+      <article className="relative h-full flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-[#0a0a0c] p-7 transition-all duration-500 hover:border-blue-500/40 hover:shadow-[0_0_30px_rgba(59,130,246,0.1)] hover:-translate-y-1">
         {/* Icon */}
         <div
           className={cn(
-            "mb-4 flex h-12 w-12 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110",
-            colorClass === "text-cardio" && "bg-cardio/10",
-            colorClass === "text-renal" && "bg-renal/10",
-            colorClass === "text-immune" && "bg-immune/10",
-            colorClass === "text-systems" && "bg-systems/10",
-            colorClass === "text-purple-500" && "bg-purple-500/10",
-            colorClass === "text-pink-500" && "bg-pink-500/10",
-            colorClass === "text-orange-500" && "bg-orange-500/10",
-            colorClass === "text-blue-500" && "bg-blue-500/10",
-            colorClass === "text-yellow-500" && "bg-yellow-500/10",
-            colorClass === "text-sky-500" && "bg-sky-500/10"
+            "mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gray-900 border border-gray-800 transition-transform duration-300 group-hover:scale-110",
+            colorClass === "text-cardio" && "border-red-900/50",
+            colorClass === "text-renal" && "border-blue-900/50",
+            colorClass === "text-immune" && "border-green-900/50",
+            colorClass === "text-systems" && "border-indigo-900/50",
+            colorClass === "text-purple-500" && "border-purple-900/50",
+            colorClass === "text-pink-500" && "border-pink-900/50",
+            colorClass === "text-orange-500" && "border-orange-900/50",
+            colorClass === "text-blue-500" && "border-blue-900/50",
+            colorClass === "text-yellow-500" && "border-yellow-900/50",
+            colorClass === "text-sky-500" && "border-sky-900/50",
+            colorClass === "text-amber-500" && "border-amber-900/50"
           )}
         >
           <Icon className={cn("h-6 w-6", colorClass)} />
         </div>
 
         {/* Content */}
-        <h3 className="mb-2 text-lg font-medium">{title}</h3>
-        <p className="mb-4 text-sm text-muted-foreground leading-relaxed">
+        <h3 className="mb-2 text-xl font-bold text-gray-200">{title}</h3>
+        <p className="mb-6 text-sm text-gray-400 leading-relaxed">
           {description}
         </p>
 
+        {/* Concepts List */}
+        {concepts && concepts.length > 0 && (
+          <div className="mb-6 space-y-2 flex-1">
+            {concepts.map((concept, idx) => (
+              <div key={idx} className="flex items-start text-xs text-gray-500 font-mono">
+                <CheckCircle2 className={cn("w-3.5 h-3.5 mr-2 mt-0.5 shrink-0 opacity-70", colorClass)} />
+                <span className="leading-tight">{concept}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
         {/* Arrow indicator */}
-        <div className="flex items-center gap-1 text-sm font-medium text-primary transition-transform duration-300 group-hover:translate-x-1">
-          Explore module
+        <div className="mt-auto flex items-center gap-2 text-sm font-bold text-blue-500 transition-transform duration-300 group-hover:translate-x-1 uppercase tracking-wider">
+          Explore Module
           <ArrowRight className="h-4 w-4" />
         </div>
 
         {/* Decorative gradient on hover */}
         <div
           className={cn(
-            "absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none",
-            "bg-gradient-to-br from-transparent via-transparent to-primary/5"
+            "absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none",
+            "bg-gradient-to-br from-transparent via-transparent to-blue-500/5"
           )}
         />
       </article>
