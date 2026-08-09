@@ -42,10 +42,11 @@ const BioquoraLauncher = () => {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-gradient-to-b from-blue-900/20 to-transparent blur-3xl pointer-events-none"></div>
 
       <header className="text-center mb-16 relative z-10">
-        <h1 className="text-6xl font-black mb-4 tracking-tighter flex justify-center items-center">
+        <h1 className="text-6xl font-black mb-4 tracking-tighter flex justify-center items-center relative">
           BIOQUORA<span className="text-blue-500 ml-2">OS</span>
+          <span className="absolute -right-4 top-0 translate-x-full text-xs font-mono bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-3 py-1 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.5)] border border-blue-400">v2.0 GOD MODE</span>
         </h1>
-        <p className="text-xl text-gray-400 font-light tracking-wide max-w-2xl mx-auto">
+        <p className="text-xl text-gray-400 font-light tracking-wide max-w-2xl mx-auto mt-4">
           The 20-Stage Cognitive Architecture for Planetary Healthcare.
         </p>
         <div className="mt-6 flex justify-center">
@@ -56,7 +57,52 @@ const BioquoraLauncher = () => {
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto relative z-10 pb-20">
+      <div className="max-w-7xl mx-auto relative z-10 pb-8">
+        <h2 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4">God Mode Integrations (Phase 3 & 4)</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          
+          <div onClick={() => navigate('/bioscientistx-agents')} className="bg-indigo-900/20 border border-indigo-500/30 hover:border-indigo-500/80 p-6 rounded-2xl cursor-pointer group transition-all duration-300 hover:shadow-[0_0_40px_rgba(79,70,229,0.2)]">
+             <div className="flex items-center gap-3 mb-3">
+                <div className="bg-indigo-900/50 p-2 rounded text-indigo-400 group-hover:text-white transition-colors">
+                  <Bot className="w-6 h-6" />
+                </div>
+                <div>
+                   <div className="text-[10px] font-mono font-bold text-indigo-400">STEP 4.03</div>
+                   <h3 className="text-lg font-bold text-white group-hover:text-indigo-300 transition-colors">AMBRO Multi-Agent Org</h3>
+                </div>
+             </div>
+             <p className="text-xs text-slate-400 leading-relaxed">View real-time autonomous agent communication and executive scientific board actions.</p>
+          </div>
+
+          <div onClick={() => navigate('/bioscientistx-mission')} className="bg-fuchsia-900/20 border border-fuchsia-500/30 hover:border-fuchsia-500/80 p-6 rounded-2xl cursor-pointer group transition-all duration-300 hover:shadow-[0_0_40px_rgba(217,70,239,0.2)]">
+             <div className="flex items-center gap-3 mb-3">
+                <div className="bg-fuchsia-900/50 p-2 rounded text-fuchsia-400 group-hover:text-white transition-colors">
+                  <BrainCircuit className="w-6 h-6" />
+                </div>
+                <div>
+                   <div className="text-[10px] font-mono font-bold text-fuchsia-400">STEP 4.01</div>
+                   <h3 className="text-lg font-bold text-white group-hover:text-fuchsia-300 transition-colors">AI Scientist Mission</h3>
+                </div>
+             </div>
+             <p className="text-xs text-slate-400 leading-relaxed">Direct the overarching Bioquora AI Scientist. Formulate hypotheses and design experiments.</p>
+          </div>
+
+          <div onClick={() => navigate('/biopharma-targets')} className="bg-emerald-900/20 border border-emerald-500/30 hover:border-emerald-500/80 p-6 rounded-2xl cursor-pointer group transition-all duration-300 hover:shadow-[0_0_40px_rgba(16,185,129,0.2)]">
+             <div className="flex items-center gap-3 mb-3">
+                <div className="bg-emerald-900/50 p-2 rounded text-emerald-400 group-hover:text-white transition-colors">
+                  <TestTube className="w-6 h-6" />
+                </div>
+                <div>
+                   <div className="text-[10px] font-mono font-bold text-emerald-400">STEP 3.08</div>
+                   <h3 className="text-lg font-bold text-white group-hover:text-emerald-300 transition-colors">ADDIE Discovery Engine</h3>
+                </div>
+             </div>
+             <p className="text-xs text-slate-400 leading-relaxed">Explore molecular docking, dynamics simulations, and ADMET prediction profiles.</p>
+          </div>
+
+        </div>
+
+        <h2 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4">Core Cognitive Architecture (Stages 1-20)</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {stages.map((stage) => (
             <div 
