@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,7 +10,7 @@ import {
   DropdownMenuPortal,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Heart, Droplet, Shield, Brain, Menu, X, Settings, Network, Activity, Layers, Sparkles, ChevronDown, BookOpen, Compass, LineChart, Stethoscope, Bot, Microscope, Database, PersonStanding, Workflow, Cpu, Zap, CircuitBoard, Book } from "lucide-react";
+import { Heart, Droplet, Shield, Brain, Menu, X, Settings, Network, Activity, Layers, Sparkles, ChevronDown, BookOpen, Compass, LineChart, Stethoscope, Bot, Microscope, Database, PersonStanding, Workflow, Cpu, Zap, CircuitBoard, Book, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
@@ -99,14 +99,28 @@ const mainItems = [
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const { isAdmin } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/30 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60 shadow-sm transition-all">
       <div className="container flex h-16 items-center justify-between">
-      <Link to="/" className="flex items-center gap-3">
-          <img src={bioquoraLogo} alt="BIOQUORA" className="h-10 w-auto" />
-        </Link>
+        <div className="flex items-center gap-4">
+          {location.pathname !== '/' && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate(-1)}
+              className="hidden sm:flex gap-2 mr-2 border-border/50 hover:bg-accent/50 transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              <span className="hidden lg:inline">Back</span>
+            </Button>
+          )}
+          <Link to="/" className="flex items-center gap-3">
+            <img src={bioquoraLogo} alt="BIOQUORA" className="h-10 w-auto invert grayscale brightness-200 mix-blend-screen opacity-90" />
+          </Link>
+        </div>
 
         {/* Desktop Navigation */}
         <nav className="hidden items-center gap-1 md:flex">

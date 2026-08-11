@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { searchPubMed, type PubMedArticle } from "@/lib/pubmed";
 import { searchClinicalTrials, type ClinicalTrial } from "@/lib/clinicaltrials";
 import { PathwayModal } from "@/components/common/PathwayModal";
+import { pathwaysData } from "@/data/pathwaysData";
 
 const Hepatic = () => {
   const { markModuleVisited } = useProgressTracking();
@@ -79,21 +80,37 @@ const Hepatic = () => {
               <p className="text-muted-foreground mb-6">Structured biomedical knowledge linking hepatic physiology and pathology.</p>
             </div>
             
-            <div className="grid gap-6 md:grid-cols-2">
-              <Card className="flex flex-col border-border/60 hover:border-orange-500/30 transition-colors shadow-sm">
-                <CardHeader className="pb-3 border-b border-border/40 bg-muted/10">
-                  <div className="flex justify-between items-start">
-                    <CardTitle className="text-xl text-orange-500">Liver Cirrhosis</CardTitle>
-                    <Badge variant="outline">Pathology</Badge>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-5 flex-1 space-y-5">
-                  <p className="text-sm text-foreground/90 leading-relaxed">
-                    Late stage of scarring (fibrosis) of the liver caused by many forms of liver diseases and conditions, such as hepatitis and chronic alcoholism.
-                  </p>
-                  <PathwayModal id="cirrhosis" variant="default" />
-                </CardContent>
-              </Card>
+                        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
+              {Object.values(pathwaysData).filter(p => p.category.includes("Hepatology")).map(concept => (
+                <Card key={concept.id} className="flex flex-col border-border/60 hover:border-primary/30 transition-colors shadow-sm">
+                  <CardHeader className="pb-3 border-b border-border/40 bg-muted/10">
+                    <div className="flex justify-between items-start">
+                      <CardTitle className="text-xl text-primary">{concept.title}</CardTitle>
+                      <Badge variant="outline">{concept.category.includes('Physiology') ? 'Physiology' : 'Pathology'}</Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="pt-5 flex-1 space-y-5">
+                    <p className="text-sm text-foreground/90 leading-relaxed line-clamp-3">
+                      {concept.overview}
+                    </p>
+                    
+                    <div className="space-y-3 bg-muted/20 p-4 rounded-lg">
+                      <h4 className="font-medium text-sm flex items-center gap-2">
+                        <Activity className="h-4 w-4 text-primary" /> Key Physiological Mechanisms
+                      </h4>
+                      <ul className="text-sm text-muted-foreground space-y-2">
+                        {concept.mechanisms.slice(0, 3).map((mech, idx) => (
+                          <li key={idx} className="flex items-start gap-2">
+                            <ArrowRight className="h-3 w-3 mt-1 shrink-0 text-primary" /> {mech}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    
+                    <PathwayModal id={concept.id} variant="default" />
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </TabsContent>
 

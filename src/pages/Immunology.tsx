@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { searchPubMed, type PubMedArticle } from "@/lib/pubmed";
 import { searchClinicalTrials, type ClinicalTrial } from "@/lib/clinicaltrials";
 import { PathwayModal } from "@/components/common/PathwayModal";
+import { pathwaysData } from "@/data/pathwaysData";
 
 const Immunology = () => {
   const { markModuleVisited } = useProgressTracking();
@@ -80,62 +81,37 @@ const Immunology = () => {
               <p className="text-muted-foreground mb-6">Structured biomedical knowledge linking immunology, immune-vascular coupling, and research.</p>
             </div>
             
-            <div className="grid gap-6 md:grid-cols-2">
-              {/* Concept Card 1 */}
-              <Card className="flex flex-col border-border/60 hover:border-primary/30 transition-colors shadow-sm">
-                <CardHeader className="pb-3 border-b border-border/40 bg-muted/10">
-                  <div className="flex justify-between items-start">
-                    <CardTitle className="text-xl text-primary">Rheumatoid Arthritis</CardTitle>
-                    <Badge variant="outline">Autoimmune</Badge>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-5 flex-1 space-y-5">
-                  <p className="text-sm text-foreground/90 leading-relaxed">
-                    A chronic systemic inflammatory disorder that primarily affects synovial joints, driven by aberrant B and T cell activation against self-antigens.
-                  </p>
-                  
-                  <div className="space-y-3 bg-muted/20 p-4 rounded-lg">
-                    <h4 className="font-medium text-sm flex items-center gap-2">
-                      <Activity className="h-4 w-4 text-primary" /> Key Pathogenic Mechanisms
-                    </h4>
-                    <ul className="text-sm text-muted-foreground space-y-2">
-                      <li className="flex items-start gap-2"><ArrowRight className="h-3 w-3 mt-1 shrink-0 text-immune" /> Production of autoantibodies (Rheumatoid Factor, ACPA)</li>
-                      <li className="flex items-start gap-2"><ArrowRight className="h-3 w-3 mt-1 shrink-0 text-immune" /> Cytokine storm in synovium (TNF-α, IL-6, IL-1)</li>
-                      <li className="flex items-start gap-2"><ArrowRight className="h-3 w-3 mt-1 shrink-0 text-immune" /> Osteoclast activation leading to bone erosion</li>
-                    </ul>
-                  </div>
-                  
-                  <PathwayModal id="ra" variant="default" />
-                </CardContent>
-              </Card>
-
-              {/* Concept Card 2 */}
-              <Card className="flex flex-col border-border/60 hover:border-primary/30 transition-colors shadow-sm">
-                <CardHeader className="pb-3 border-b border-border/40 bg-muted/10">
-                  <div className="flex justify-between items-start">
-                    <CardTitle className="text-xl text-primary">Sepsis & Septic Shock</CardTitle>
-                    <Badge variant="outline">Pathology</Badge>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-5 flex-1 space-y-5">
-                  <p className="text-sm text-foreground/90 leading-relaxed">
-                    A life-threatening organ dysfunction caused by a dysregulated host immune response to infection, leading to massive vasodilation.
-                  </p>
-                  
-                  <div className="space-y-3 bg-muted/20 p-4 rounded-lg">
-                    <h4 className="font-medium text-sm flex items-center gap-2">
-                      <Activity className="h-4 w-4 text-primary" /> Key Physiological Mechanisms
-                    </h4>
-                    <ul className="text-sm text-muted-foreground space-y-2">
-                      <li className="flex items-start gap-2"><ArrowRight className="h-3 w-3 mt-1 shrink-0 text-immune" /> Massive systemic release of pro-inflammatory cytokines</li>
-                      <li className="flex items-start gap-2"><ArrowRight className="h-3 w-3 mt-1 shrink-0 text-immune" /> Endothelial dysfunction and capillary leak (edema)</li>
-                      <li className="flex items-start gap-2"><ArrowRight className="h-3 w-3 mt-1 shrink-0 text-immune" /> Profound drop in Systemic Vascular Resistance (SVR)</li>
-                    </ul>
-                  </div>
-                  
-                  <PathwayModal id="sepsis" variant="outline" />
-                </CardContent>
-              </Card>
+                        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
+              {Object.values(pathwaysData).filter(p => p.category.includes("Immunology")).map(concept => (
+                <Card key={concept.id} className="flex flex-col border-border/60 hover:border-primary/30 transition-colors shadow-sm">
+                  <CardHeader className="pb-3 border-b border-border/40 bg-muted/10">
+                    <div className="flex justify-between items-start">
+                      <CardTitle className="text-xl text-primary">{concept.title}</CardTitle>
+                      <Badge variant="outline">{concept.category.includes('Physiology') ? 'Physiology' : 'Pathology'}</Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="pt-5 flex-1 space-y-5">
+                    <p className="text-sm text-foreground/90 leading-relaxed line-clamp-3">
+                      {concept.overview}
+                    </p>
+                    
+                    <div className="space-y-3 bg-muted/20 p-4 rounded-lg">
+                      <h4 className="font-medium text-sm flex items-center gap-2">
+                        <Activity className="h-4 w-4 text-primary" /> Key Physiological Mechanisms
+                      </h4>
+                      <ul className="text-sm text-muted-foreground space-y-2">
+                        {concept.mechanisms.slice(0, 3).map((mech, idx) => (
+                          <li key={idx} className="flex items-start gap-2">
+                            <ArrowRight className="h-3 w-3 mt-1 shrink-0 text-primary" /> {mech}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    
+                    <PathwayModal id={concept.id} variant="default" />
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </TabsContent>
 

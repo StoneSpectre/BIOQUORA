@@ -60,9 +60,15 @@ export function KnowledgeGraph() {
     // Simulate fetching graph data or fallback to MOCK
     const loadGraph = async () => {
       setLoading(true);
+      // Abort controller to prevent long hangups if the backend is down
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2000);
+
       try {
         const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8001";
-        const res = await fetch(`${API_URL}/graph`);
+        const res = await fetch(`${API_URL}/graph`, { signal: controller.signal });
+        clearTimeout(timeoutId);
+        
         if (res.ok) {
           const data = await res.json();
           setGraphData({
@@ -73,7 +79,8 @@ export function KnowledgeGraph() {
           throw new Error("API not ready, using mock");
         }
       } catch (err) {
-        // Use rich mock data if API fails
+        clearTimeout(timeoutId);
+        // Use rich mock data if API fails or times out
         setGraphData({
           nodes: MOCK_GRAPH.nodes.map(n => ({ ...n, val: n.type === 'Disease' ? 4 : 3 })),
           links: MOCK_GRAPH.links

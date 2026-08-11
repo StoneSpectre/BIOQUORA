@@ -24,10 +24,10 @@ export function ModuleCard({
   return (
     <Link
       to={path}
-      className="group animate-fade-in block h-full"
+      className="group animate-fade-in flex flex-col w-full h-full"
       style={{ animationDelay: `${delay}s` }}
     >
-      <article className="relative h-full flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-[#0a0a0c] p-7 transition-all duration-500 hover:border-blue-500/40 hover:shadow-[0_0_30px_rgba(59,130,246,0.1)] hover:-translate-y-1">
+      <article className="relative flex-1 flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-[#0a0a0c] p-7 transition-all duration-500 hover:border-blue-500/40 hover:shadow-[0_0_30px_rgba(59,130,246,0.1)] hover:-translate-y-1">
         {/* Icon */}
         <div
           className={cn(

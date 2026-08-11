@@ -197,7 +197,7 @@ export function ModulesSection() {
           className="flex w-full gap-8 overflow-x-auto snap-x snap-mandatory py-10 px-6 sm:px-12 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
         >
           {modules.map((module, idx) => (
-            <div key={module.path} className="w-[320px] sm:w-[400px] shrink-0 snap-center h-full">
+            <div key={module.path} className="w-[320px] sm:w-[400px] shrink-0 snap-center flex flex-col items-stretch h-auto">
               <ModuleCard {...module} delay={idx * 0.1} />
             </div>
           ))}

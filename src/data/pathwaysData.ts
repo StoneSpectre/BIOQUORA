@@ -729,5 +729,275 @@ export const pathwaysData: Record<string, PathwayConcept> = {
       "Pre-operative: Mydriatic eye drops (Tropicamide, Phenylephrine) to maximize pupillary dilation for surgical access.",
       "Post-operative: Topical antibiotics (Fluoroquinolones) to prevent endophthalmitis, and topical Corticosteroids/NSAIDs to control surgical inflammation and prevent macular edema."
     ]
+  },
+  // Added to fulfill 4 concepts per category
+  "myocardial-infarction": {
+    id: "myocardial-infarction",
+    title: "Myocardial Infarction",
+    category: "Cardiovascular Pathology",
+    overview: "Irreversible necrosis of heart muscle secondary to prolonged ischemia, usually due to plaque rupture and thrombosis.",
+    mechanisms: ["Plaque rupture", "Platelet aggregation", "Ischemic necrosis", "Ventricular remodeling"],
+    clinical: ["Chest pain", "Diaphoresis", "Dyspnea"],
+    investigations: ["ECG (ST elevation)", "Troponin I/T"],
+    treatment: ["PCI", "Thrombolytics"]
+  },
+  "atrial-fibrillation": {
+    id: "atrial-fibrillation",
+    title: "Atrial Fibrillation",
+    category: "Cardiovascular Pathology",
+    overview: "Supraventricular tachyarrhythmia characterized by uncoordinated atrial activation and ineffective atrial contraction.",
+    mechanisms: ["Structural remodeling", "Electrical remodeling", "Ectopic firing from pulmonary veins"],
+    clinical: ["Palpitations", "Shortness of breath", "Fatigue"],
+    investigations: ["ECG (absent P waves)", "Echocardiogram"],
+    treatment: ["Rate control", "Anticoagulation"]
+  },
+  "tonsillitis": {
+    id: "tonsillitis",
+    title: "Acute Tonsillitis",
+    category: "Otolaryngology",
+    overview: "Inflammation of the palatine tonsils, often caused by viral or bacterial infection.",
+    mechanisms: ["Viral invasion", "Bacterial colonization (Strep pyogenes)", "Immune response leading to hypertrophy"],
+    clinical: ["Sore throat", "Fever", "Tonsillar exudates"]
+  },
+  "sinusitis": {
+    id: "sinusitis",
+    title: "Acute Rhinosinusitis",
+    category: "Otolaryngology",
+    overview: "Inflammation of the mucosal lining of the nasal passage and paranasal sinuses.",
+    mechanisms: ["Ostial obstruction", "Ciliary impairment", "Mucosal edema"],
+    clinical: ["Facial pain", "Purulent discharge", "Nasal congestion"]
+  },
+  "hyperthyroidism": {
+    id: "hyperthyroidism",
+    title: "Graves' Disease",
+    category: "Endocrinology",
+    overview: "Autoimmune disease causing hyperthyroidism due to circulating autoantibodies (TSI) that stimulate the TSH receptor.",
+    mechanisms: ["TSI binds TSH receptor", "Excessive thyroid hormone synthesis", "Hypermetabolic state"],
+    clinical: ["Weight loss", "Tachycardia", "Exophthalmos"]
+  },
+  "cushings": {
+    id: "cushings",
+    title: "Cushing's Syndrome",
+    category: "Endocrinology",
+    overview: "Clinical syndrome caused by prolonged exposure to elevated levels of either endogenous or exogenous glucocorticoids.",
+    mechanisms: ["ACTH-dependent or independent", "Excess cortisol production", "Altered fat distribution and catabolism"],
+    clinical: ["Moon facies", "Buffalo hump", "Striae", "Central obesity"]
+  },
+  "hepatitis-b": {
+    id: "hepatitis-b",
+    title: "Hepatitis B",
+    category: "Hepatology",
+    overview: "Viral infection that attacks the liver and can cause both acute and chronic disease.",
+    mechanisms: ["Hepatocyte invasion", "CD8+ T-cell mediated liver injury", "Viral replication"],
+    clinical: ["Jaundice", "Fatigue", "Abdominal pain"]
+  },
+  "nafld": {
+    id: "nafld",
+    title: "Non-Alcoholic Fatty Liver Disease",
+    category: "Hepatology",
+    overview: "Excess fat build-up in the liver without another clear cause such as alcohol use.",
+    mechanisms: ["Insulin resistance", "Hepatic lipid accumulation", "Oxidative stress leading to NASH"],
+    clinical: ["Often asymptomatic", "Hepatomegaly", "Fatigue"]
+  },
+  "hemochromatosis": {
+    id: "hemochromatosis",
+    title: "Hemochromatosis",
+    category: "Hepatology",
+    overview: "Disorder in which the body loads too much iron.",
+    mechanisms: ["HFE gene mutation", "Decreased hepcidin", "Excess gut iron absorption", "Iron deposition in organs"],
+    clinical: ["Bronze skin", "Diabetes", "Cirrhosis"]
+  },
+  "sle": {
+    id: "sle",
+    title: "Systemic Lupus Erythematosus",
+    category: "Immunology / Rheumatology",
+    overview: "Autoimmune disease in which the immune system attacks its own tissues, causing widespread inflammation.",
+    mechanisms: ["Autoantibody production (ANA, anti-dsDNA)", "Immune complex deposition", "Complement activation"],
+    clinical: ["Malar rash", "Joint pain", "Lupus nephritis"]
+  },
+  "ankylosing-spondylitis": {
+    id: "ankylosing-spondylitis",
+    title: "Ankylosing Spondylitis",
+    category: "Immunology / Rheumatology",
+    overview: "Inflammatory arthritis affecting the spine and large joints.",
+    mechanisms: ["HLA-B27 association", "Enthesitis", "Syndesmophyte formation", "Spinal fusion"],
+    clinical: ["Inflammatory back pain", "Stiffness", "Uveitis"]
+  },
+  "sjogrens": {
+    id: "sjogrens",
+    title: "Sjögren's Syndrome",
+    category: "Immunology / Rheumatology",
+    overview: "Autoimmune condition characterized by dry eyes and dry mouth.",
+    mechanisms: ["Lymphocytic infiltration of exocrine glands", "Autoantibodies (Ro/SSA, La/SSB)", "Glandular destruction"],
+    clinical: ["Xerophthalmia", "Xerostomia", "Fatigue"]
+  },
+  "anaphylaxis": {
+    id: "anaphylaxis",
+    title: "Anaphylaxis",
+    category: "Immunology / Critical Care",
+    overview: "Severe, potentially life-threatening allergic reaction.",
+    mechanisms: ["IgE-mediated mast cell degranulation", "Massive histamine release", "Systemic vasodilation", "Bronchoconstriction"],
+    clinical: ["Hives", "Wheezing", "Hypotension"]
+  },
+  "ards": {
+    id: "ards",
+    title: "Acute Respiratory Distress Syndrome",
+    category: "Immunology / Critical Care",
+    overview: "Rapidly progressive disease occurring in critically ill patients, marked by fluid buildup in the alveoli.",
+    mechanisms: ["Alveolar-capillary membrane damage", "Protein-rich fluid leak", "Surfactant dysfunction", "Hyaline membrane formation"],
+    clinical: ["Severe dyspnea", "Hypoxemia refractory to oxygen"]
+  },
+  "sirs": {
+    id: "sirs",
+    title: "Systemic Inflammatory Response Syndrome",
+    category: "Immunology / Critical Care",
+    overview: "An exaggerated defense response of the body to a noxious stressor.",
+    mechanisms: ["Cytokine storm", "Endothelial activation", "Systemic inflammatory cascade"],
+    clinical: ["Tachycardia", "Tachypnea", "Fever or hypothermia"]
+  },
+  "parkinsons": {
+    id: "parkinsons",
+    title: "Parkinson's Disease",
+    category: "Neurology",
+    overview: "Neurodegenerative disorder that affects predominantly dopamine-producing neurons in a specific area of the brain.",
+    mechanisms: ["Loss of dopaminergic neurons in substantia nigra", "Lewy body formation (alpha-synuclein)", "Basal ganglia circuit disruption"],
+    clinical: ["Resting tremor", "Bradykinesia", "Rigidity"]
+  },
+  "stroke": {
+    id: "stroke",
+    title: "Ischemic Stroke",
+    category: "Neurology",
+    overview: "Sudden loss of blood circulation to an area of the brain.",
+    mechanisms: ["Thrombosis or embolism", "Neuronal ischemia", "Excitotoxicity (glutamate release)", "Infarction"],
+    clinical: ["Hemiparesis", "Aphasia", "Facial droop"]
+  },
+  "nephrotic-syndrome": {
+    id: "nephrotic-syndrome",
+    title: "Nephrotic Syndrome",
+    category: "Nephrology",
+    overview: "Kidney disorder that causes your body to pass too much protein in your urine.",
+    mechanisms: ["Podocyte damage", "Loss of glomerular negative charge", "Massive proteinuria", "Hypoalbuminemia"],
+    clinical: ["Severe edema", "Frothy urine", "Hyperlipidemia"]
+  },
+  "pkd": {
+    id: "pkd",
+    title: "Polycystic Kidney Disease",
+    category: "Nephrology",
+    overview: "Inherited disorder in which clusters of cysts develop primarily within your kidneys.",
+    mechanisms: ["PKD1/PKD2 mutation", "Tubular cell proliferation", "Fluid secretion into cysts", "Renal parenchyma destruction"],
+    clinical: ["Flank pain", "Hematuria", "Hypertension"]
+  },
+  "fibroids": {
+    id: "fibroids",
+    title: "Uterine Fibroids",
+    category: "Gynecology",
+    overview: "Noncancerous growths of the uterus that often appear during childbearing years.",
+    mechanisms: ["Myometrial smooth muscle cell proliferation", "Estrogen/progesterone sensitivity", "Extracellular matrix deposition"],
+    clinical: ["Heavy menstrual bleeding", "Pelvic pressure", "Frequent urination"]
+  },
+  "ovarian-cyst": {
+    id: "ovarian-cyst",
+    title: "Ovarian Cyst",
+    category: "Gynecology",
+    overview: "Fluid-filled sacs or pockets in an ovary or on its surface.",
+    mechanisms: ["Failure of follicle rupture (follicular cyst)", "Failure of corpus luteum involution", "Fluid accumulation"],
+    clinical: ["Pelvic pain", "Bloating", "Often asymptomatic"]
+  },
+  "asthma": {
+    id: "asthma",
+    title: "Asthma",
+    category: "Pulmonology",
+    overview: "A condition in which your airways narrow and swell and may produce extra mucus.",
+    mechanisms: ["Airway hyperresponsiveness", "Eosinophilic inflammation", "Smooth muscle hypertrophy", "Mucus plugging"],
+    clinical: ["Wheezing", "Shortness of breath", "Cough (worse at night)"]
+  },
+  "copd": {
+    id: "copd",
+    title: "COPD",
+    category: "Pulmonology",
+    overview: "Chronic inflammatory lung disease that causes obstructed airflow from the lungs.",
+    mechanisms: ["Alveolar destruction (emphysema)", "Chronic bronchitis", "Loss of elastic recoil", "Airway remodeling"],
+    clinical: ["Chronic cough", "Sputum production", "Dyspnea on exertion"]
+  },
+  "pe": {
+    id: "pe",
+    title: "Pulmonary Embolism",
+    category: "Pulmonology",
+    overview: "Blockage in one of the pulmonary arteries in your lungs.",
+    mechanisms: ["DVT embolization", "Pulmonary artery occlusion", "V/Q mismatch", "Right ventricular strain"],
+    clinical: ["Sudden dyspnea", "Pleuritic chest pain", "Hemoptysis"]
+  },
+  "pneumonia": {
+    id: "pneumonia",
+    title: "Pneumonia",
+    category: "Pulmonology",
+    overview: "Infection that inflames the air sacs in one or both lungs.",
+    mechanisms: ["Pathogen inhalation/aspiration", "Alveolar macrophage activation", "Neutrophil infiltration", "Alveolar exudate filling"],
+    clinical: ["Productive cough", "Fever", "Chills"]
+  },
+  "metabolic-syndrome": {
+    id: "metabolic-syndrome",
+    title: "Metabolic Syndrome",
+    category: "Systemic Integration",
+    overview: "Cluster of conditions that occur together, increasing risk of heart disease, stroke and type 2 diabetes.",
+    mechanisms: ["Visceral adiposity", "Insulin resistance", "Systemic low-grade inflammation", "Endothelial dysfunction"],
+    clinical: ["Central obesity", "High blood pressure", "High blood sugar"]
+  },
+  "shock": {
+    id: "shock",
+    title: "Hypovolemic Shock",
+    category: "Systemic Integration",
+    overview: "Life-threatening condition that results when you lose more than 20% of your body's blood or fluid supply.",
+    mechanisms: ["Decreased intravascular volume", "Decreased venous return", "Reduced cardiac output", "Inadequate tissue perfusion"],
+    clinical: ["Tachycardia", "Hypotension", "Cool clammy skin"]
+  },
+  "fever": {
+    id: "fever",
+    title: "Fever (Pyrexia)",
+    category: "Systemic Integration",
+    overview: "Higher-than-normal body temperature, usually caused by an infection.",
+    mechanisms: ["Pyrogen release", "Prostaglandin E2 synthesis in hypothalamus", "Elevation of thermoregulatory set point"],
+    clinical: ["Elevated temperature", "Chills", "Sweating"]
+  },
+  "inflammation": {
+    id: "inflammation",
+    title: "Acute Inflammation",
+    category: "Systemic Integration",
+    overview: "The body's initial response to harmful stimuli, such as pathogens, damaged cells, or irritants.",
+    mechanisms: ["Vasodilation", "Increased vascular permeability", "Leukocyte recruitment", "Phagocytosis"],
+    clinical: ["Redness (Rubor)", "Heat (Calor)", "Swelling (Tumor)", "Pain (Dolor)"]
+  },
+  "glaucoma": {
+    id: "glaucoma",
+    title: "Glaucoma",
+    category: "Ophthalmology",
+    overview: "Group of eye conditions that damage the optic nerve, often associated with abnormally high pressure.",
+    mechanisms: ["Aqueous humor outflow obstruction", "Increased intraocular pressure", "Optic nerve head cupping", "Retinal ganglion cell death"],
+    clinical: ["Peripheral vision loss", "Halos around lights"]
+  },
+  "cataract": {
+    id: "cataract",
+    title: "Cataract",
+    category: "Ophthalmology",
+    overview: "Clouding of the normally clear lens of the eye.",
+    mechanisms: ["Lens protein denaturation", "Oxidative stress", "Loss of lens transparency"],
+    clinical: ["Blurry vision", "Glare", "Poor night vision"]
+  },
+  "macular-degeneration": {
+    id: "macular-degeneration",
+    title: "Age-related Macular Degeneration (AMD)",
+    category: "Ophthalmology",
+    overview: "Eye disease that can blur your central vision.",
+    mechanisms: ["Drusen accumulation in Bruch's membrane", "RPE dysfunction", "Choroidal neovascularization (in wet AMD)"],
+    clinical: ["Central scotoma", "Metamorphopsia (distorted vision)"]
+  },
+  "diabetic-retinopathy": {
+    id: "diabetic-retinopathy",
+    title: "Diabetic Retinopathy",
+    category: "Ophthalmology",
+    overview: "Diabetes complication that affects eyes by damaging the blood vessels of the light-sensitive tissue at the back of the eye.",
+    mechanisms: ["Chronic hyperglycemia", "Microvascular pericyte loss", "Capillary leakage (exudates)", "VEGF-driven neovascularization"],
+    clinical: ["Floaters", "Blurry vision", "Vision loss"]
   }
+
 };
