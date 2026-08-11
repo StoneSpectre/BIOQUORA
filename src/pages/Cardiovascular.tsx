@@ -53,13 +53,20 @@ const Cardiovascular = () => {
   const handlePredictiveAnalysis = async () => {
     setIsPredicting(true);
     try {
-      const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8001";
-      const response = await fetch(`${API_URL}/predict/cardiovascular`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(predictiveVitals),
-      });
-      const data = await response.json();
+      // MOCK PREDICTION
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      const score = Math.random() * 0.6 + 0.2;
+      const isHigh = score > 0.5;
+      const data = {
+        risk_score: score,
+        risk_category: isHigh ? "High" : "Moderate",
+        message: isHigh ? "Elevated risk factors detected. Clinical intervention recommended." : "Parameters are within acceptable thresholds, but continuous monitoring is advised.",
+        recommendations: [
+          "Schedule comprehensive metabolic panel.",
+          isHigh ? "Review current pharmacological protocols." : "Maintain current lifestyle and dietary habits.",
+          "Consult with specialist for personalized care plan."
+        ]
+      };
       setPredictionResult(data);
     } catch (error) {
       console.error("Prediction failed:", error);

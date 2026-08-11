@@ -28,19 +28,25 @@ export default function DiagnosticDashboard() {
 
   // Fetch fields when module changes
   useEffect(() => {
-    fetch(`http://localhost:8000/api/v1/${activeModule.id}/fields`)
-      .then((res) => res.json())
-      .then((data) => {
-        setFields(data.fields);
-        const initial = {};
-        data.fields.forEach((f) => {
-          initial[f.key] = f.min || 0;
-        });
-        setFormData(initial);
-        setResult(null);
-        setError(null);
-      })
-      .catch((err) => console.error(err));
+    // MOCK FIELDS FOR DEMONSTRATION
+    setTimeout(() => {
+      const mockFields = [
+        { key: "age", label: "Patient Age", type: "number", min: 1, max: 120, step: 1, unit: "years", required: true },
+        { key: "bmi", label: "BMI", type: "number", min: 10, max: 60, step: 0.1, normal: "18.5-24.9", required: true },
+        { key: "blood_pressure_sys", label: "Systolic BP", type: "number", min: 70, max: 250, step: 1, normal: "<120", unit: "mmHg", required: true },
+        { key: "blood_pressure_dia", label: "Diastolic BP", type: "number", min: 40, max: 150, step: 1, normal: "<80", unit: "mmHg", required: true },
+        { key: "glucose", label: "Fasting Glucose", type: "number", min: 40, max: 400, step: 1, normal: "70-99", unit: "mg/dL", required: true },
+        { key: "cholesterol", label: "Total Cholesterol", type: "number", min: 50, max: 500, step: 1, normal: "<200", unit: "mg/dL", required: true },
+      ];
+      setFields(mockFields);
+      const initial = {};
+      mockFields.forEach((f) => {
+        initial[f.key] = f.min || 0;
+      });
+      setFormData(initial);
+      setResult(null);
+      setError(null);
+    }, 500);
   }, [activeModule]);
 
   const handleChange = (k, v) => setFormData({ ...formData, [k]: Number(v) });
@@ -50,18 +56,27 @@ export default function DiagnosticDashboard() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/${activeModule.id}/predict`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        const errMsg = Array.isArray(data.detail) 
-          ? data.detail.map(d => `${d.loc[d.loc.length-1]}: ${d.msg}`).join(' | ') 
-          : (data.detail || "Prediction failed");
-        throw new Error(errMsg);
-      }
+      // MOCK PREDICTION FOR DEMONSTRATION
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      const r_score = Math.random() * 0.7 + 0.1;
+      const isHighRisk = r_score > 0.5;
+      const data = {
+        risk_score: r_score,
+        risk_percent: (r_score * 100).toFixed(1),
+        diagnosis: isHighRisk ? `Elevated Risk for ${activeModule.name} Complications` : `Normal ${activeModule.name} Profile`,
+        summary: isHighRisk ? "Patient parameters indicate significant deviation from baseline norms. Immediate clinical correlation required." : "Patient parameters are generally within normal physiological limits.",
+        clinical_indices: {
+          "Metabolic Stress Index": (Math.random() * 5).toFixed(2),
+          "Systemic Inflammation": isHighRisk ? "High" : "Low",
+          "Organ Perfusion": isHighRisk ? "Marginal" : "Adequate"
+        },
+        anomalies: isHighRisk ? ["Blood pressure exceeds normal thresholds", "Elevated lipid panel detected"] : [],
+        top_factors: [
+          { display_name: "Systolic BP", shap_value: (Math.random() * 0.4) * (isHighRisk ? 1 : -1) },
+          { display_name: "Patient Age", shap_value: (Math.random() * 0.3) * (isHighRisk ? 1 : -1) },
+          { display_name: "BMI", shap_value: (Math.random() * 0.2) * (isHighRisk ? 1 : -1) }
+        ]
+      };
       setResult(data);
     } catch (err) {
       setError(err.message);

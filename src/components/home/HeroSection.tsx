@@ -20,7 +20,7 @@ export function HeroSection() {
 
           {/* Headline */}
           <h1 className="mb-6 animate-fade-in text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white">
-            The <span className="text-blue-500">Decentralized AI</span> Operating System for Biology
+            The <span className="text-blue-500">Global Federated</span> Biomedical Intelligence Network
           </h1>
 
           {/* Subheading */}
