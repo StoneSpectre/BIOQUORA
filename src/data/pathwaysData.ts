@@ -911,14 +911,7 @@ export const pathwaysData: Record<string, PathwayConcept> = {
     mechanisms: ["Airway hyperresponsiveness", "Eosinophilic inflammation", "Smooth muscle hypertrophy", "Mucus plugging"],
     clinical: ["Wheezing", "Shortness of breath", "Cough (worse at night)"]
   },
-  "copd": {
-    id: "copd",
-    title: "COPD",
-    category: "Pulmonology",
-    overview: "Chronic inflammatory lung disease that causes obstructed airflow from the lungs.",
-    mechanisms: ["Alveolar destruction (emphysema)", "Chronic bronchitis", "Loss of elastic recoil", "Airway remodeling"],
-    clinical: ["Chronic cough", "Sputum production", "Dyspnea on exertion"]
-  },
+
   "pe": {
     id: "pe",
     title: "Pulmonary Embolism",
@@ -967,22 +960,7 @@ export const pathwaysData: Record<string, PathwayConcept> = {
     mechanisms: ["Vasodilation", "Increased vascular permeability", "Leukocyte recruitment", "Phagocytosis"],
     clinical: ["Redness (Rubor)", "Heat (Calor)", "Swelling (Tumor)", "Pain (Dolor)"]
   },
-  "glaucoma": {
-    id: "glaucoma",
-    title: "Glaucoma",
-    category: "Ophthalmology",
-    overview: "Group of eye conditions that damage the optic nerve, often associated with abnormally high pressure.",
-    mechanisms: ["Aqueous humor outflow obstruction", "Increased intraocular pressure", "Optic nerve head cupping", "Retinal ganglion cell death"],
-    clinical: ["Peripheral vision loss", "Halos around lights"]
-  },
-  "cataract": {
-    id: "cataract",
-    title: "Cataract",
-    category: "Ophthalmology",
-    overview: "Clouding of the normally clear lens of the eye.",
-    mechanisms: ["Lens protein denaturation", "Oxidative stress", "Loss of lens transparency"],
-    clinical: ["Blurry vision", "Glare", "Poor night vision"]
-  },
+
   "macular-degeneration": {
     id: "macular-degeneration",
     title: "Age-related Macular Degeneration (AMD)",

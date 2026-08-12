@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { GitMerge, Play, CheckCircle, Loader2, ArrowRight, Brain, ShieldCheck, FileText, Database, Activity, Waypoints, Cpu } from 'lucide-react';
+import { GitMerge, Play, CheckCircle, Loader2, ArrowRight, Brain, ShieldCheck, FileText, Database, Activity, Waypoints, Cpu, ArrowLeft } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const BioWorkflowWorkspace = () => {
   const [isRunning, setIsRunning] = useState(false);
@@ -42,6 +43,16 @@ const BioWorkflowWorkspace = () => {
       {/* Background Grid & Glow */}
       <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-pink-900/10 blur-[150px] rounded-full pointer-events-none"></div>
+
+      {/* Back Button */}
+      <div className="mb-4 relative z-10">
+        <Link 
+          to="/" 
+          className="inline-flex items-center gap-2 text-gray-400 hover:text-white bg-white/5 border border-white/10 px-4 py-2 rounded-lg text-sm transition-colors w-fit"
+        >
+          <ArrowLeft size={16} /> Back to Home
+        </Link>
+      </div>
 
       {/* Header */}
       <header className="mb-8 border-b border-gray-900 pb-4 flex justify-between items-end relative z-10">
