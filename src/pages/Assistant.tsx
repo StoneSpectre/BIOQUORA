@@ -35,28 +35,42 @@ export default function Assistant() {
     setResult(null);
 
     try {
-      const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
-      let fetchUrl = `${API_URL}/query`;
-      let bodyData: any = { question: query, top_k: 5, mode: mode };
+      // MOCK ASSISTANT FOR DEMONSTRATION
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      let data: any;
 
       if (mode === "graph") {
-        fetchUrl = `${API_URL}/api/v1/graphrag/query`;
-        bodyData = { query: query };
+        data = {
+          data: {
+            step1_question_understanding: {
+              intent: { intent: "information_retrieval", confidence: 0.95, retrieval_strategy: "Graph Expansion & Context Injection" },
+              multi_hop: { reasoning_chain: ["Analyze Query", "Extract Knowledge Graph Sub-graphs", "Synthesize Evidence"] },
+              entity_spans: [{ text: "Target", entity_type: "CONCEPT" }, { text: "Disease", entity_type: "DISEASE" }],
+              triples: [{ subject: "Target", relation: "ASSOCIATED_WITH", object: "Disease" }]
+            },
+            step4_context_assembly: { structured_context: [1, 2, 3] },
+            step2_semantic_retrieval: {
+              retrieved_chunks: [
+                { pmid: "3489210", score: 0.92, text: "Clinical evidence strongly supports this biomarker correlation in phase II studies." },
+                { pmid: "9876541", score: 0.85, text: "In vitro analyses demonstrate significant binding affinity." }
+              ]
+            },
+            step6_grounded_generation: {
+              final_report_markdown: `Based on the federated biomedical knowledge graph, the analysis indicates a strong correlation between the identified entities.\n\nThe system synthesized 3 sub-graphs and found high-confidence pathways linking the genetic markers to the phenotypic outcomes observed in the query.`
+            }
+          },
+          metadata: { engine: "GraphRAG" }
+        };
+      } else {
+        data = {
+          answer: `Based on the retrieved literature using the ${mode.toUpperCase()} engine, the key mechanisms involve complex biochemical interactions. The evidence heavily references these pathways across recent clinical literature.`,
+          sources: [
+             { pmid: "3489210", score: 0.92, text: "Clinical evidence strongly supports this biomarker correlation in phase II studies." },
+             { pmid: "9876541", score: 0.85, text: "In vitro analyses demonstrate significant binding affinity." }
+          ],
+          metadata: { engine: mode }
+        };
       }
-
-      const response = await fetch(fetchUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(bodyData),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.status}`);
-      }
-
-      const data = await response.json();
       setResult(data);
     } catch (err: any) {
       console.error("Fetch error:", err);
